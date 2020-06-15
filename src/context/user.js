@@ -49,13 +49,15 @@ class UserProvider extends React.Component {
         })
         .then(response => {
             const data = response.data
-            this.setState({
-                logged_in: true,
-                failed_login: false,
-                is_member: data.member,
-                is_officer: data.officer,
-                nickname: data.nickname
-            })
+            console.log('response from verify endpoint:')
+            console.log(response)
+            // this.setState({
+            //     logged_in: true,
+            //     failed_login: false,
+            //     is_member: data.member,
+            //     is_officer: data.officer,
+            //     nickname: data.nickname
+            // })
         })
         .catch(err => {
             window.alert('Failed to login using your saved cookies. Try logging in again.')
@@ -77,18 +79,13 @@ class UserProvider extends React.Component {
     }
 
     componentDidMount() {
-        // check for JWT
-        const jwt = Cookies.get('token')
-        if (jwt) {
-            this.verifyExistingLogin(jwt)
-        }
-
         // gather data from page refresh
         const logged_in = JSON.parse(localStorage.getItem('logged_in'))
         const failed_login = JSON.parse(localStorage.getItem('failed_login'))
         const is_member = JSON.parse(localStorage.getItem('is_member'))
         const is_officer = JSON.parse(localStorage.getItem('is_officer'))
         const nickname = JSON.parse(localStorage.getItem('nickname'))
+
 
         this.setState({
             logged_in: logged_in || false,
@@ -97,6 +94,14 @@ class UserProvider extends React.Component {
             is_officer: is_officer || false,
             nickname: nickname || ''
         })
+
+        // check for JWT if not logged in
+        if (!logged_in) {
+            const jwt = Cookies.get('token')
+            if (jwt) {
+                this.verifyExistingLogin(jwt)
+            }
+        }
     }
 
     render() {
