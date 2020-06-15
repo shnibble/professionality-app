@@ -13,7 +13,7 @@ class Login extends ReactQueryParams {
     render() {
         return (
             <>
-                {(!this.context.logged_in || this.context.failed_login)
+                {(this.context.logged_in || this.context.failed_login)
                 ?
                 <Redirect to='/' />
                 :
