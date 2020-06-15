@@ -1,10 +1,13 @@
 import React from 'react'
 import ReactQueryParams from 'react-query-params'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const initialState = {
-    access_token: '',
     logged_in: false,
+    is_member: false,
+    is_officer: false,
+    nickname: ''
 }
 
 class Login extends ReactQueryParams {
@@ -21,10 +24,17 @@ class Login extends ReactQueryParams {
                 code
             })
             .then(response => {
-                console.log('response =', response)
+                const data = response.data
+                this.setState({
+                    logged_in: true,
+                    is_member: data.member,
+                    is_officer: data.officer,
+                    nickname: data.nickname
+                })
+                Cookies.set('token', JWT, { expires: 30 })
             })
             .catch(err => {
-                console.log('error =', err)
+                window.alert('Could not login:', err)
             })
         }
     }
