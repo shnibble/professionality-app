@@ -43,6 +43,26 @@ class UserProvider extends React.Component {
         }
     }
 
+    verifyExistingLogin = (jwt) => {
+        axios.post('https://professionality-api.com/account/verify', {
+            jwt
+        })
+        .then(response => {
+            const data = response.data
+            this.setState({
+                logged_in: true,
+                failed_login: false,
+                is_member: data.member,
+                is_officer: data.officer,
+                nickname: data.nickname
+            })
+        })
+        .catch(err => {
+            window.alert('Failed to login using your saved cookies. Try logging in again.')
+            this.setState(initialState)
+        })
+    }
+
     logout = () => {
         Cookies.remove('token')
         this.setState(initialState)
@@ -57,6 +77,13 @@ class UserProvider extends React.Component {
     }
 
     componentDidMount() {
+        // check for JWT
+        const jwt = Cookies.get('token')
+        if (jwt) {
+            this.verifyExistingLogin(jwt)
+        }
+
+        // gather data from page refresh
         const logged_in = JSON.parse(localStorage.getItem('logged_in'))
         const failed_login = JSON.parse(localStorage.getItem('failed_login'))
         const is_member = JSON.parse(localStorage.getItem('is_member'))
