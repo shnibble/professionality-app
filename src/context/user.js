@@ -49,8 +49,6 @@ class UserProvider extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log('update')
-        console.log(this.state)
         localStorage.setItem('logged_in', JSON.stringify(this.state.logged_in))
         localStorage.setItem('failed_login', JSON.stringify(this.state.failed_login))
         localStorage.setItem('is_member', JSON.stringify(this.state.is_member))
@@ -59,7 +57,6 @@ class UserProvider extends React.Component {
     }
 
     componentDidMount() {
-        console.log('mount')
         const logged_in = JSON.parse(localStorage.getItem('logged_in'))
         const failed_login = JSON.parse(localStorage.getItem('failed_login'))
         const is_member = JSON.parse(localStorage.getItem('is_member'))
