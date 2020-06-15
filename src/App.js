@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+    <div>
+        <a href='/'>Home</a>
+        <br />
+        <a href="https://discord.com/api/oauth2/authorize?client_id=720699635076956210&redirect_uri=https%3A%2F%2Fprofessionality.app%2Flogin&response_type=code&scope=identify">
+          Login with Discord
         </a>
-      </header>
+        <Router>
+            <Switch>
+                <Route path={'/login'}>
+                    <h1>Login</h1>
+                </Route>
+
+                <Route path={'/'}>
+                    <h1>Home</h1>
+                </Route>
+            </Switch>
+        </Router>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
