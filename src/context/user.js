@@ -11,7 +11,7 @@ const initialState = {
     nickname: ''
 }
 
-const UserContext = React.createContext(initialState)
+const UserContext = React.createContext()
 
 class UserProvider extends React.Component {
 
@@ -46,6 +46,33 @@ class UserProvider extends React.Component {
     logout = () => {
         Cookies.remove('token')
         this.setState(initialState)
+    }
+
+    componentDidUpdate() {
+        console.log('update')
+        console.log(this.state)
+        localStorage.setItem('logged_in', JSON.stringify(this.state.logged_in))
+        localStorage.setItem('failed_login', JSON.stringify(this.state.failed_login))
+        localStorage.setItem('is_member', JSON.stringify(this.state.is_member))
+        localStorage.setItem('is_officer', JSON.stringify(this.state.is_member))
+        localStorage.setItem('nickname', JSON.stringify(this.state.nickname))
+    }
+
+    componentDidMount() {
+        console.log('mount')
+        const logged_in = JSON.parse(localStorage.getItem('logged_in'))
+        const failed_login = JSON.parse(localStorage.getItem('failed_login'))
+        const is_member = JSON.parse(localStorage.getItem('is_member'))
+        const is_officer = JSON.parse(localStorage.getItem('is_officer'))
+        const nickname = JSON.parse(localStorage.getItem('nickname'))
+
+        this.setState({
+            logged_in: logged_in || false,
+            failed_login: failed_login || false,
+            is_member: is_member || false,
+            is_officer: is_officer || false,
+            nickname: nickname || ''
+        })
     }
 
     render() {

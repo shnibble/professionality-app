@@ -7,11 +7,12 @@ const Header = () => {
         <UserContext.Consumer>
             {user => (
                 <header>
+                    
                     <h1>Professionality</h1>
                     {(user.logged_in)
                     ?
                     <div>
-                        <p>Welcome ${user.nickname}!</p>
+                        <p>Welcome {user.nickname}!</p>
                         <button onClick={user.logout}>Logout</button>
                     </div>
                     :
