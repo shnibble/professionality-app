@@ -71,37 +71,25 @@ class UserProvider extends React.Component {
     }
 
     componentDidUpdate() {
-        // localStorage.setItem('logged_in', JSON.stringify(this.state.logged_in))
-        // localStorage.setItem('failed_login', JSON.stringify(this.state.failed_login))
-        // localStorage.setItem('is_member', JSON.stringify(this.state.is_member))
-        // localStorage.setItem('is_officer', JSON.stringify(this.state.is_member))
-        // localStorage.setItem('nickname', JSON.stringify(this.state.nickname))
+        localStorage.setItem('user_state', JSON.stringify(this.state))
     }
 
     componentDidMount() {
+
         // gather data from page refresh
-        // const logged_in = JSON.parse(localStorage.getItem('logged_in'))
-        // const failed_login = JSON.parse(localStorage.getItem('failed_login'))
-        // const is_member = JSON.parse(localStorage.getItem('is_member'))
-        // const is_officer = JSON.parse(localStorage.getItem('is_officer'))
-        // const nickname = JSON.parse(localStorage.getItem('nickname'))
-
-
-        // this.setState({
-        //     logged_in: logged_in || false,
-        //     failed_login: failed_login || false,
-        //     is_member: is_member || false,
-        //     is_officer: is_officer || false,
-        //     nickname: nickname || ''
-        // })
+        const testLocalStorageState = localStorage.getItem('user_state')
+        if (testLocalStorageState) {
+            const user_state = JSON.parse(localStorage.getItem('user_state'))
+            this.setState(user_state)
+        }
 
         // check for JWT if not logged in
-        // if (!logged_in) {
+        if (!this.state.logged_in) {
             const jwt = Cookies.get('token')
             if (jwt) {
                 this.verifyExistingLogin(jwt)
             }
-        // }
+        }
     }
 
     render() {
