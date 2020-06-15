@@ -79,9 +79,11 @@ class UserProvider extends React.Component {
         // gather data from page refresh
         const testLocalStorageState = localStorage.getItem('user_state')
         if (testLocalStorageState) {
+            console.log('Found local storage!')
             const user_state = JSON.parse(localStorage.getItem('user_state'))
+            console.log(user_state)
             this.setState(user_state)
-        }
+        } 
 
         // check for JWT if not logged in
         if (!this.state.logged_in) {
