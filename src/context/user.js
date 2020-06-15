@@ -43,26 +43,28 @@ class UserProvider extends React.Component {
         }
     }
 
-    verifyExistingLogin = (jwt) => {
-        axios.post('https://professionality-api.com/account/verify', {
-            jwt
-        })
-        .then(response => {
-            const data = response.data
-            console.log('response from verify endpoint:')
-            console.log(response)
-            this.setState({
-                logged_in: true,
-                failed_login: false,
-                is_member: data.member,
-                is_officer: data.officer,
-                nickname: data.nickname
+    verifyExistingLogin = () => {
+        const jwt = Cookies.get('token')
+        
+        if (jwt) {
+            axios.post('https://professionality-api.com/account/verify', {
+                jwt
             })
-        })
-        .catch(err => {
-            window.alert('Failed to login using your saved cookies. Try logging in again.')
-            this.setState(initialState)
-        })
+            .then(response => {
+                const data = response.data
+                this.setState({
+                    logged_in: true,
+                    failed_login: false,
+                    is_member: data.member,
+                    is_officer: data.officer,
+                    nickname: data.nickname
+                })
+            })
+            .catch(err => {
+                window.alert('Failed to login using your saved cookies. Try logging in again.')
+                this.setState(initialState)
+            })
+        }
     }
 
     logout = () => {
@@ -79,18 +81,14 @@ class UserProvider extends React.Component {
         // gather data from page refresh
         const testLocalStorageState = localStorage.getItem('user_state')
         if (testLocalStorageState) {
-            console.log('Found local storage!')
             const user_state = JSON.parse(localStorage.getItem('user_state'))
-            console.log(user_state)
             this.setState(user_state)
-        } 
 
-        // check for JWT if not logged in
-        if (!this.state.logged_in) {
-            const jwt = Cookies.get('token')
-            if (jwt) {
-                this.verifyExistingLogin(jwt)
+            if (!user_state.logged_in) {
+                this.verifyExistingLogin()
             }
+        } else {
+            this.verifyExistingLogin()
         }
     }
 
