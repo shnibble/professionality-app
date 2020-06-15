@@ -1,10 +1,11 @@
 import React from 'react'
-import ReactQueryParams from 'react-query-params'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
+
 const initialState = {
     logged_in: false,
+    failed_login: false,
     is_member: false,
     is_officer: false,
     nickname: ''
@@ -17,9 +18,12 @@ class UserProvider extends React.Component {
     state = initialState
 
     login = (code) => {
+        this.setState({ failed_login: false })
+
         // validate code
         if (typeof code === 'undefined' || code === '') {
             window.alert('Invalid Discord login code. Please try logging in again.')
+            this.setState({ failed_login: true })
         } else {
             axios.post('https://professionality-api.com/account/login', { code })
             .then(response => {
@@ -34,6 +38,7 @@ class UserProvider extends React.Component {
             })
             .catch(err => {
                 window.alert('Could not login:', err)
+                this.setState({ failed_login: true })
             })
         }
     }
@@ -47,6 +52,7 @@ class UserProvider extends React.Component {
         return (
             <UserContext.Provider value={{
                 logged_in: this.state.logged_in,
+                failed_login: this.state.failed_login,
                 is_member: this.state.is_member,
                 is_officer: this.state.is_officer,
                 nickname: this.state.nickname,

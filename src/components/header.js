@@ -10,9 +10,14 @@ const Header = () => {
                     <h1>Professionality</h1>
                     {(user.logged_in)
                     ?
-                    <button onClick={user.logout}>Logout</button>
+                    <div>
+                        <p>Welcome ${user.nickname}!</p>
+                        <button onClick={user.logout}>Logout</button>
+                    </div>
                     :
-                    null
+                    <a href="https://discord.com/api/oauth2/authorize?client_id=720699635076956210&redirect_uri=https%3A%2F%2Fprofessionality.app%2Flogin&response_type=code&scope=identify">
+                        Login with Discord
+                    </a>
                     }
                 </header>
             )}

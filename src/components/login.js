@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactQueryParams from 'react-query-params'
 import UserContext from '../context/user'
+import { Redirect } from 'react-router-dom'
 
 class Login extends ReactQueryParams {
 
@@ -11,7 +12,16 @@ class Login extends ReactQueryParams {
 
     render() {
         return (
-            <h2>Login</h2>
+            <>
+                {(!this.context.logged_in || this.context.failed_login)
+                ?
+                <Redirect to='/' />
+                :
+                <div>
+                    <p>Logging in...</p>
+                </div>
+                }
+            </>
         )
     }
 }
