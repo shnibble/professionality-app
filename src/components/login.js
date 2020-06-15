@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactQueryParams from 'react-query-params'
+import UserContext from '../context/user'
 
 class Login extends ReactQueryParams {
-    
+
     componentDidMount() {
         const code = this.queryParams.code
-        this.props.context.login(code)
+        this.context.login(code)
     }
 
     render() {
@@ -14,5 +15,5 @@ class Login extends ReactQueryParams {
         )
     }
 }
-
+Login.contextType = UserContext
 export default Login

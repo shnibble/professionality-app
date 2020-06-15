@@ -38,6 +38,11 @@ class UserProvider extends React.Component {
         }
     }
 
+    logout = () => {
+        Cookies.remove('token')
+        this.setState(initialState)
+    }
+
     render() {
         return (
             <UserContext.Provider value={{
@@ -45,7 +50,8 @@ class UserProvider extends React.Component {
                 is_member: this.state.is_member,
                 is_officer: this.state.is_officer,
                 nickname: this.state.nickname,
-                login: this.login
+                login: this.login,
+                logout: this.logout
             }}>
                 {this.props.children}
             </UserContext.Provider>

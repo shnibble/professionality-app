@@ -1,15 +1,14 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { UserProvider } from './context/user'
+import Header from './components/header'
 import Login from './components/login'
 
 
 function App() {
   return (
     <UserProvider>
-        <header>
-            <h1>Professionality</h1>
-        </header>
+        <Header />
         <nav>
             <a href='/'>Home</a>
             <br />
