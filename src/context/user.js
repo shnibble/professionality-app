@@ -44,16 +44,13 @@ class UserProvider extends React.Component {
     }
 
     verifyExistingLogin = () => {
-        console.log('verifyExistingLoging called...')
         const jwt = Cookies.get('token')
         
         if (jwt) {
-            console.log('jwt found, sending http request to api...')
             axios.post('https://professionality-api.com/account/verify', {
                 jwt
             })
             .then(response => {
-                console.log('api responded with valid token.')
                 const data = response.data
                 this.setState({
                     logged_in: true,
@@ -67,19 +64,15 @@ class UserProvider extends React.Component {
                 window.alert('Failed to login using your saved cookies. Try logging in again.')
                 this.setState(initialState)
             })
-        } else {
-            console.log('jwt not found, need to login again.')
         }
     }
 
     logout = () => {
-        console.log('Logging out.')
         Cookies.remove('token')
         this.setState(initialState)
     }
 
     componentDidMount() {
-        console.log('user context mounted')
         this.verifyExistingLogin()
     }
 
