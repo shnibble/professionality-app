@@ -53,6 +53,7 @@ class UserProvider extends React.Component {
                 jwt
             })
             .then(response => {
+                console.log('api responded with valid token.')
                 const data = response.data
                 this.setState({
                     logged_in: true,
@@ -66,6 +67,8 @@ class UserProvider extends React.Component {
                 window.alert('Failed to login using your saved cookies. Try logging in again.')
                 this.setState(initialState)
             })
+        } else {
+            console.log('jwt not found, need to login again.')
         }
     }
 
@@ -75,30 +78,9 @@ class UserProvider extends React.Component {
         this.setState(initialState)
     }
 
-    componentDidUpdate() {
-        console.log('Setting localStorage to state:', this.state)
-        localStorage.setItem('user_state', JSON.stringify(this.state))
-    }
-
     componentDidMount() {
-        console.log('UserContext component did mount.')
-
-        // gather data from page refresh
-        const testLocalStorageState = localStorage.getItem('user_state')
-        console.log('Testing localStorage:', testLocalStorageState)
-        if (testLocalStorageState) {
-            console.log('Found localStorage, loading it into state.')
-            const user_state = JSON.parse(localStorage.getItem('user_state'))
-            this.setState(user_state)
-
-            if (!user_state.logged_in) {
-                console.log('Found localStorage says user is not logged in, attempting to verify login via cookies.')
-                this.verifyExistingLogin()
-            }
-        } else {
-            console.log('No localStorage found, attempting to verify login via cookies.')
-            this.verifyExistingLogin()
-        }
+        console.log('user context mounted')
+        this.verifyExistingLogin()
     }
 
     render() {
