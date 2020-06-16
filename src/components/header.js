@@ -7,7 +7,6 @@ const Header = () => {
         <UserContext.Consumer>
             {user => (
                 <header>
-                    
                     <h1>Professionality</h1>
                     {(user.logged_in)
                     ?

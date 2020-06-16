@@ -44,9 +44,11 @@ class UserProvider extends React.Component {
     }
 
     verifyExistingLogin = () => {
+        console.log('verifyExistingLoging called...')
         const jwt = Cookies.get('token')
         
         if (jwt) {
+            console.log('jwt found, sending http request to api...')
             axios.post('https://professionality-api.com/account/verify', {
                 jwt
             })
@@ -68,26 +70,33 @@ class UserProvider extends React.Component {
     }
 
     logout = () => {
+        console.log('Logging out.')
         Cookies.remove('token')
         this.setState(initialState)
     }
 
     componentDidUpdate() {
+        console.log('Setting localStorage to state:', this.state)
         localStorage.setItem('user_state', JSON.stringify(this.state))
     }
 
     componentDidMount() {
+        console.log('UserContext component did mount.')
 
         // gather data from page refresh
         const testLocalStorageState = localStorage.getItem('user_state')
+        console.log('Testing localStorage:', testLocalStorageState)
         if (testLocalStorageState) {
+            console.log('Found localStorage, loading it into state.')
             const user_state = JSON.parse(localStorage.getItem('user_state'))
             this.setState(user_state)
 
             if (!user_state.logged_in) {
+                console.log('Found localStorage says user is not logged in, attempting to verify login via cookies.')
                 this.verifyExistingLogin()
             }
         } else {
+            console.log('No localStorage found, attempting to verify login via cookies.')
             this.verifyExistingLogin()
         }
     }
