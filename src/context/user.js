@@ -34,7 +34,7 @@ class UserProvider extends React.Component {
                     is_officer: data.officer,
                     nickname: data.nickname
                 })
-                Cookies.set('token', data.jwt, { expires: 30 })
+                Cookies.set('token', data.jwt, { expires: 30, secure: true, sameSite: 'lax' })
             })
             .catch(err => {
                 window.alert('Could not login:', err)
