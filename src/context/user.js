@@ -6,6 +6,7 @@ import Cookies from 'js-cookie'
 const initialState = {
     logged_in: false,
     failed_login: false,
+    discord_user_id: '',
     is_member: false,
     is_officer: false,
     nickname: ''
@@ -30,8 +31,9 @@ class UserProvider extends React.Component {
                 const data = response.data
                 this.setState({
                     logged_in: true,
-                    is_member: data.member,
-                    is_officer: data.officer,
+                    discord_user_id: data.discord_user_id,
+                    is_member: data.is_member,
+                    is_officer: data.is_officer,
                     nickname: data.nickname
                 })
                 Cookies.set('token', data.jwt, { expires: 30, secure: true, sameSite: 'lax' })
@@ -55,6 +57,7 @@ class UserProvider extends React.Component {
                 this.setState({
                     logged_in: true,
                     failed_login: false,
+                    discord_user_id: data.discord_user_id,
                     is_member: data.member,
                     is_officer: data.officer,
                     nickname: data.nickname
@@ -81,6 +84,7 @@ class UserProvider extends React.Component {
             <UserContext.Provider value={{
                 logged_in: this.state.logged_in,
                 failed_login: this.state.failed_login,
+                discord_user_id: this.state.discord_user_id,
                 is_member: this.state.is_member,
                 is_officer: this.state.is_officer,
                 nickname: this.state.nickname,

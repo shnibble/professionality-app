@@ -1,0 +1,60 @@
+import axios from 'axios'
+import Cookies from 'js-cookie'
+
+export const updateCharacterRaceId = (character_id, race_id) => {
+    const jwt = Cookies.get('token')
+    return new Promise( (resolve, reject) => {
+        axios.post('https://professionality-api.com/character/edit/race', {
+            jwt,
+            character_id,
+            race_id
+        })
+        .then(result => {
+            resolve(true)
+        })
+        .catch(err => {
+            reject(err)
+        })
+    })
+}
+
+export const updateCharacterClassId = (character_id, class_id) => {
+    const jwt = Cookies.get('token')
+    return new Promise( (resolve, reject) => {
+        axios.post('https://professionality-api.com/character/edit/class', {
+            jwt,
+            character_id,
+            class_id
+        })
+        .then(result => {
+            resolve(true)
+        })
+        .catch(err => {
+            reject(err)
+        })
+    })
+}
+
+export const updateCharacterRoleId = (character_id, role_id) => {
+    const jwt = Cookies.get('token')
+    return new Promise( (resolve, reject) => {
+        axios.post('https://professionality-api.com/character/edit/role', {
+            jwt,
+            character_id,
+            role_id
+        })
+        .then(result => {
+            resolve(true)
+        })
+        .catch(err => {
+            reject(err)
+        })
+    })
+    
+}
+
+export default {
+    updateCharacterRaceId,
+    updateCharacterClassId,
+    updateCharacterRoleId
+}

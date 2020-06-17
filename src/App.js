@@ -1,8 +1,20 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { UserProvider } from './context/user'
-import Header from './components/header'
+import Header from './components/header/header'
+import Main from './components/main'
 import Login from './components/login'
+import Nav from './components/nav'
+import Account from './components/account'
+import Calendar from './components/calendar'
+import EPGP from './components/epgp'
+import Roster from './components/roster'
+import Bank from './components/bank'
+import Buffs from './components/buffs'
+import Home from './components/home'
+import Footer from './components/footer'
+
+import './app.css'
 
 
 function App() {
@@ -10,25 +22,20 @@ function App() {
     <UserProvider>
         <Router>
             <Header />
-            <nav>
-                <ul>
-                    <li>
-                        <Link to='/'>Home</Link>
-                    </li>
-                    <li>
-                        <Link to='/test'>Test</Link>
-                    </li>
-                </ul>
-            </nav>
-            <Switch>
-                <Route path={'/login'} component={Login} />
-                <Route path={'/test'}>
-                    <h2>Test</h2>
-                </Route>
-                <Route path={'/'}>
-                    <h2>Home</h2>
-                </Route>
-            </Switch>
+            <Nav />
+            <Main>
+                <Switch>
+                    <Route path={'/account'} component={Account} />
+                    <Route path={'/calendar'} component={Calendar} />
+                    <Route path={'/epgp'} component={EPGP} />
+                    <Route path={'/roster'} component={Roster} />
+                    <Route path={'/bank'} component={Bank} />
+                    <Route path={'/buffs'} component={Buffs} />
+                    <Route path={'/login'} component={Login} />
+                    <Route path={'/'} component={Home} />
+                </Switch>
+            </Main>
+            <Footer />
         </Router>
     </UserProvider>
   )
