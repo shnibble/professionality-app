@@ -142,6 +142,10 @@ class Account extends React.Component {
         if (character_name.length > 1) {
             addCharacter(character_name)
             .then(() => {
+                this.setState({
+                    addCharacter: false,
+                    characterName: ''
+                })
                 this.loadData()
             })
             .catch(err => {
