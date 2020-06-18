@@ -15,6 +15,7 @@ const Container = styled.header`
     right: 0;
     left: 0;
     height: 50px;
+    z-index: 5;
 
     @media screen and (min-width: 720px) {
         position: static;

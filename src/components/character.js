@@ -5,7 +5,8 @@ import CheckboxFalseImg from '../images/checkbox-false.png'
 import {
     updateCharacterRaceId,
     updateCharacterClassId,
-    updateCharacterRoleId 
+    updateCharacterRoleId,
+    updateCharacterAttunements
 } from '../services/character'
 
 const Container = styled.div`
@@ -29,11 +30,47 @@ const RCRSelect = styled.select`
     background: none;
     color: #f2f2f2;
     border: none;
+    border-radius: 4px;
+    margin: 2px;
+    padding: 2px;
     cursor: pointer;
+    transition: all .25s ease;
+
+    &:hover {
+        background: #606060;
+    }
 
     & > option {
         background-color: #606060;
     }
+`
+const CheckboxContainer = styled.label`
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+
+    &:hover {
+        background: #606060;
+    }
+`
+const Checkbox = styled.input`
+    display: none;
+
+    &:checked + div {
+        background-image: url(${CheckboxTrueImg});
+    }
+`
+const Checkmark = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-image: url(${CheckboxFalseImg});
+    background-size: 100%;
 `
 const Table = styled.table`
     text-align: center;
@@ -84,17 +121,22 @@ const Name = styled.p`
 const RaceClassRole = styled.p`
     width: 210px;
 `
-const Checkbox = styled.img`
-    width: 15px;
-    height: 15px;
-`
 
 class Character extends React.Component {
 
     state = {
         race_id: this.props.data.race_id,
         class_id: this.props.data.class_id,
-        role_id: this.props.data.role_id
+        role_id: this.props.data.role_id,
+        attuned_mc: this.props.data.attuned_mc,
+        attuned_ony: this.props.data.attuned_ony,
+        attuned_bwl: this.props.data.attuned_bwl,
+        attuned_naxx: this.props.data.attuned_naxx,
+        resistance_arcane: this.props.data.resistance_arcane,
+        resistance_fire: this.props.data.resistance_fire,
+        resistance_frost: this.props.data.resistance_frost,
+        resistance_nature: this.props.data.resistance_nature,
+        resistance_shadow: this.props.data.resistance_shadow
     }
 
     updateRaceId = (ev) => {
@@ -130,77 +172,47 @@ class Character extends React.Component {
         })
     }
 
+    updateAttunements = (attuned_mc, attuned_ony, attuned_bwl, attuned_naxx) => {
+        updateCharacterAttunements(this.props.data.id, attuned_mc, attuned_ony, attuned_bwl, attuned_naxx)
+        .then(() => {
+            this.setState({
+                attuned_mc,
+                attuned_ony,
+                attuned_bwl,
+                attuned_naxx
+            })
+        })
+        .catch(err => {
+            window.alert('Error updating character, please try re-logging.')
+        })
+    }
+
+    updateAttunedMc = (ev) => {
+        const attuned_mc = ev.target.checked
+        const { attuned_ony, attuned_bwl, attuned_naxx } = this.state
+        this.updateAttunements(attuned_mc, attuned_ony, attuned_bwl, attuned_naxx)
+    }
+
+    updateAttunedOny = (ev) => {
+        const attuned_ony = ev.target.checked
+        const { attuned_mc, attuned_bwl, attuned_naxx } = this.state
+        this.updateAttunements(attuned_mc, attuned_ony, attuned_bwl, attuned_naxx)
+    }
+
+    updateAttunedBwl = (ev) => {
+        const attuned_bwl = ev.target.checked
+        const { attuned_mc, attuned_ony, attuned_naxx } = this.state
+        this.updateAttunements(attuned_mc, attuned_ony, attuned_bwl, attuned_naxx)
+    }
+
+    updateAttunedNaxx = (ev) => {
+        const attuned_naxx = ev.target.checked
+        const { attuned_mc, attuned_ony, attuned_bwl } = this.state
+        this.updateAttunements(attuned_mc, attuned_ony, attuned_bwl, attuned_naxx)
+    }
+
     render() {
         const { data } = this.props
-
-        let class_name = ''
-        switch(data.class_id) {
-            case 1:
-                class_name = 'Warrior'
-                break
-            case 2:
-                class_name = 'Paladin'
-                break
-            case 3:
-                class_name = 'Hunter'
-                break
-            case 4:
-                class_name = 'Rogue'
-                break
-            case 5:
-                class_name = 'Priest'
-                break
-            case 8:
-                class_name = 'Mage'
-                break
-            case 9:
-                class_name = 'Warlock'
-                break
-            case 11:
-                class_name = 'Druid'
-                break
-            default:
-                class_name = 'Unknown'
-                break
-        }
-        
-        let race_name = ''
-        switch(data.race_id) {
-            case 1:
-                race_name = 'Human'
-                break
-            case 3:
-                race_name = 'Dwarf'
-                break
-            case 4:
-                race_name = 'Night Elf'
-                break
-            case 7:
-                race_name = 'Gnome'
-                break
-            default:
-                race_name = 'Unknown'
-                break
-        }
-
-        let role_name = ''
-        switch(data.role_id) {
-            case 1:
-                role_name = 'Caster'
-                break
-            case 2:
-                role_name = 'Fighter'
-                break
-            case 3:
-                role_name = 'Healer'
-                break
-            case 4:
-                role_name = 'Tank'
-                break
-            default:
-                role_name = 'Unknown'
-                break
-        }
 
         let profession_one_name = ''
         switch(data.profession_id_one) {
@@ -370,10 +382,30 @@ class Character extends React.Component {
                         </thead>
                         <tbody>
                             <tr>
-                                <td><Checkbox src={(data.attuned_mc)?CheckboxTrueImg:CheckboxFalseImg} /></td>
-                                <td><Checkbox src={(data.attuned_ony)?CheckboxTrueImg:CheckboxFalseImg} /></td>
-                                <td><Checkbox src={(data.attuned_bwl)?CheckboxTrueImg:CheckboxFalseImg} /></td>
-                                <td><Checkbox src={(data.attuned_naxx)?CheckboxTrueImg:CheckboxFalseImg} /></td>
+                                <td>
+                                    <CheckboxContainer>
+                                        <Checkbox type='checkbox' checked={this.state.attuned_mc} onChange={this.updateAttunedMc} />
+                                        <Checkmark />
+                                    </CheckboxContainer>
+                                </td>
+                                <td>
+                                    <CheckboxContainer>
+                                        <Checkbox type='checkbox' checked={this.state.attuned_ony} onChange={this.updateAttunedOny} />
+                                        <Checkmark />
+                                    </CheckboxContainer>
+                                </td>
+                                <td>
+                                    <CheckboxContainer>
+                                        <Checkbox type='checkbox' checked={this.state.attuned_bwl} onChange={this.updateAttunedBwl}/>
+                                        <Checkmark />
+                                    </CheckboxContainer>
+                                </td>
+                                <td>
+                                    <CheckboxContainer>
+                                        <Checkbox type='checkbox' checked={this.state.attuned_naxx} onChange={this.updateAttunedNaxx} />
+                                        <Checkmark />
+                                    </CheckboxContainer>
+                                </td>
                             </tr>
                         </tbody>
                     </Table>
