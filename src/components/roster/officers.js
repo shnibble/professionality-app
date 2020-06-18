@@ -29,12 +29,14 @@ class Officers extends React.Component {
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Discord</th>
                         </tr>
                     </thead>
                     <tbody>
                         {(this.state.users.map(user => (
                             <tr key={user.discord_user_id}>
                                 <td>{user.nickname}</td>
+                                <td><a href={`https://discordapp.com/users/${user.discord_user_id}`}>Profile</a></td>
                             </tr>
                         )))}
                     </tbody>
