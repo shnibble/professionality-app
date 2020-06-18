@@ -74,9 +74,28 @@ export const updateCharacterAttunements = (character_id, attuned_mc, attuned_ony
     
 }
 
+export const updateCharacterProfessions = (character_id, profession_id_one, profession_id_two) => {
+    const jwt = Cookies.get('token')
+    return new Promise( (resolve, reject) => {
+        axios.post('https://professionality-api.com/character/edit/professions', {
+            jwt,
+            character_id,
+            profession_id_one,
+            profession_id_two
+        })
+        .then(result => {
+            resolve(true)
+        })
+        .catch(err => {
+            reject(err)
+        })
+    })
+    
+}
 export default {
     updateCharacterRaceId,
     updateCharacterClassId,
     updateCharacterRoleId,
-    updateCharacterAttunements
+    updateCharacterAttunements,
+    updateCharacterProfessions
 }

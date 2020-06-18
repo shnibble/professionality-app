@@ -12,7 +12,10 @@ const Article = styled.article`
 `
 
 class Account extends React.Component {
-    state = { data: null }
+    state = { 
+        loading: true,
+        data: null 
+    }
 
     loadData = () => {
         let user = this.context
@@ -20,13 +23,19 @@ class Account extends React.Component {
             getUserAccount(user.discord_user_id)
             .then(data => {
                 if (data) {
-                    this.setState({ data })
+                    this.setState({ data, loading: false })
                 }
             })
             .catch(err => {
+                this.setState({ loading: false })
                 window.alert('Issue retrieving user data. Please try logging out and back in.')
             })
-            
+        }
+    }
+
+    componentDidUpdate = () => {
+        if (this.state.loading && this.state.data === null) {
+            this.loadData()
         }
     }
     
@@ -38,7 +47,13 @@ class Account extends React.Component {
         return (
             <Container>
                 <h2>Account</h2>
-                {(this.state.data)
+                {(this.state.loading)
+                ?
+                <Article>
+                    <p>Loading account information...</p>
+                </Article>
+                :
+                (this.state.data)
                 ?
                 <>
                     <Article>
@@ -74,7 +89,7 @@ class Account extends React.Component {
                 </>
                 :
                 <Article>
-                    <p>No user information to display.</p>
+                    <p>No account information to display.</p>
                 </Article>
                 }
             </Container>

@@ -6,11 +6,11 @@ import {
     updateCharacterRaceId,
     updateCharacterClassId,
     updateCharacterRoleId,
-    updateCharacterAttunements
+    updateCharacterAttunements,
+    updateCharacterProfessions
 } from '../services/character'
 
 const Container = styled.div`
-    display: block;
     padding: 5px;
     margin: 5px;
     background: #202020;
@@ -18,6 +18,7 @@ const Container = styled.div`
     border-radius: 4px;
     color: #ccc;
     display: flex;
+    justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
 `
@@ -72,6 +73,24 @@ const Checkmark = styled.div`
     background-image: url(${CheckboxFalseImg});
     background-size: 100%;
 `
+const ProfessionSelect = styled.select`
+    background: none;
+    color: #f2f2f2;
+    border: none;
+    border-radius: 4px;
+    margin: 1px;
+    padding: 2.5px;
+    cursor: pointer;
+    transition: all .25s ease;
+
+    &:hover {
+        background: #606060;
+    }
+
+    & > option {
+        background-color: #606060;
+    }
+`
 const Table = styled.table`
     text-align: center;
     border: 1px solid #606060;
@@ -125,18 +144,15 @@ const RaceClassRole = styled.p`
 class Character extends React.Component {
 
     state = {
-        race_id: this.props.data.race_id,
-        class_id: this.props.data.class_id,
-        role_id: this.props.data.role_id,
+        race_id: this.props.data.race_id || 1,
+        class_id: this.props.data.class_id || 1,
+        role_id: this.props.data.role_id || 1,
         attuned_mc: this.props.data.attuned_mc,
         attuned_ony: this.props.data.attuned_ony,
         attuned_bwl: this.props.data.attuned_bwl,
         attuned_naxx: this.props.data.attuned_naxx,
-        resistance_arcane: this.props.data.resistance_arcane,
-        resistance_fire: this.props.data.resistance_fire,
-        resistance_frost: this.props.data.resistance_frost,
-        resistance_nature: this.props.data.resistance_nature,
-        resistance_shadow: this.props.data.resistance_shadow
+        profession_id_one: this.props.data.profession_id_one || '',
+        profession_id_two: this.props.data.profession_id_two || ''
     }
 
     updateRaceId = (ev) => {
@@ -211,134 +227,33 @@ class Character extends React.Component {
         this.updateAttunements(attuned_mc, attuned_ony, attuned_bwl, attuned_naxx)
     }
 
+    updateProfessions = (profession_id_one, profession_id_two) => {
+        updateCharacterProfessions(this.props.data.id, profession_id_one, profession_id_two)
+        .then(() => {
+            this.setState({
+                profession_id_one,
+                profession_id_two
+            })
+        })
+        .catch(err => {
+            window.alert('Error updating character, please try re-logging.')
+        })
+    }
+
+    updateProfessionOne = (ev) => {
+        const profession_id_one = ev.target.value
+        const { profession_id_two } = this.state
+        this.updateProfessions(profession_id_one, profession_id_two)
+    }
+
+    updateProfessionTwo = (ev) => {
+        const profession_id_two = ev.target.value
+        const { profession_id_one } = this.state
+        this.updateProfessions(profession_id_one, profession_id_two)
+    }
+
     render() {
         const { data } = this.props
-
-        let profession_one_name = ''
-        switch(data.profession_id_one) {
-            case 1:
-                profession_one_name = 'Alchemy'
-                break
-            case 2:
-                profession_one_name = 'Blacksmithing'
-                break
-            case 3:
-                profession_one_name = 'Armorsmith'
-                break
-            case 4:
-                profession_one_name = 'Weaponsmith'
-                break
-            case 5:
-                profession_one_name = 'Swordsmith'
-                break
-            case 6:
-                profession_one_name = 'Axesmith'
-                break
-            case 7:
-                profession_one_name = 'Hammersmith'
-                break
-            case 8:
-                profession_one_name = 'Enchanting'
-                break
-            case 9:
-                profession_one_name = 'Engineering'
-                break
-            case 10:
-                profession_one_name = 'Gnomish Engineering'
-                break
-            case 11:
-                profession_one_name = 'Goblin Engineering'
-                break
-            case 12:
-                profession_one_name = 'Leatherworking'
-                break
-            case 13:
-                profession_one_name = 'Dragonscale Leatherworking'
-                break
-            case 14:
-                profession_one_name = 'Elemental Leatherworking'
-                break
-            case 15:
-                profession_one_name = 'Tribal Leatherworking'
-                break
-            case 16:
-                profession_one_name = 'Tailoring'
-                break
-            case 17:
-                profession_one_name = 'Herbalism'
-                break
-            case 18:
-                profession_one_name = 'Mining'
-                break
-            case 19:
-                profession_one_name = 'Skinning'
-                break
-            default:
-                break
-        }
-
-        let profession_two_name = ''
-        switch(data.profession_id_two) {
-            case 1:
-                profession_two_name = 'Alchemy'
-                break
-            case 2:
-                profession_two_name = 'Blacksmithing'
-                break
-            case 3:
-                profession_two_name = 'Armorsmith'
-                break
-            case 4:
-                profession_two_name = 'Weaponsmith'
-                break
-            case 5:
-                profession_two_name = 'Swordsmith'
-                break
-            case 6:
-                profession_two_name = 'Axesmith'
-                break
-            case 7:
-                profession_two_name = 'Hammersmith'
-                break
-            case 8:
-                profession_two_name = 'Enchanting'
-                break
-            case 9:
-                profession_two_name = 'Engineering'
-                break
-            case 10:
-                profession_two_name = 'Gnomish Engineering'
-                break
-            case 11:
-                profession_two_name = 'Goblin Engineering'
-                break
-            case 12:
-                profession_two_name = 'Leatherworking'
-                break
-            case 13:
-                profession_two_name = 'Dragonscale Leatherworking'
-                break
-            case 14:
-                profession_two_name = 'Elemental Leatherworking'
-                break
-            case 15:
-                profession_two_name = 'Tribal Leatherworking'
-                break
-            case 16:
-                profession_two_name = 'Tailoring'
-                break
-            case 17:
-                profession_two_name = 'Herbalism'
-                break
-            case 18:
-                profession_two_name = 'Mining'
-                break
-            case 19:
-                profession_two_name = 'Skinning'
-                break
-            default:
-                break
-        }
 
         return (
             <Container>
@@ -411,37 +326,60 @@ class Character extends React.Component {
                     </Table>
                 </Section>
                 <Section>
-                    <h3>Resistances</h3>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Arc</th>
-                                <th>Fir</th>
-                                <th>Fro</th>
-                                <th>Nat</th>
-                                <th>Sha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style={{ color: '#99ccff' }}>{data.resistance_arcane}</td>
-                                <td style={{ color: '#ff0000' }}>{data.resistance_fire}</td>
-                                <td style={{ color: '#0099ff' }}>{data.resistance_frost}</td>
-                                <td style={{ color: '#339933' }}>{data.resistance_nature}</td>
-                                <td style={{ color: '#9966ff' }}>{data.resistance_shadow}</td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Section>
-                <Section>
                     <h3>Professions</h3>
                     <Table>
                         <tbody>
                             <tr>
-                                <td>{profession_one_name}</td>
+                                <td>
+                                    <ProfessionSelect value={this.state.profession_id_one} onChange={this.updateProfessionOne}>
+                                        <option value={null}>None</option>
+                                        <option value={1}>Alchemy</option>
+                                        <option value={2}>Blacksmith</option>
+                                        <option value={3}>Blacksmith (Armorsmith)</option>
+                                        <option value={4}>Blacksmith (Weaponsmith)</option>
+                                        <option value={5}>Blacksmith (Swordsmith)</option>
+                                        <option value={6}>Blacksmith (Axesmith)</option>
+                                        <option value={7}>Blacksmith (Hammersmith)</option>
+                                        <option value={8}>Enchanting</option>
+                                        <option value={9}>Engineering</option>
+                                        <option value={10}>Engineering (Gnomish)</option>
+                                        <option value={11}>Engineering (Goblin)</option>
+                                        <option value={12}>Leatherworking</option>
+                                        <option value={13}>Leatherworking (Dragonscale)</option>
+                                        <option value={14}>Leatherworking (Elemental)</option>
+                                        <option value={15}>Leatherworking (Tribal)</option>
+                                        <option value={16}>Tailoring</option>
+                                        <option value={17}>Herbalism</option>
+                                        <option value={18}>Mining</option>
+                                        <option value={19}>Skinning</option>
+                                    </ProfessionSelect>
+                                </td>
                             </tr>
                             <tr>
-                                <td>{profession_two_name}</td>
+                                <td>
+                                    <ProfessionSelect value={this.state.profession_id_two} onChange={this.updateProfessionTwo}>
+                                        <option value={null}>None</option>
+                                        <option value={1}>Alchemy</option>
+                                        <option value={2}>Blacksmith</option>
+                                        <option value={3}>Blacksmith (Armorsmith)</option>
+                                        <option value={4}>Blacksmith (Weaponsmith)</option>
+                                        <option value={5}>Blacksmith (Swordsmith)</option>
+                                        <option value={6}>Blacksmith (Axesmith)</option>
+                                        <option value={7}>Blacksmith (Hammersmith)</option>
+                                        <option value={8}>Enchanting</option>
+                                        <option value={9}>Engineering</option>
+                                        <option value={10}>Engineering (Gnomish)</option>
+                                        <option value={11}>Engineering (Goblin)</option>
+                                        <option value={12}>Leatherworking</option>
+                                        <option value={13}>Leatherworking (Dragonscale)</option>
+                                        <option value={14}>Leatherworking (Elemental)</option>
+                                        <option value={15}>Leatherworking (Tribal)</option>
+                                        <option value={16}>Tailoring</option>
+                                        <option value={17}>Herbalism</option>
+                                        <option value={18}>Mining</option>
+                                        <option value={19}>Skinning</option>
+                                    </ProfessionSelect>
+                                </td>
                             </tr>
                         </tbody>
                     </Table>
