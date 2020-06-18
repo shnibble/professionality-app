@@ -17,6 +17,22 @@ export const addCharacter = (character_name) => {
     })
 }
 
+export const deleteCharacter = (character_id) => {
+    const jwt = Cookies.get('token')
+    return new Promise( (resolve, reject) => {
+        axios.post('https://professionality-api.com/character/delete', {
+            jwt,
+            character_id,
+        })
+        .then(result => {
+            resolve(true)
+        })
+        .catch(err => {
+            reject(err)
+        })
+    })
+}
+
 export const updateCharacterRaceId = (character_id, race_id) => {
     const jwt = Cookies.get('token')
     return new Promise( (resolve, reject) => {
@@ -110,6 +126,7 @@ export const updateCharacterProfessions = (character_id, profession_id_one, prof
 }
 export default {
     addCharacter,
+    deleteCharacter,
     updateCharacterRaceId,
     updateCharacterClassId,
     updateCharacterRoleId,

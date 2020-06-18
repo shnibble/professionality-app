@@ -64,11 +64,14 @@ const AddCharacterPopout = styled.div`
     position: relative;
     background: #fff;
     max-width: 400px;
-    height: 80vh;
-    margin: 10vh auto;
+    height: 60vh;
+    margin: 20vh auto;
+    min-height: 200px;
+    max-height: 300px;
     padding: 15px 15px 50px 15px;
     text-align: center;
     box-sizing: border-box;
+    border-radius: 4px;
 `
 const AddCharacterName = styled.input`
     font-size: 20px;
@@ -242,7 +245,7 @@ class Account extends React.Component {
                         {(this.state.data.characters)
                         ?
                         <>
-                            {this.state.data.characters.map(character => ( <Character key={character.id} data={character} /> ))}
+                            {this.state.data.characters.map(character => ( <Character key={character.id} data={character} loadData={this.loadData} /> ))}
                         </>
                         :
                         <p>No characters (yet... please add them!)</p>}

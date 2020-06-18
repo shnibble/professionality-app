@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import CheckboxTrueImg from '../images/checkbox-true.png'
 import CheckboxFalseImg from '../images/checkbox-false.png'
 import {
+    deleteCharacter,
     updateCharacterRaceId,
     updateCharacterClassId,
     updateCharacterRoleId,
@@ -11,9 +12,14 @@ import {
 } from '../services/character'
 
 const Container = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+const Background = styled.div`
+    flex-grow: 1;
+    background: #202020;
     padding: 5px;
     margin: 5px;
-    background: #202020;
     border: 1px solid #606060;
     border-radius: 4px;
     color: #ccc;
@@ -138,7 +144,50 @@ const Name = styled.p`
     }
 `
 const RaceClassRole = styled.p`
-    width: 210px;
+    
+`
+const SideButtonContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 5px 2px;
+`
+const DeleteButton = styled.button`
+    background: red;
+    border: 2px solid red;
+    color: #f2f2f2;
+    padding: 5px 2px;
+    margin: 2px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all .25s ease;
+
+    &:hover {
+        background: transparent;
+        color: red;
+    }
+`
+const MoveButton = styled.button`
+    background: #ccc;
+    border: 2px solid #ccc;
+    color: #f2f2f2;
+    padding: 5px 2px;
+    margin: 5px 2px;
+    border-radius: 4px;
+    font-size: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all .25s ease;
+
+    &:hover {
+        background: transparent;
+        color: #ccc;
+    }
 `
 
 class Character extends React.Component {
@@ -153,6 +202,18 @@ class Character extends React.Component {
         attuned_naxx: this.props.data.attuned_naxx,
         profession_id_one: this.props.data.profession_id_one || '',
         profession_id_two: this.props.data.profession_id_two || ''
+    }
+
+    delete = () => {
+        if (window.confirm('Are you sure you want to delete this character?')) {
+            deleteCharacter(this.props.data.id)
+            .then(() => {
+                this.props.loadData()
+            })
+            .catch(err => {
+                window.alert('Error deleting character, please try re-logging.')
+            })
+        }
     }
 
     updateRaceId = (ev) => {
@@ -170,7 +231,7 @@ class Character extends React.Component {
         const class_id = ev.target.value
         updateCharacterClassId(this.props.data.id, class_id)
         .then(() => {
-            this.setState({ class_id })
+            this.props.loadData()
         })
         .catch(err => {
             window.alert('Error updating character, please try re-logging.')
@@ -257,133 +318,140 @@ class Character extends React.Component {
 
         return (
             <Container>
-                <Section>
-                    <Name className={`class-${data.class_id}`}>{data.name}</Name>
-                    <RaceClassRole>
-                        <RCRSelect value={this.state.race_id} onChange={this.updateRaceId}>
-                            <option value={1}>Human</option>
-                            <option value={3}>Dwarf</option>
-                            <option value={4}>Night Elf</option>
-                            <option value={7}>Gnome</option>
-                        </RCRSelect>
-                        <RCRSelect value={this.state.class_id} onChange={this.updateClassId}>
-                            <option value={1}>Warrior</option>
-                            <option value={2}>Paladin</option>
-                            <option value={3}>Hunter</option>
-                            <option value={4}>Rogue</option>
-                            <option value={5}>Priest</option>
-                            <option value={8}>Mage</option>
-                            <option value={9}>Warlock</option>
-                            <option value={11}>Druid</option>
-                        </RCRSelect>
-                        <RCRSelect value={this.state.role_id} onChange={this.updateRoleId}>
-                            <option value={1}>Caster</option>
-                            <option value={2}>Fighter</option>
-                            <option value={3}>Healer</option>
-                            <option value={4}>Tank</option>
-                        </RCRSelect>
-                    </RaceClassRole>
-                </Section>
-                <Section>
-                    <h3>Attunments</h3>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>MC</th>
-                                <th>ONY</th>
-                                <th>BWL</th>
-                                <th>NAXX</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <CheckboxContainer>
-                                        <Checkbox type='checkbox' checked={this.state.attuned_mc} onChange={this.updateAttunedMc} />
-                                        <Checkmark />
-                                    </CheckboxContainer>
-                                </td>
-                                <td>
-                                    <CheckboxContainer>
-                                        <Checkbox type='checkbox' checked={this.state.attuned_ony} onChange={this.updateAttunedOny} />
-                                        <Checkmark />
-                                    </CheckboxContainer>
-                                </td>
-                                <td>
-                                    <CheckboxContainer>
-                                        <Checkbox type='checkbox' checked={this.state.attuned_bwl} onChange={this.updateAttunedBwl}/>
-                                        <Checkmark />
-                                    </CheckboxContainer>
-                                </td>
-                                <td>
-                                    <CheckboxContainer>
-                                        <Checkbox type='checkbox' checked={this.state.attuned_naxx} onChange={this.updateAttunedNaxx} />
-                                        <Checkmark />
-                                    </CheckboxContainer>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Section>
-                <Section>
-                    <h3>Professions</h3>
-                    <Table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <ProfessionSelect value={this.state.profession_id_one} onChange={this.updateProfessionOne}>
-                                        <option value={null}>None</option>
-                                        <option value={1}>Alchemy</option>
-                                        <option value={2}>Blacksmith</option>
-                                        <option value={3}>Blacksmith (Armorsmith)</option>
-                                        <option value={4}>Blacksmith (Weaponsmith)</option>
-                                        <option value={5}>Blacksmith (Swordsmith)</option>
-                                        <option value={6}>Blacksmith (Axesmith)</option>
-                                        <option value={7}>Blacksmith (Hammersmith)</option>
-                                        <option value={8}>Enchanting</option>
-                                        <option value={9}>Engineering</option>
-                                        <option value={10}>Engineering (Gnomish)</option>
-                                        <option value={11}>Engineering (Goblin)</option>
-                                        <option value={12}>Leatherworking</option>
-                                        <option value={13}>Leatherworking (Dragonscale)</option>
-                                        <option value={14}>Leatherworking (Elemental)</option>
-                                        <option value={15}>Leatherworking (Tribal)</option>
-                                        <option value={16}>Tailoring</option>
-                                        <option value={17}>Herbalism</option>
-                                        <option value={18}>Mining</option>
-                                        <option value={19}>Skinning</option>
-                                    </ProfessionSelect>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <ProfessionSelect value={this.state.profession_id_two} onChange={this.updateProfessionTwo}>
-                                        <option value={null}>None</option>
-                                        <option value={1}>Alchemy</option>
-                                        <option value={2}>Blacksmith</option>
-                                        <option value={3}>Blacksmith (Armorsmith)</option>
-                                        <option value={4}>Blacksmith (Weaponsmith)</option>
-                                        <option value={5}>Blacksmith (Swordsmith)</option>
-                                        <option value={6}>Blacksmith (Axesmith)</option>
-                                        <option value={7}>Blacksmith (Hammersmith)</option>
-                                        <option value={8}>Enchanting</option>
-                                        <option value={9}>Engineering</option>
-                                        <option value={10}>Engineering (Gnomish)</option>
-                                        <option value={11}>Engineering (Goblin)</option>
-                                        <option value={12}>Leatherworking</option>
-                                        <option value={13}>Leatherworking (Dragonscale)</option>
-                                        <option value={14}>Leatherworking (Elemental)</option>
-                                        <option value={15}>Leatherworking (Tribal)</option>
-                                        <option value={16}>Tailoring</option>
-                                        <option value={17}>Herbalism</option>
-                                        <option value={18}>Mining</option>
-                                        <option value={19}>Skinning</option>
-                                    </ProfessionSelect>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Section>
+                <Background>
+                    <Section>
+                        <Name className={`class-${data.class_id}`}>{data.name}</Name>
+                        <RaceClassRole>
+                            <RCRSelect value={this.state.race_id} onChange={this.updateRaceId}>
+                                <option value={1}>Human</option>
+                                <option value={3}>Dwarf</option>
+                                <option value={4}>Night Elf</option>
+                                <option value={7}>Gnome</option>
+                            </RCRSelect>
+                            <RCRSelect value={this.state.class_id} onChange={this.updateClassId}>
+                                <option value={1}>Warrior</option>
+                                <option value={2}>Paladin</option>
+                                <option value={3}>Hunter</option>
+                                <option value={4}>Rogue</option>
+                                <option value={5}>Priest</option>
+                                <option value={8}>Mage</option>
+                                <option value={9}>Warlock</option>
+                                <option value={11}>Druid</option>
+                            </RCRSelect>
+                            <RCRSelect value={this.state.role_id} onChange={this.updateRoleId}>
+                                <option value={1}>Caster</option>
+                                <option value={2}>Fighter</option>
+                                <option value={3}>Healer</option>
+                                <option value={4}>Tank</option>
+                            </RCRSelect>
+                        </RaceClassRole>
+                    </Section>
+                    <Section>
+                        <h3>Attunments</h3>
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>MC</th>
+                                    <th>ONY</th>
+                                    <th>BWL</th>
+                                    <th>NAXX</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <CheckboxContainer>
+                                            <Checkbox type='checkbox' checked={this.state.attuned_mc} onChange={this.updateAttunedMc} />
+                                            <Checkmark />
+                                        </CheckboxContainer>
+                                    </td>
+                                    <td>
+                                        <CheckboxContainer>
+                                            <Checkbox type='checkbox' checked={this.state.attuned_ony} onChange={this.updateAttunedOny} />
+                                            <Checkmark />
+                                        </CheckboxContainer>
+                                    </td>
+                                    <td>
+                                        <CheckboxContainer>
+                                            <Checkbox type='checkbox' checked={this.state.attuned_bwl} onChange={this.updateAttunedBwl}/>
+                                            <Checkmark />
+                                        </CheckboxContainer>
+                                    </td>
+                                    <td>
+                                        <CheckboxContainer>
+                                            <Checkbox type='checkbox' checked={this.state.attuned_naxx} onChange={this.updateAttunedNaxx} />
+                                            <Checkmark />
+                                        </CheckboxContainer>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Section>
+                    <Section>
+                        <h3>Professions</h3>
+                        <Table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <ProfessionSelect value={this.state.profession_id_one} onChange={this.updateProfessionOne}>
+                                            <option value={null}>None</option>
+                                            <option value={1}>Alchemy</option>
+                                            <option value={2}>Blacksmith</option>
+                                            <option value={3}>Blacksmith (Armorsmith)</option>
+                                            <option value={4}>Blacksmith (Weaponsmith)</option>
+                                            <option value={5}>Blacksmith (Swordsmith)</option>
+                                            <option value={6}>Blacksmith (Axesmith)</option>
+                                            <option value={7}>Blacksmith (Hammersmith)</option>
+                                            <option value={8}>Enchanting</option>
+                                            <option value={9}>Engineering</option>
+                                            <option value={10}>Engineering (Gnomish)</option>
+                                            <option value={11}>Engineering (Goblin)</option>
+                                            <option value={12}>Leatherworking</option>
+                                            <option value={13}>Leatherworking (Dragonscale)</option>
+                                            <option value={14}>Leatherworking (Elemental)</option>
+                                            <option value={15}>Leatherworking (Tribal)</option>
+                                            <option value={16}>Tailoring</option>
+                                            <option value={17}>Herbalism</option>
+                                            <option value={18}>Mining</option>
+                                            <option value={19}>Skinning</option>
+                                        </ProfessionSelect>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ProfessionSelect value={this.state.profession_id_two} onChange={this.updateProfessionTwo}>
+                                            <option value={null}>None</option>
+                                            <option value={1}>Alchemy</option>
+                                            <option value={2}>Blacksmith</option>
+                                            <option value={3}>Blacksmith (Armorsmith)</option>
+                                            <option value={4}>Blacksmith (Weaponsmith)</option>
+                                            <option value={5}>Blacksmith (Swordsmith)</option>
+                                            <option value={6}>Blacksmith (Axesmith)</option>
+                                            <option value={7}>Blacksmith (Hammersmith)</option>
+                                            <option value={8}>Enchanting</option>
+                                            <option value={9}>Engineering</option>
+                                            <option value={10}>Engineering (Gnomish)</option>
+                                            <option value={11}>Engineering (Goblin)</option>
+                                            <option value={12}>Leatherworking</option>
+                                            <option value={13}>Leatherworking (Dragonscale)</option>
+                                            <option value={14}>Leatherworking (Elemental)</option>
+                                            <option value={15}>Leatherworking (Tribal)</option>
+                                            <option value={16}>Tailoring</option>
+                                            <option value={17}>Herbalism</option>
+                                            <option value={18}>Mining</option>
+                                            <option value={19}>Skinning</option>
+                                        </ProfessionSelect>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Section>
+                </Background>
+                <SideButtonContainer>
+                    <DeleteButton onClick={this.delete}>Delete</DeleteButton>
+                    <MoveButton>↑</MoveButton>
+                    <MoveButton>↓</MoveButton>
+                </SideButtonContainer>
             </Container>
         )
     }
