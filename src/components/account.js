@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import UserContext from '../context/user'
 import { getUserAccount } from '../services/userAccount'
@@ -10,11 +11,48 @@ const Container = styled.section`
 const Article = styled.article`
     margin: 50px 10px;
 `
+const LogoutButton = styled.button`
+    display: block;
+    background: red;
+    border: 2px solid red;
+    color: #f2f2f2;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 4px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all .25s ease;
+
+    &:hover {
+        background: transparent;
+        color: red;
+    }
+
+    @media screen and (min-width: 720px) {
+        display: none;
+    }
+`
 
 class Account extends React.Component {
     state = { 
         loading: true,
+        logout: false,
         data: null 
+    }
+
+    autoTimeout = () => {
+        setTimeout(() => {
+            if (this.state.loading) {
+                window.alert('Failed to load account information. Please try logging out and back in.')
+                this.setState({ logout: true })
+            }
+        }, 3000)
+    }
+
+    logout = () => {
+        let user = this.context
+        user.logout()
+        this.setState({ logout: true })
     }
 
     loadData = () => {
@@ -27,8 +65,8 @@ class Account extends React.Component {
                 }
             })
             .catch(err => {
-                this.setState({ loading: false })
-                window.alert('Issue retrieving user data. Please try logging out and back in.')
+                window.alert('Failed to load account information. Please try logging out and back in.')
+                this.setState({ logout: true })
             })
         }
     }
@@ -41,13 +79,18 @@ class Account extends React.Component {
     
     componentDidMount() {
         this.loadData()
+        this.autoTimeout()
     }
 
     render() {
         return (
             <Container>
                 <h2>Account</h2>
-                {(this.state.loading)
+                {(this.state.logout)
+                ?
+                <Redirect to='/' />
+                :
+                (this.state.loading)
                 ?
                 <Article>
                     <p>Loading account information...</p>
@@ -75,6 +118,7 @@ class Account extends React.Component {
                                 </tr>
                             </tbody>
                         </table>
+                        <LogoutButton onClick={this.logout}>Logout</LogoutButton>
                     </Article>
                     <Article>
                         <h3>Characters</h3>
