@@ -12,6 +12,7 @@ const Ul = styled.ul`
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    margin: 10px;
 `
 const Li = styled.li`
     margin: 5;
