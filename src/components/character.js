@@ -232,6 +232,7 @@ class Character extends React.Component {
         updateCharacterClassId(this.props.data.id, class_id)
         .then(() => {
             this.props.loadData()
+            this.setState({ class_id })
         })
         .catch(err => {
             window.alert('Error updating character, please try re-logging.')
