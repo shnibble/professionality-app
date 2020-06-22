@@ -10,18 +10,17 @@ const Ul = styled.ul`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
-    margin: 10px;
 `
 const Li = styled.li`
-    margin: 5;
+    margin: 5px;
 `
 const StyledLink = styled(NavLink)`
     padding: 10px;
     color: #000;
     text-decoration: none;
     font-family: 'Josefin Sans', sans-serif;
+    font-weight: bold;
     transition: all .25s ease;
 
     &.active {
@@ -36,13 +35,11 @@ const StyledLink = styled(NavLink)`
 const Roster = () => (
     <section>
         <h2>Roster</h2>
-        <article>
-            <Ul>
-                <li><StyledLink to='/roster/members'>Members</StyledLink></li>
-                <li><StyledLink to='/roster/officers'>Officers</StyledLink></li>
-                <li><StyledLink to='/roster/pugs'>PUGs</StyledLink></li>
-            </Ul>
-        </article>
+        <Ul>
+            <Li><StyledLink to='/roster/members'>Members</StyledLink></Li>
+            <Li><StyledLink to='/roster/officers'>Officers</StyledLink></Li>
+            <Li><StyledLink to='/roster/pugs'>PUGs</StyledLink></Li>
+        </Ul>
         <>
             <Route path={'/roster/pugs'} component={Pugs} />
             <Route path={'/roster/members'} component={Members} />

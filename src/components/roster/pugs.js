@@ -4,11 +4,7 @@ import { getPugs } from '../../services/roster'
 import Table from './table'
 import Character from './character'
 import DiscordLink from './discordLink'
-
-const Container = styled.article`
-    box-shadow: 2px 2px 3px 1px rgba(0,0,0,0.25);
-    padding: 10px;
-`
+import Article from '../article'
 
 class Pugs extends React.Component {
     state = {
@@ -28,7 +24,7 @@ class Pugs extends React.Component {
 
     render() {
         return (
-            <Container>
+            <Article>
                 <Table>
                     <thead>
                         <tr>
@@ -49,7 +45,7 @@ class Pugs extends React.Component {
                         )))}
                     </tbody>
                 </Table>
-            </Container>
+            </Article>
         )
     }
 }

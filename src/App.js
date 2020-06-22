@@ -6,7 +6,7 @@ import Main from './components/main'
 import Login from './components/login'
 import Nav from './components/nav'
 import Account from './components/account'
-import Calendar from './components/calendar'
+import Calendar from './components/calendar/calendar'
 import EPGP from './components/epgp'
 import Roster from './components/roster/roster'
 import Bank from './components/bank'
@@ -15,6 +15,7 @@ import Home from './components/home'
 import Footer from './components/footer'
 
 import './app.css'
+import 'react-datepicker/dist/react-datepicker.css'
 
 
 function App() {

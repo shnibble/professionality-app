@@ -3,16 +3,13 @@ import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import UserContext from '../context/user'
 import { getUserAccount } from '../services/userAccount'
-import character, { addCharacter } from '../services/character'
+import { addCharacter } from '../services/character'
 import Character from './character'
+import Article from './article'
+import Popout from './popout'
 
 const Container = styled.section`
 
-`
-const Article = styled.article`
-    margin: 50px 10px;
-    padding: 5px;
-    box-shadow: 2px 2px 3px 1px rgba(0,0,0,0.25);
 `
 const LogoutButton = styled.button`
     display: block;
@@ -51,27 +48,6 @@ const AddCharacterButton = styled.button`
         background: transparent;
         color: #009933;
     }
-`
-const AddCharacterPopoutContainer = styled.div`
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0,0,0,0.5);
-`
-const AddCharacterPopout = styled.div`
-    position: relative;
-    background: #fff;
-    max-width: 400px;
-    height: 60vh;
-    margin: 20vh auto;
-    min-height: 200px;
-    max-height: 300px;
-    padding: 15px 15px 50px 15px;
-    text-align: center;
-    box-sizing: border-box;
-    border-radius: 4px;
 `
 const AddCharacterName = styled.input`
     font-size: 20px;
@@ -252,17 +228,15 @@ class Account extends React.Component {
                     </Article>
                     {(this.state.addCharacter)
                     ?
-                    <AddCharacterPopoutContainer>
-                        <AddCharacterPopout>
-                            <h4>Add Character</h4>
-                            <AddCharacterName value={this.state.characterName} onChange={this.updateCharacterName} placeholder='Character Name' />
-                            <p><i>Please enter your character name exactly as it appears in-game.</i></p>
-                            <AddCharacterButtonsContainer>
-                                <AddCharacterAddButton onClick={this.addNewCharacter}>Add</AddCharacterAddButton>
-                                <AddCharacterCancelButton onClick={this.closeAddCharacterPopout}>Cancel</AddCharacterCancelButton>
-                            </AddCharacterButtonsContainer>
-                        </AddCharacterPopout>
-                    </AddCharacterPopoutContainer>
+                    <Popout>
+                        <h4>Add Character</h4>
+                        <AddCharacterName value={this.state.characterName} onChange={this.updateCharacterName} placeholder='Character Name' />
+                        <p><i>Please enter your character name exactly as it appears in-game.</i></p>
+                        <AddCharacterButtonsContainer>
+                            <AddCharacterAddButton onClick={this.addNewCharacter}>Add</AddCharacterAddButton>
+                            <AddCharacterCancelButton onClick={this.closeAddCharacterPopout}>Cancel</AddCharacterCancelButton>
+                        </AddCharacterButtonsContainer>
+                    </Popout>
                     :
                     null
                     }
