@@ -219,7 +219,7 @@ class Calendar extends React.Component {
                             />
                             <AddEventName type='text' placeholder='Event Name' value={this.state.eventName} onChange={this.updateEventName} />
                             <div>
-                                <AddEventAddButton>Add</AddEventAddButton>
+                                <AddEventAddButton onClick={this.addEvent}>Add</AddEventAddButton>
                                 <AddEventCancelButton onClick={this.closeAddEventPopout}>Cancel</AddEventCancelButton>
                             </div>
                         </Popout>
