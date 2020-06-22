@@ -58,8 +58,8 @@ class UserProvider extends React.Component {
                     logged_in: true,
                     failed_login: false,
                     discord_user_id: data.discord_user_id,
-                    is_member: data.member,
-                    is_officer: data.officer,
+                    is_member: data.is_member,
+                    is_officer: data.is_officer,
                     nickname: data.nickname
                 })
             })
