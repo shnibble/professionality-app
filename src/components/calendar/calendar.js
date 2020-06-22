@@ -100,7 +100,7 @@ class Calendar extends React.Component {
 
     addEvent = () => {
         const title = this.state.eventName
-        const start = Moment(this.state.eventStart).utc()
+        const start = Moment(this.state.eventStart).utc().format('YYYY-MM-DD HH:mm:00')
 
         axios.post('https://professionality-api.com/calendar/add', {
             jwt: Cookies.get('token'),
