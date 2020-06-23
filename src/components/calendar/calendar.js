@@ -52,7 +52,7 @@ const AddEventName = styled.input`
     margin: 10px;
     text-align: center;
 `
-const AddEventAddButton = styled.button`
+const SubmitButton = styled.button`
     background: #009933;
     border: 2px solid #009933;
     color: #f2f2f2;
@@ -68,7 +68,7 @@ const AddEventAddButton = styled.button`
         color: #009933;
     }
 `
-const AddEventCancelButton = styled.button`
+const CancelButton = styled.button`
     background: red;
     border: 2px solid red;
     color: #f2f2f2;
@@ -93,15 +93,23 @@ class Calendar extends React.Component {
         events: [],
         addEvent: false,
         eventName: '',
-        eventStart: ''
+        eventStart: '',
+        addSignup: false,
+        userCharacters: [],
+        signupEventId: '',
+        signupCharacterId: '',
+        signupRoleId: 1,
+        signupTentative: false,
+        signupLate: false,
+        signupNote: ''
     }
 
     addEventPopout = () => {
-        this.setState({ addEvent: true })
+        this.setState({ addEvent: true, addSignup: false })
     }
 
     closeAddEventPopout = () => {
-        this.setState({ addEvent: false })
+        this.setState({ addEvent: false, addSignup: false })
     }
 
     updateEventName = (ev) => {
@@ -125,17 +133,18 @@ class Calendar extends React.Component {
         .then(() => {
             this.setState({
                 addEvent: false,
+                addSignup: false,
                 eventName: '',
                 eventStart: ''
             })
-            this.loadEvents()
+            this.loadData()
         })
         .catch(err => {
             window.alert('Error adding event, please try re-logging.')
         })
     }
 
-    loadEvents = () => {
+    loadData = () => {
         const user = this.context
         axios.get('https://professionality-api.com/calendar/get', {
             params: {
@@ -145,10 +154,109 @@ class Calendar extends React.Component {
         .then(result => {
             const events = result.data
             this.setState({ loading: false, events, loadedWithUser: user.logged_in })
+            
+
+            if (user.logged_in) {
+                axios.get('https://professionality-api.com/account/get', {
+                    params: {
+                        discord_user_id: user.discord_user_id
+                    }
+                })
+                .then(result => {
+                    this.setState({ userCharacters: result.data.characters })
+                })
+            }
+
         })
         .catch(error => {
             window.alert('Issue loading events, please try refreshing the page.')
         })
+    }
+
+    addSignupPopout = (ev) => {
+        const data = JSON.parse(ev.target.value)
+        this.setState({ 
+            addEvent: false, 
+            addSignup: true,
+            signupEventId: data.event_id,
+            signupCharacterId: data.character_id || '',
+            signupRoleId: data.role_id || 1,
+            signupTentative: data.tentative || false,
+            signupLate: data.late || false,
+            signupNote: data.note || ''
+        })
+    }
+
+    closeAddSignupPopout = () => {
+        this.setState({ 
+            addEvent: false, 
+            addSignup: false,
+            signupEventId: '',
+            signupCharacterId: '',
+            signupRoleId: 1,
+            signupTentative: false,
+            signupLate: false,
+            signupNote: ''
+         })
+    }
+
+    updateSignupCharacter = (ev) => {
+        const character_id = ev.target.value
+        this.setState({ signupCharacterId: character_id })
+    }
+
+    updateSignupRole = (ev) => {
+        const role_id = ev.target.value
+        this.setState({ signupRoleId: role_id })
+    }
+
+    updateSignupTentative = (ev) => {
+        const checked = ev.target.checked
+        this.setState({ signupTentative: checked })
+    }
+
+    updateSignupLate = (ev) => {
+        const checked = ev.target.checked
+        this.setState({ signupLate: checked })
+    }
+
+    updateSignupNote = (ev) => {
+        const note = ev.target.value
+        this.setState({ signupNote: note })
+    }
+
+    signup = () => {
+        console.log('Sign Up')
+        const { signupEventId, signupCharacterId, signupRoleId, signupTentative, signupLate, signupNote } = this.state
+        if (signupCharacterId === '') {
+            window.alert('Please select a character to sign up with.')
+        } else {
+            axios.post('https://professionality-api.com/attendance/signup', {
+                jwt: Cookies.get('token'),
+                event_id: signupEventId,
+                character_id: signupCharacterId,
+                role_id: signupRoleId,
+                tentative: signupTentative,
+                late: signupLate,
+                note: signupNote
+            })
+            .then(() => {
+                this.setState({ 
+                    addEvent: false, 
+                    addSignup: false,
+                    signupEventId: '',
+                    signupCharacterId: '',
+                    signupRoleId: 1,
+                    signupTentative: false,
+                    signupLate: false,
+                    signupNote: ''
+                 })
+                 this.loadData()
+            })
+            .catch(err => {
+                window.alert('Issue signing up, please try re-logging.')
+            })
+        }
     }
 
     callout = (ev) => {
@@ -158,7 +266,7 @@ class Calendar extends React.Component {
             event_id
         })
         .then(() => {
-            this.loadEvents()
+            this.loadData()
         })
         .catch(err => {
             window.alert('Issue calling out, please try re-logging.')
@@ -172,7 +280,7 @@ class Calendar extends React.Component {
             event_id
         })
         .then(() => {
-            this.loadEvents()
+            this.loadData()
         })
         .catch(err => {
             window.alert('Issue canceling, please try re-logging.')
@@ -182,12 +290,12 @@ class Calendar extends React.Component {
     componentDidUpdate() {
         const user = this.context
         if (user.logged_in && !this.state.loadedWithUser) {
-            this.loadEvents()
+            this.loadData()
         }
     }
 
     componentDidMount() {
-        this.loadEvents()
+        this.loadData()
     }
 
     render() {
@@ -247,7 +355,7 @@ class Calendar extends React.Component {
                                                 ?
                                                 <td>
                                                     <TableButtonWrapper>
-                                                        <TableButton title='Sign Up' disabled={(event.signed_up)?true:false} active={(event.signed_up)?true:false} />
+                                                        <TableButton title='Sign Up' value={JSON.stringify({event_id: event.id, character_id: event.character_id, role_id: event.role_id, tentative: event.tentative, late: event.late, note: event.note })} onClick={this.addSignupPopout} active={(event.signed_up)?true:false} />
                                                         <TableButton title='Call Out' value={event.id} onClick={this.callout} disabled={(event.called_out)?true:false} active={(event.called_out)?true:false} />
                                                         <TableButton title='Cancel' value={event.id} onClick={this.cancel} disabled={(event.signed_up || event.called_out)?false:true} />
                                                     </TableButtonWrapper>
@@ -278,9 +386,35 @@ class Calendar extends React.Component {
                             />
                             <AddEventName type='text' placeholder='Event Name' value={this.state.eventName} onChange={this.updateEventName} />
                             <div>
-                                <AddEventAddButton onClick={this.addEvent}>Add</AddEventAddButton>
-                                <AddEventCancelButton onClick={this.closeAddEventPopout}>Cancel</AddEventCancelButton>
+                                <SubmitButton onClick={this.addEvent}>Add</SubmitButton>
+                                <CancelButton onClick={this.closeAddEventPopout}>Cancel</CancelButton>
                             </div>
+                        </Popout>
+                        :
+                        null
+                        }
+                        {(this.state.addSignup)
+                        ?
+                        <Popout>
+                            <h4>Sign Up</h4>
+                            <select value={this.state.signupCharacterId} onChange={this.updateSignupCharacter}>
+                                <option></option>
+                                {(this.state.userCharacters.map(character => <option key={`user_character_id_${character.id}`} value={character.id}>{character.name}</option> ))}
+                            </select>
+                            <select value={this.state.signupRoleId} onChange={this.updateSignupRole}>
+                                <option value={1}>Caster</option>
+                                <option value={2}>Fighter</option>
+                                <option value={3}>Healer</option>
+                                <option value={4}>Tank</option>
+                            </select>
+                            <input type='checkbox' checked={(this.state.signupTentative)?true:false} onChange={this.updateSignupTentative} />
+                            <input type='checkbox' checked={(this.state.signupLate)?true:false} onChange={this.updateSignupLate} />
+                            <input type='text' value={this.state.signupNote} onChange={this.updateSignupNote} />
+                            <div>
+                                <SubmitButton onClick={this.signup}>Sign Up</SubmitButton>
+                                <CancelButton onClick={this.closeAddSignupPopout}>Cancel</CancelButton>
+                            </div>
+
                         </Popout>
                         :
                         null
