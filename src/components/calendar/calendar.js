@@ -89,6 +89,7 @@ class Calendar extends React.Component {
     state = {
         error: false,
         loading: true,
+        loadedWithUser: false,
         events: [],
         addEvent: false,
         eventName: '',
@@ -143,7 +144,7 @@ class Calendar extends React.Component {
         })
         .then(result => {
             const events = result.data
-            this.setState({ loading: false, events })
+            this.setState({ loading: false, events, loadedWithUser: user.logged_in })
         })
         .catch(error => {
             window.alert('Issue loading events, please try refreshing the page.')
@@ -176,6 +177,13 @@ class Calendar extends React.Component {
         .catch(err => {
             window.alert('Issue canceling, please try re-logging.')
         })
+    }
+
+    componentDidUpdate() {
+        const user = this.context
+        if (user.logged_in && !this.state.loadedWithUser) {
+            this.loadEvents()
+        }
     }
 
     componentDidMount() {

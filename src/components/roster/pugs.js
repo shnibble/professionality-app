@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import { getPugs } from '../../services/roster'
+import TableWrapper from '../tableWrapper'
 import Table from './table'
 import Character from './character'
 import DiscordLink from './discordLink'
@@ -25,26 +25,28 @@ class Pugs extends React.Component {
     render() {
         return (
             <Article>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Discord</th>
-                            <th>Characters</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {(this.state.users.map(user => (
-                            <tr key={user.discord_user_id}>
-                                <td>{user.nickname}</td>
-                                <td><DiscordLink data={user} /></td>
-                                <td>
-                                    {user.characters.map(character => <Character key={`character_id_${character.id}`} data={character} /> )}
-                                </td>
+                <TableWrapper>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Discord</th>
+                                <th>Characters</th>
                             </tr>
-                        )))}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {(this.state.users.map(user => (
+                                <tr key={user.discord_user_id}>
+                                    <td>{user.nickname}</td>
+                                    <td><DiscordLink data={user} /></td>
+                                    <td>
+                                        {user.characters.map(character => <Character key={`character_id_${character.id}`} data={character} /> )}
+                                    </td>
+                                </tr>
+                            )))}
+                        </tbody>
+                    </Table>
+                </TableWrapper>
             </Article>
         )
     }
