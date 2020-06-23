@@ -6,9 +6,15 @@ import DatePicker from 'react-datepicker'
 import Cookies from 'js-cookie'
 import UserContext from '../../context/user'
 import Article from '../article'
+import TableWrapper from '../tableWrapper'
 import AddButton from '../addButton'
+import TableButtonWrapper from '../tableButtonWrapper'
 import TableButton from '../tableButton'
 import Popout from '../popout'
+import CasterIcon from '../../images/spell_fire_firebolt02.jpg'
+import FighterIcon from '../../images/ability_warrior_challange.jpg'
+import HealerIcon from '../../images/spell_holy_flashheal.jpg'
+import TankIcon from '../../images/ability_warrior_defensivestance.jpg'
 
 const Container = styled.section`
 
@@ -25,6 +31,14 @@ const Table = styled.table`
     & tbody > tr:nth-child(odd) {
         background: #f2f2f2;
     }
+
+    & tbody td:nth-child(1) { 
+        min-width: 100px;
+    }
+`
+const TableIcon = styled.img`
+    width: 20px;
+    height: 20px;
 `
 const AddEventTime = styled(DatePicker)`
     font-size: 20px;
@@ -121,13 +135,46 @@ class Calendar extends React.Component {
     }
 
     loadEvents = () => {
-        axios.get('https://professionality-api.com/calendar/get')
+        const user = this.context
+        axios.get('https://professionality-api.com/calendar/get', {
+            params: {
+                discord_user_id: user.discord_user_id || null
+            }
+        })
         .then(result => {
             const events = result.data
             this.setState({ loading: false, events })
         })
         .catch(error => {
             window.alert('Issue loading events, please try refreshing the page.')
+        })
+    }
+
+    callout = (ev) => {
+        const event_id = ev.target.value
+        axios.post('https://professionality-api.com/attendance/callout', {
+            jwt: Cookies.get('token'),
+            event_id
+        })
+        .then(() => {
+            this.loadEvents()
+        })
+        .catch(err => {
+            window.alert('Issue calling out, please try re-logging.')
+        })
+    }
+
+    cancel = (ev) => {
+        const event_id = ev.target.value
+        axios.post('https://professionality-api.com/attendance/cancel', {
+            jwt: Cookies.get('token'),
+            event_id
+        })
+        .then(() => {
+            this.loadEvents()
+        })
+        .catch(err => {
+            window.alert('Issue canceling, please try re-logging.')
         })
     }
 
@@ -157,50 +204,54 @@ class Calendar extends React.Component {
                                 :
                                 null
                                 }
-                                <Table>
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Event</th>
-                                            <th title='Casters'>C</th>
-                                            <th title='Fighters'>F</th>
-                                            <th title='Healers'>H</th>
-                                            <th title='Tanks'>T</th>
-                                            <th>Signed Up</th>
-                                            <th>Called Out</th>
-                                            {(user.logged_in)
-                                            ?
-                                            <th>Actions</th>
-                                            :
-                                            null
-                                            }
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {(this.state.events.map(event => (
-                                        <tr key={`event_id_${event.id}`}>
-                                            <td>{Moment(event.start).format('ddd M/D @ h:mm a')}</td>
-                                            <td>{event.title}</td>
-                                            <td>{event.total_casters}</td>
-                                            <td>{event.total_fighters}</td>
-                                            <td>{event.total_healers}</td>
-                                            <td>{event.total_tanks}</td>
-                                            <td>{event.total_sign_ups}</td>
-                                            <td>{event.total_call_outs}</td>
-                                            {(user.logged_in)
-                                            ?
-                                            <td>
-                                                <TableButton title='Sign Up' />
-                                                <TableButton title='Call Out' />
-                                                <TableButton title='Cancel' />
-                                            </td>
-                                            :
-                                            null
-                                            }
-                                        </tr>
-                                        )))}            
-                                    </tbody>
-                                </Table>
+                                <TableWrapper>
+                                    <Table>
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Event</th>
+                                                <th title='Casters'><TableIcon src={CasterIcon} /></th>
+                                                <th title='Fighters'><TableIcon src={FighterIcon} /></th>
+                                                <th title='Healers'><TableIcon src={HealerIcon} /></th>
+                                                <th title='Tanks'><TableIcon src={TankIcon} /></th>
+                                                <th>Signed Up</th>
+                                                <th>Called Out</th>
+                                                {(user.logged_in)
+                                                ?
+                                                <th>Actions</th>
+                                                :
+                                                null
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {(this.state.events.map(event => (
+                                            <tr key={`event_id_${event.id}`}>
+                                                <td>{Moment(event.start).format('ddd M/D @ h:mm a')}</td>
+                                                <td>{event.title}</td>
+                                                <td>{event.total_casters}</td>
+                                                <td>{event.total_fighters}</td>
+                                                <td>{event.total_healers}</td>
+                                                <td>{event.total_tanks}</td>
+                                                <td>{event.total_sign_ups}</td>
+                                                <td>{event.total_call_outs}</td>
+                                                {(user.logged_in)
+                                                ?
+                                                <td>
+                                                    <TableButtonWrapper>
+                                                        <TableButton title='Sign Up' disabled={(event.signed_up)?true:false} active={(event.signed_up)?true:false} />
+                                                        <TableButton title='Call Out' value={event.id} onClick={this.callout} disabled={(event.called_out)?true:false} active={(event.called_out)?true:false} />
+                                                        <TableButton title='Cancel' value={event.id} onClick={this.cancel} disabled={(event.signed_up || event.called_out)?false:true} />
+                                                    </TableButtonWrapper>
+                                                </td>
+                                                :
+                                                null
+                                                }
+                                            </tr>
+                                            )))}            
+                                        </tbody>
+                                    </Table>
+                                </TableWrapper>
                             </>
                             }
                         </Article>
@@ -233,4 +284,5 @@ class Calendar extends React.Component {
     }   
 }
 
+Calendar.contextType = UserContext
 export default Calendar
