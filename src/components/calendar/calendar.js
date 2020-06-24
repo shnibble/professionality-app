@@ -15,6 +15,8 @@ import CasterIcon from '../../images/spell_fire_firebolt02.jpg'
 import FighterIcon from '../../images/ability_warrior_challange.jpg'
 import HealerIcon from '../../images/spell_holy_flashheal.jpg'
 import TankIcon from '../../images/ability_warrior_defensivestance.jpg'
+import CheckboxTrueImg from '../../images/checkbox-true.png'
+import CheckboxFalseImg from '../../images/checkbox-false.png'
 
 const Container = styled.section`
 
@@ -51,6 +53,59 @@ const AddEventName = styled.input`
     padding: 15px;
     margin: 10px;
     text-align: center;
+`
+const CharacterSelect = styled.select`
+    padding: 5px;
+    font-size: 16px;
+    margin: 5px;
+    width: 45%;
+    box-sizing: border-box;
+`
+const RoleSelect = styled.select`
+    padding: 5px;
+    font-size: 16px;
+    margin: 5px;
+    width: 45%;
+    box-sizing: border-box;
+`
+const CheckboxContainer = styled.label`
+    display: block;
+    position: relative;
+    cursor: pointer;
+    width: 125px;
+    height: 25px;
+    margin: 5px auto;
+`
+const CheckboxTitle = styled.span`
+    display: inline-block;
+    text-align: right;
+    width: 100%;
+    padding: 2px 27px 2px 2px;
+    box-sizing: border-box;
+`
+const Checkbox = styled.input`
+    display: none;
+
+    &:checked + div {
+        background-image: url(${CheckboxTrueImg});
+    }
+`
+const Checkmark = styled.div`
+    position: absolute;
+    top: 0;
+    left: 100px;
+    height: 25px;
+    width: 25px;
+    background-image: url(${CheckboxFalseImg});
+    background-size: 100%;
+`
+const NoteField = styled.input`
+    display: block;
+    padding: 5px;
+    margin: 5px auto;
+    font-size: 16px;
+    width: 90%;
+    box-sizing: border-box;
 `
 const SubmitButton = styled.button`
     background: #009933;
@@ -397,19 +452,27 @@ class Calendar extends React.Component {
                         ?
                         <Popout>
                             <h4>Sign Up</h4>
-                            <select value={this.state.signupCharacterId} onChange={this.updateSignupCharacter}>
+                            <CharacterSelect value={this.state.signupCharacterId} onChange={this.updateSignupCharacter}>
                                 <option></option>
                                 {(this.state.userCharacters.map(character => <option key={`user_character_id_${character.id}`} value={character.id}>{character.name}</option> ))}
-                            </select>
-                            <select value={this.state.signupRoleId} onChange={this.updateSignupRole}>
+                            </CharacterSelect>
+                            <RoleSelect value={this.state.signupRoleId} onChange={this.updateSignupRole}>
                                 <option value={1}>Caster</option>
                                 <option value={2}>Fighter</option>
                                 <option value={3}>Healer</option>
                                 <option value={4}>Tank</option>
-                            </select>
-                            <input type='checkbox' checked={(this.state.signupTentative)?true:false} onChange={this.updateSignupTentative} />
-                            <input type='checkbox' checked={(this.state.signupLate)?true:false} onChange={this.updateSignupLate} />
-                            <input type='text' value={this.state.signupNote} onChange={this.updateSignupNote} />
+                            </RoleSelect>
+                            <CheckboxContainer>
+                                <CheckboxTitle>Tentative:</CheckboxTitle>
+                                <Checkbox type='checkbox' checked={(this.state.signupTentative)?true:false} onChange={this.updateSignupTentative} />
+                                <Checkmark />
+                            </CheckboxContainer>
+                            <CheckboxContainer>
+                                <CheckboxTitle>Late:</CheckboxTitle>
+                                <Checkbox type='checkbox' checked={(this.state.signupLate)?true:false} onChange={this.updateSignupLate} />
+                                <Checkmark />
+                            </CheckboxContainer>
+                            <NoteField type='text' value={this.state.signupNote} onChange={this.updateSignupNote} placeholder='Note' />
                             <div>
                                 <SubmitButton onClick={this.signup}>Sign Up</SubmitButton>
                                 <CancelButton onClick={this.closeAddSignupPopout}>Cancel</CancelButton>
