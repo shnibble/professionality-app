@@ -12,6 +12,7 @@ import Roster from './components/roster/roster'
 import Bank from './components/bank'
 import Buffs from './components/buffs'
 import Home from './components/home'
+import Event from './components/event/event'
 import Footer from './components/footer'
 
 import './app.css'
@@ -33,6 +34,7 @@ function App() {
                     <Route path={'/bank'} component={Bank} />
                     <Route path={'/buffs'} component={Buffs} />
                     <Route path={'/login'} component={Login} />
+                    <Route path={'/event/:id'} component={Event} />
                     <Route path={'/'} component={Home} />
                 </Switch>
             </Main>

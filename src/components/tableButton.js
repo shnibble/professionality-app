@@ -56,7 +56,7 @@ const Checkmark = styled.div`
     }
 `
 
-const AddButton = ({ title='', onClick=null, disabled=false, active=false, value=null }) => (
+const TableButton = ({ title='', onClick=null, disabled=false, active=false, value=null }) => (
     <Container onClick={onClick} disabled={disabled} value={value}>
         {title}
         {(active)
@@ -70,4 +70,4 @@ const AddButton = ({ title='', onClick=null, disabled=false, active=false, value
     </Container>
 )
 
-export default AddButton
+export default TableButton

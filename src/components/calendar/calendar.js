@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
 import axios from 'axios'
 import Moment from 'moment'
 import DatePicker from 'react-datepicker'
@@ -402,8 +403,8 @@ class Calendar extends React.Component {
                                         <tbody>
                                             {(this.state.events.map(event => (
                                             <tr key={`event_id_${event.id}`}>
-                                                <td>{Moment(event.start).format('ddd M/D @ h:mm a')}</td>
-                                                <td>{event.title}</td>
+                                                <td><NavLink to={`/event/${event.id}`}>{Moment(event.start).format('ddd M/D @ h:mm a')}</NavLink></td>
+                                                <td><NavLink to={`/event/${event.id}`}>{event.title}</NavLink></td>
                                                 <td>{event.total_casters}</td>
                                                 <td>{event.total_fighters}</td>
                                                 <td>{event.total_healers}</td>
