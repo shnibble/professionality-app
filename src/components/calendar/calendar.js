@@ -229,17 +229,21 @@ class Calendar extends React.Component {
     }
 
     addSignupPopout = (ev) => {
-        const data = JSON.parse(ev.target.value)
-        this.setState({ 
-            addEvent: false, 
-            addSignup: true,
-            signupEventId: data.event_id,
-            signupCharacterId: data.character_id || '',
-            signupRoleId: data.role_id || 1,
-            signupTentative: data.tentative || false,
-            signupLate: data.late || false,
-            signupNote: data.note || ''
-        })
+        if (this.state.userCharacters.length === 0) {
+            window.alert('You need to create a character first. Go to your account page (top right corner, click on your name) and add a character!')
+        } else {
+            const data = JSON.parse(ev.target.value)
+            this.setState({ 
+                addEvent: false, 
+                addSignup: true,
+                signupEventId: data.event_id,
+                signupCharacterId: data.character_id || '',
+                signupRoleId: data.role_id || 1,
+                signupTentative: data.tentative || false,
+                signupLate: data.late || false,
+                signupNote: data.note || ''
+            })
+        }
     }
 
     closeAddSignupPopout = () => {
