@@ -286,7 +286,6 @@ class Calendar extends React.Component {
     }
 
     signup = () => {
-        console.log('Sign Up')
         const { signupEventId, signupCharacterId, signupRoleId, signupTentative, signupLate, signupNote } = this.state
         if (signupCharacterId === '') {
             window.alert('Please select a character to sign up with.')
