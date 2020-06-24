@@ -31,8 +31,8 @@ const Home = () => (
             <br />
             <h4>Schedule</h4>
             <ul>
-                <Li><p>Progression raids occur Wednesdays at 8:30pm. This raid will change as the guild progresses to different content.</p></Li>
-                <Li><p>Farming raids occur on Saturdays at 8:30pm. This raid will change as the guild progresses to different content.</p></Li>
+                <Li><p>Progression raids occur Wednesdays at 8:30pm server time. This raid will change as the guild progresses to different content.</p></Li>
+                <Li><p>Farming raids occur on Thursdays at 8:30pm server time. This raid will change as the guild progresses to different content.</p></Li>
             </ul>
             <br />
             <h4>Loot System</h4>
