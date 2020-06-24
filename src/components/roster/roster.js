@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { NavLink, Route } from 'react-router-dom'
+import { NavLink, Route, Redirect } from 'react-router-dom'
 import Pugs from './pugs'
 import Members from './members'
 import Officers from './officers'
@@ -44,6 +44,9 @@ const Roster = () => (
             <Route path={'/roster/pugs'} component={Pugs} />
             <Route path={'/roster/members'} component={Members} />
             <Route path={'/roster/officers'} component={Officers} />
+            <Route exact path={'/roster'}>
+                <Redirect to={'/roster/members'} />
+            </Route>
         </>
     </section>
 )
