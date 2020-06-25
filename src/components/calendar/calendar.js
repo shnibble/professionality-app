@@ -309,8 +309,8 @@ class Calendar extends React.Component {
                     signupTentative: false,
                     signupLate: false,
                     signupNote: ''
-                 })
-                 this.loadData()
+                })
+                this.loadData()
             })
             .catch(err => {
                 window.alert('Issue signing up, please try re-logging.')
