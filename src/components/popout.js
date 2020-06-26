@@ -8,6 +8,7 @@ const Container = styled.div`
     bottom: 0;
     left: 0;
     background: rgba(0,0,0,0.5);
+    z-index: 3;
 `
 const InnerContainer = styled.div`
     position: relative;
