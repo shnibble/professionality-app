@@ -441,7 +441,7 @@ class Event extends React.Component {
 
                             <Article>
                                 <h3>Attendance</h3>
-                                {(user.logged_in)
+                                {(user.logged_in && new Date(this.state.event.start) > new Date())
                                 ?
                                 <TableButtonWrapper>
                                     <TableButton title='Sign Up' onClick={this.addSignupPopout} active={(this.state.event.signed_up)?true:false} />
