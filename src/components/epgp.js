@@ -79,8 +79,8 @@ const EPGP = () => (
             <h4>Raid Leader Benching</h4>
             <p>If a player is benched by the raid leader for any reason while the player was otherwise ready, they may choose to take 50% of the EP earned during the raid instead of going on the Standby List.</p>
             <br />
-            <h4>Addon-On</h4>
-            <p>There is an addon-on which everyone, including PUGs, should download and use for Professionality raids which helps facilitate the EPGP system. It is called CEPGP and can be downloaded from Curse Forge here: <a href='https://www.curseforge.com/wow/addons/cepgp' target='_BLANK'>https://www.curseforge.com/wow/addons/cepgp</a>.</p>
+            <h4>Add-On</h4>
+            <p>There is an add-on which everyone, including PUGs, should download and use for Professionality raids which helps facilitate the EPGP system. It is called CEPGP and can be downloaded from Curse Forge here: <a href='https://www.curseforge.com/wow/addons/cepgp' target='_BLANK'>https://www.curseforge.com/wow/addons/cepgp</a>.</p>
         </Article>
     </section>
 )
