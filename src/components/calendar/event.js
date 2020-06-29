@@ -13,21 +13,10 @@ import TankIcon from '../../images/ability_warrior_defensivestance.jpg'
 import CheckboxTrueImg from '../../images/checkbox-true.png'
 import CheckboxFalseImg from '../../images/checkbox-false.png'
 import TableButtonWrapper from '../tableButtonWrapper'
-import TableButton from '../tableButton'
-import Popout from '../popout'
 import Cookies from 'js-cookie'
+import AttendanceBreakdown from './attendanceBreakdown'
 import AttendanceModule from './attendanceModule'
 
-const DetailsTable = styled.table`
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
-    margin-top: 10px;
-`
-const TableIcon = styled.img`
-    width: 20px;
-    height: 20px;
-`
 const AttendanceTable = styled.table`
     width: 100%;
     border-collapse: collapse;
@@ -125,91 +114,6 @@ const DeleteEventButton = styled.button`
         color: red;
     }
 `
-const CharacterSelect = styled.select`
-    padding: 5px;
-    font-size: 16px;
-    margin: 5px;
-    width: 45%;
-    box-sizing: border-box;
-`
-const RoleSelect = styled.select`
-    padding: 5px;
-    font-size: 16px;
-    margin: 5px;
-    width: 45%;
-    box-sizing: border-box;
-`
-const CheckboxContainer = styled.label`
-    display: block;
-    position: relative;
-    cursor: pointer;
-    width: 125px;
-    height: 25px;
-    margin: 5px auto;
-`
-const CheckboxTitle = styled.span`
-    display: inline-block;
-    text-align: right;
-    width: 100%;
-    padding: 2px 27px 2px 2px;
-    box-sizing: border-box;
-`
-const Checkbox = styled.input`
-    display: none;
-
-    &:checked + div {
-        background-image: url(${CheckboxTrueImg});
-    }
-`
-const Checkmark = styled.div`
-    position: absolute;
-    top: 0;
-    left: 100px;
-    height: 25px;
-    width: 25px;
-    background-image: url(${CheckboxFalseImg});
-    background-size: 100%;
-`
-const NoteField = styled.input`
-    display: block;
-    padding: 5px;
-    margin: 5px auto;
-    font-size: 16px;
-    width: 90%;
-    box-sizing: border-box;
-`
-const SubmitButton = styled.button`
-    background: #009933;
-    border: 2px solid #009933;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: #009933;
-    }
-`
-const CancelButton = styled.button`
-    background: red;
-    border: 2px solid red;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: red;
-    }
-`
 
 class Event extends React.Component {
     state = {
@@ -298,30 +202,7 @@ class Event extends React.Component {
                                 :
                                 null
                                 }
-                                <TableWrapper>
-                                    <DetailsTable>
-                                        <thead>
-                                            <tr>
-                                                <th title='Casters'><TableIcon src={CasterIcon} /></th>
-                                                <th title='Fighters'><TableIcon src={FighterIcon} /></th>
-                                                <th title='Healers'><TableIcon src={HealerIcon} /></th>
-                                                <th title='Tanks'><TableIcon src={TankIcon} /></th>
-                                                <th>Total</th>
-                                                <th>Call Outs</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{this.state.event.total_casters}</td>
-                                                <td>{this.state.event.total_fighters}</td>
-                                                <td>{this.state.event.total_healers}</td>
-                                                <td>{this.state.event.total_tanks}</td>
-                                                <td>{this.state.event.total_sign_ups}</td>
-                                                <td>{this.state.event.total_call_outs}</td>
-                                            </tr>
-                                        </tbody>
-                                    </DetailsTable>
-                                </TableWrapper>
+                                <AttendanceBreakdown event={this.state.event} />
                             </Article>
 
                             <Article>
