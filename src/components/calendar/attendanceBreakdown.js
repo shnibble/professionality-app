@@ -5,6 +5,7 @@ import CasterIcon from '../../images/spell_fire_firebolt02.jpg'
 import FighterIcon from '../../images/ability_warrior_challange.jpg'
 import HealerIcon from '../../images/spell_holy_flashheal.jpg'
 import TankIcon from '../../images/ability_warrior_defensivestance.jpg'
+import TabardImg from '../../images/tabard.png'
 
 const DetailsTable = styled.table`
     width: 100%;
@@ -58,6 +59,10 @@ const ClassGroupMemberRoleIcon = styled.div`
     &.role-4 {
         background-image: url(${TankIcon});
     }
+`
+const ClassGroupMemberMemberIcon = styled.img`
+    width: 20px;
+    height: 20px;
 `
 const ClassGroupMemberName = styled.span`
     padding: 2px;
@@ -132,6 +137,12 @@ const AttendanceBreakdown = ({ event }) => {
                         {(tanks.map(member => (
                             <ClassGroupMember key={`attendance_break_user_${member.discord_user_id}`}>
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
+                                {(member.member)
+                                ?
+                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
                             </ClassGroupMember>
                         )))}
@@ -141,6 +152,12 @@ const AttendanceBreakdown = ({ event }) => {
                         {(hunters.map(member => (
                             <ClassGroupMember key={`attendance_break_user_${member.discord_user_id}`}>
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
+                                {(member.member)
+                                ?
+                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
                             </ClassGroupMember>
                         )))}
@@ -150,6 +167,12 @@ const AttendanceBreakdown = ({ event }) => {
                         {(priests.map(member => (
                             <ClassGroupMember key={`attendance_break_user_${member.discord_user_id}`}>
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
+                                {(member.member)
+                                ?
+                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
                             </ClassGroupMember>
                         )))}
@@ -159,6 +182,12 @@ const AttendanceBreakdown = ({ event }) => {
                         {(warriors.map(member => (
                             <ClassGroupMember key={`attendance_break_user_${member.discord_user_id}`}>
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
+                                {(member.member)
+                                ?
+                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
                             </ClassGroupMember>
                         )))}
@@ -168,6 +197,12 @@ const AttendanceBreakdown = ({ event }) => {
                         {(mages.map(member => (
                             <ClassGroupMember key={`attendance_break_user_${member.discord_user_id}`}>
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
+                                {(member.member)
+                                ?
+                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
                             </ClassGroupMember>
                         )))}
@@ -177,6 +212,12 @@ const AttendanceBreakdown = ({ event }) => {
                         {(paladins.map(member => (
                             <ClassGroupMember key={`attendance_break_user_${member.discord_user_id}`}>
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
+                                {(member.member)
+                                ?
+                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
                             </ClassGroupMember>
                         )))}
@@ -186,6 +227,12 @@ const AttendanceBreakdown = ({ event }) => {
                         {(rogues.map(member => (
                             <ClassGroupMember key={`attendance_break_user_${member.discord_user_id}`}>
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
+                                {(member.member)
+                                ?
+                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
                             </ClassGroupMember>
                         )))}
@@ -195,6 +242,12 @@ const AttendanceBreakdown = ({ event }) => {
                         {(warlocks.map(member => (
                             <ClassGroupMember key={`attendance_break_user_${member.discord_user_id}`}>
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
+                                {(member.member)
+                                ?
+                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
                             </ClassGroupMember>
                         )))}
@@ -204,6 +257,12 @@ const AttendanceBreakdown = ({ event }) => {
                         {(druids.map(member => (
                             <ClassGroupMember key={`attendance_break_user_${member.discord_user_id}`}>
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
+                                {(member.member)
+                                ?
+                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
                             </ClassGroupMember>
                         )))}
