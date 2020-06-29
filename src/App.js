@@ -12,7 +12,7 @@ import Roster from './components/roster/roster'
 import Bank from './components/bank/bank'
 import Buffs from './components/buffs'
 import Home from './components/home'
-import Event from './components/event/event'
+import Event from './components/calendar/event'
 import Footer from './components/footer'
 
 import './app.css'
