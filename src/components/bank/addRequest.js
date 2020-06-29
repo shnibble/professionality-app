@@ -116,12 +116,12 @@ class AddRequest extends React.Component {
                             <tr>
                                 <td>Request:</td>
                                 <td>
-                                    <Textarea value={this.state.timeframe} onChange={this.updateTimeframe} />
+                                    <Textarea value={this.state.message} onChange={this.updateMessage} />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Timeframe:</td>
-                                <td><Field type='text' value={this.state.message} onChange={this.updateMessage} /></td>
+                                <td><Field type='text' value={this.state.timeframe} onChange={this.updateTimeframe} /></td>
                             </tr>
                         </tbody>
                     </table>
