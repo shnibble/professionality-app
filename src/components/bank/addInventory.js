@@ -100,30 +100,13 @@ class AddInventory extends React.Component {
     }
 
     selectItem = (ev) => {
-        const selected_item_id = ev.target.value
-        this.setState({ selected_item_id })
-
-        if (selected_item_id > '') {
-            axios.get(`https://classic.wowhead.com/item=${selected_item_id}&xml`)
-            .then(response => {
-                const jsondata = parser.parse(response.data)
-                this.updateWowheadItemInfo(jsondata)
-            })
-            .catch(err => {
-                window.alert('Error fetching data from wowhead, please refresh and try again.')
-            })
-        }
-    }
-
-    updateWowheadItemInfo = (data) => {
-        const name = data.wowhead.item.name
-        const quality = data.wowhead.item.quality
-        const icon = data.wowhead.item.icon
-
-        this.setState({
-            selected_item_name: name,
-            selected_item_quality: quality,
-            selected_item_icon: icon
+        const item_id = ev.target.value
+        const data = JSON.parse(ev.target.options[ev.target.options.selectedIndex].getAttribute('data'))
+        this.setState({ 
+            selected_item_id: item_id,
+            selected_item_name: data.name,
+            selected_item_quality: data.quality,
+            selected_item_icon: data.icon
         })
     }
 
@@ -161,7 +144,12 @@ class AddInventory extends React.Component {
                     <Field value={this.state.search} onChange={this.updateSearchField} placeholder='Search' />
                     <Select value={this.state.selected_item_id} onChange={this.selectItem}>
                         <option></option>
-                        {this.state.items.map(item => <option key={`item_select_id_${item.id}`} value={item.item_id}>{item.name}</option> )}
+                        {this.state.items.map(item => <option key={`item_select_id_${item.id}`} value={item.item_id} data={JSON.stringify({
+                            item_id: item.item_id,
+                            name: item.name,
+                            quality: item.quality,
+                            icon: item.icon
+                        })}>{item.name}</option> )}
                     </Select>
                     <div>
                         <input type='text' value={this.state.selected_item_name} disabled />
