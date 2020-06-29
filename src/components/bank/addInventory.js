@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import Popout from '../popout'
 import AddButton from '../addButton'
 
-const parser = require('fast-xml-parser')
 const Field = styled.input`
     display: block;
     width: 100%;

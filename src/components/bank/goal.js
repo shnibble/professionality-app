@@ -28,9 +28,6 @@ const Reward = styled.div`
     border: 1px solid #ccc;
     border-radius: 4px;
 `
-const ButtonsContainer = styled.div`
-
-`
 
 const Goal = ({ data, openPopoutFunction, deleteGoalFunction }) => (
     <UserContext.Consumer>

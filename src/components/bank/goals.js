@@ -234,7 +234,7 @@ class Goals extends React.Component {
                     :
                     (this.state.loading)
                     ?
-                    <Article>-
+                    <Article>
                         <p>Loading bank goals...</p>
                     </Article>
                     :
