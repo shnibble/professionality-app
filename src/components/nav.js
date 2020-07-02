@@ -46,6 +46,7 @@ const Nav = () => (
             <Li><StyledLink activeClassName='active' to='/roster'>Roster</StyledLink></Li>
             <Li><StyledLink activeClassName='active' to='/bank'>Bank</StyledLink></Li>
             <Li><StyledLink activeClassName='active' to='/buffs'>Buffs</StyledLink></Li>
+            <Li><StyledLink activeClassName='active' to='/loot'>Loot</StyledLink></Li>
         </Ul>
     </Container>
 )
