@@ -31,7 +31,7 @@ const Icon = styled.img`
         border-color: #ff8000;
     }
 `
-const Title = styled.a`
+const Title = styled.span`
     color: #9d9d9d;
 
     &.quality-Poor {
@@ -68,12 +68,105 @@ const Tooltip = styled.div`
     background: #202020;
     border-radius: 4px;
     border: 1px solid #f2f2f2;
+    max-width: 50vw;  
+    max-width: 300px;  
     z-index: 2;
     color: #fff;
     padding: 2px;
+    font-size: 12px;
+    text-decoration: none;
 
     & a {
-        color: #1eff00;
+        text-decoration: none;
+        color: #fff;
+
+        & .q0 span a {
+            color: #9d9d9d;
+        }
+
+        & span.q {
+            color: #ffd100;
+        }
+
+        & span.q2 {
+            color: #1eff00;
+
+            & > a {
+                color: #1eff00;
+            }
+        }
+
+        & .c1 {
+            color: #C79C6E;
+        }
+        & .c2 {
+            color: #F58CBA;
+        }
+        & .c3 {
+            color: #ABD473;
+        }
+        & .c4 {
+            color: #FFF569;
+        }
+        & .c5 {
+            color: #FFFFFF;
+        }
+        & .c8 {
+            color: #69CCF0;
+        }
+        & .c9 {
+            color: #9482C9;
+        }
+        & .c11 {
+            color: #FF7D0A;
+        }
+
+        & .q0 {
+            color: #9d9d9d;
+        }
+        & .q1 {
+            color: #ffffff;
+        }
+        & .q2 {
+            color: #1eff00;
+        }
+        & .q3 {
+            color: #0070dd;
+        }
+        & .q4 {
+            color: #a335ee;
+        }
+        & .q5 {
+            color: #ff8000;
+        }
+    }
+
+    & .moneygold:after {
+        content: '';
+        display: inline-block;
+        margin-left: 2px;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background: gold;
+    }
+    & .moneysilver:after {
+        content: '';
+        display: inline-block;
+        margin-left: 2px;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background: silver;
+    }
+    & .moneycopper:after {
+        content: '';
+        display: inline-block;
+        margin-left: 2px;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background: #ff751a;
     }
 `
 
@@ -118,7 +211,7 @@ class Item extends React.Component {
             <Container>
                 <ItemTd onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} >
                     <Icon src={`https://wow.zamimg.com/images/wow/icons/large/${this.props.data.icon}.jpg`} className={`quality-${this.props.data.quality}`} />
-                    <Title className={`quality-${this.props.data.quality}`} href={`https://classic.wowhead.com/item=${this.props.data.item_id}`} target='_BLANK'>{this.props.data.name}</Title>
+                    <Title className={`quality-${this.props.data.quality}`}>{this.props.data.name}</Title>
                     {(this.state.hover)
                     ?
                     <Tooltip>
@@ -132,7 +225,7 @@ class Item extends React.Component {
                         :
                         (this.state.loaded)
                         ?
-                        <div dangerouslySetInnerHTML={{__html: this.state.tooltip}} />
+                        <a dangerouslySetInnerHTML={{__html: this.state.tooltip}} href={`https://classic.wowhead.com/item=${this.props.data.item_id}`} target='_BLANK' />
                         :
                         null
                         }
