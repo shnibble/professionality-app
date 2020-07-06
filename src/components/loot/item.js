@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import styled from 'styled-components'
 
 const Container = styled.tr`
@@ -53,22 +54,99 @@ const Title = styled.a`
     }
 `
 const ItemTd = styled.td`
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
     min-width: 250px;
+    cursor: pointer;
+`
+const Tooltip = styled.div`
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: #202020;
+    border-radius: 4px;
+    border: 1px solid #f2f2f2;
+    z-index: 2;
+    color: #fff;
+    padding: 2px;
+
+    & a {
+        color: #1eff00;
+    }
 `
 
-const Item = ({ data }) => (
-    <Container>
-        <ItemTd>
-            <Icon src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`} className={`quality-${data.quality}`} />
-            <Title className={`quality-${data.quality}`} href={`https://classic.wowhead.com/item=${data.item_id}`} target='_BLANK'>{data.name}</Title>
-        </ItemTd>
-        <td><span>{data.dropped_by}</span></td>
-        <td><p>{data.priority}</p></td>
-        <td><p>{data.comments}</p></td>
-    </Container>
-)
+class Item extends React.Component {
+    state = {
+        hover: false,
+        loading: false,
+        loaded: false,
+        error: false,
+        tooltip: ''
+    }
+
+    loadData = () => {
+        this.setState({ loading: true })
+        axios.get('https://professionality-api.com/items/getDetails', {
+            params: {
+                item_id: this.props.data.item_id
+            }
+        })
+        .then(response => {
+            const tooltip = response.data.wowhead.item.htmlTooltip
+            this.setState({ loading: false, loaded: true, tooltip })
+        })
+        .catch(err => {
+            this.setState({ loading: false, loaded: false, error: true })
+        })
+    }
+
+    handleMouseEnter = () => {
+        this.setState({ hover: true })
+        if (!this.state.loading && !this.state.loaded && !this.state.error) {
+            this.loadData()
+        }
+    }
+
+    handleMouseLeave = () => {
+        this.setState({ hover: false })
+    }
+
+    render() {
+        return (
+            <Container>
+                <ItemTd onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} >
+                    <Icon src={`https://wow.zamimg.com/images/wow/icons/large/${this.props.data.icon}.jpg`} className={`quality-${this.props.data.quality}`} />
+                    <Title className={`quality-${this.props.data.quality}`} href={`https://classic.wowhead.com/item=${this.props.data.item_id}`} target='_BLANK'>{this.props.data.name}</Title>
+                    {(this.state.hover)
+                    ?
+                    <Tooltip>
+                        {(this.state.error)
+                        ?
+                        <p>Error loading tooltip.</p>
+                        :
+                        (this.state.loading)
+                        ?
+                        <p>Loading tooltip...</p>
+                        :
+                        (this.state.loaded)
+                        ?
+                        <div dangerouslySetInnerHTML={{__html: this.state.tooltip}} />
+                        :
+                        null
+                        }
+                    </Tooltip>
+                    :
+                    null
+                    }
+                </ItemTd>
+                <td><span>{this.props.data.dropped_by}</span></td>
+                <td><p>{this.props.data.priority}</p></td>
+                <td><p>{this.props.data.comments}</p></td>
+            </Container>
+        )
+    }
+}
 
 export default Item
