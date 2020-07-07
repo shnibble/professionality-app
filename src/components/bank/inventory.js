@@ -10,6 +10,16 @@ import Table from './table'
 import InventoryItem from './inventoryItem'
 import Popout from '../popout'
 
+const SearchField = styled.input`
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+`
+const SearchSelect = styled.select`
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+`
 const EditTable = styled.table`
     width: 100%;
 
@@ -73,7 +83,10 @@ class Inventory extends React.Component {
     state = {
         loading: true,
         error: false,
+        search_category_id: '',
+        search: '',
         inventory: [],
+        searched_inventory: [],
         edit_active: false,
         edit_id: '',
         edit_category_id: '',
@@ -82,11 +95,12 @@ class Inventory extends React.Component {
 
     loadData = () => {
         axios.get('https://professionality-api.com/bank/inventory/get')
-        .then(results => {
-            this.setState({
+        .then(async results => {
+            await this.setState({
                 loading: false,
                 inventory: results.data
             })
+            this.updateSearch()
         })
         .catch(err => {
             this.setState({
@@ -94,6 +108,28 @@ class Inventory extends React.Component {
                 error: true
             })
         })
+    }
+
+    handleUpdateSearch = async (ev) => {
+        const search = ev.target.value
+        await this.setState({ search })
+        this.updateSearch()
+    }
+
+    handleUpdateSearchCategory = async (ev) => {
+        const category_id = ev.target.value
+        await this.setState({ search_category_id: category_id })
+        this.updateSearch()
+    }
+
+    updateSearch = () => {
+        let inventory = []
+        if (this.state.search_category_id === '') {
+            inventory = this.state.inventory.filter(inv => inv.name.toLowerCase().includes(this.state.search.toLowerCase()))
+        } else {
+            inventory = this.state.inventory.filter(inv => inv.category_id === Number(this.state.search_category_id) && inv.name.toLowerCase().includes(this.state.search.toLowerCase()))
+        }
+        this.setState({ searched_inventory: inventory })
     }
 
     editInventoryItem = (ev) => {
@@ -183,9 +219,17 @@ class Inventory extends React.Component {
                         :
                         null
                         }
+                        <SearchField type='text' placeholder='Search' value={this.state.search} onChange={this.handleUpdateSearch} />
+                        <SearchSelect value={this.state.search_category_id} onChange={this.handleUpdateSearchCategory}>
+                            <option value=''>All</option>
+                            <option value={1}>Misc.</option>
+                            <option value={2}>Recipes</option>
+                            <option value={3}>Trade Goods</option>
+                            <option value={4}>Equipment</option>
+                        </SearchSelect>
                         <TableWrapper>
                             <Table>
-                            {this.state.inventory.map(item => <InventoryItem key={`inventory_item_id_${item.id}`} data={item} editItemFunction={this.editInventoryItem} deleteItemFunction={this.deleteInventoryItem} /> )}
+                            {this.state.searched_inventory.map(item => <InventoryItem key={`inventory_item_id_${item.id}`} data={item} editItemFunction={this.editInventoryItem} deleteItemFunction={this.deleteInventoryItem} /> )}
                             </Table>
                         </TableWrapper>
                         {(this.state.edit_active)
