@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import styled, { ThemeConsumer } from 'styled-components'
+import styled from 'styled-components'
 import UserContext from '../../context/user'
 import TableButtonWrapper from '../tableButtonWrapper'
 import TableButton from '../tableButton'

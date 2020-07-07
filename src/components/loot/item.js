@@ -225,7 +225,7 @@ class Item extends React.Component {
                         :
                         (this.state.loaded)
                         ?
-                        <a dangerouslySetInnerHTML={{__html: this.state.tooltip}} href={`https://classic.wowhead.com/item=${this.props.data.item_id}`} target='_BLANK' />
+                        <a dangerouslySetInnerHTML={{__html: this.state.tooltip}} href={`https://classic.wowhead.com/item=${this.props.data.item_id}`} target='_BLANK' rel='noopener noreferrer' />
                         :
                         null
                         }

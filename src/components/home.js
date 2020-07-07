@@ -16,7 +16,7 @@ const Home = () => (
         </Article>
         <Article>
             <h3>Discord</h3>
-            <p>Feel free to join our Discord server, we don't bite: <a href='https://discord.gg/vth2bMj' target='_BLANK'>https://discord.gg/vth2bMj</a></p>
+            <p>Feel free to join our Discord server, we don't bite: <a href='https://discord.gg/vth2bMj' target='_BLANK' rel='noopener noreferrer'>https://discord.gg/vth2bMj</a></p>
             <br />
             <p>Note that if you want to sign in to this website to utilize any of it's features, you must first join Discord so our Bot can identify you.</p>
         </Article>

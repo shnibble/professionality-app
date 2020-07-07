@@ -240,6 +240,13 @@ class Goals extends React.Component {
                     :
                     <>
                         <Article>
+                            <p><b>Executive</b> is the name of the Guild Banker used for general deposits (recipes, equipment, miscellaneous). Deposits should be sent to him via mail or in person. Executive can often be available in Ironforge or in Stormwind.</p>
+                            <br />
+                            <p><b>Distributor</b> is the name of the Guild Banker used for material deposits (ore, herbs, enchanting supplies, etc). Deposits for these items should be sent to him via mail or in person. Distributor can often be available in Ironforge or in Stormwind.</p>
+                            <br />
+                            <p>It is helpful if you can distribute these items to the right toon for what is hoped to be more efficient storage, however if you don't want to bother separating donations just give everything to Executive and it will be sorted accordingly. If you have any questions please contact Pharmakon.</p>
+                        </Article>
+                        <Article>
                             {(user.is_officer)
                             ?
                             <AddButton title='Add Goal' onClick={this.openAddGoalPopout} />
