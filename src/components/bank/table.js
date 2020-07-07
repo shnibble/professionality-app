@@ -4,9 +4,11 @@ import styled from 'styled-components'
 const Container = styled.table`
     width: 100%;
     border-collapse: collapse;
+    color: #ccc;
 
     & > thead > tr > th {
         padding: 5px;
+        color: #000;
     }
 
     & > tbody > tr > td {
@@ -14,7 +16,11 @@ const Container = styled.table`
     }
 
     & > tbody > tr:nth-child(odd) {
-        background: #f2f2f2;
+        background: #333333;
+    }
+
+    & > tbody > tr:nth-child(even) {
+        background: #202020;
     }
 `
 
