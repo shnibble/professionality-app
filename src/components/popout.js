@@ -17,7 +17,6 @@ const InnerContainer = styled.div`
     height: 60vh;
     margin: 20vh auto;
     min-height: 200px;
-    max-height: 300px;
     padding: 15px 15px 50px 15px;
     text-align: center;
     box-sizing: border-box;

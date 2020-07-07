@@ -62,7 +62,9 @@ class AddInventory extends React.Component {
         selected_item_id: '',
         selected_item_name: '',
         selected_item_quality: '',
-        selected_item_icon: ''
+        selected_item_icon: '',
+        selected_item_category: 1,
+        selected_item_random_enchantment: '',
     }
 
     searchTimeout = null
@@ -72,7 +74,17 @@ class AddInventory extends React.Component {
     }
 
     closeAddInventory = () => {
-        this.setState({ active: false, search: '', items: [] })
+        this.setState({ 
+            active: false,
+            search: '',
+            items: [],
+            selected_item_id: '',
+            selected_item_name: '',
+            selected_item_quality: '',
+            selected_item_icon: '',
+            selected_item_category: 1,
+            selected_item_random_enchantment: '',
+        })
     }
 
     updateSearchField = (ev) => {
@@ -109,8 +121,18 @@ class AddInventory extends React.Component {
         })
     }
 
+    selectCategory = (ev) => {
+        const category_id = ev.target.value
+        this.setState({ selected_item_category: category_id })
+    }
+
+    updateRandomEnchantment = (ev) => {
+        const random_enchantment = ev.target.value
+        this.setState({ selected_item_random_enchantment: random_enchantment })
+    }
+
     addNewInventory = () => {
-        const { selected_item_id, selected_item_name, selected_item_quality, selected_item_icon } = this.state
+        const { selected_item_id, selected_item_name, selected_item_quality, selected_item_icon, selected_item_category, selected_item_random_enchantment } = this.state
 
         if (selected_item_id === '' || selected_item_name === '' || selected_item_quality === '' || selected_item_icon === '') {
             window.alert('Please select a valid inventory item first.')
@@ -120,10 +142,22 @@ class AddInventory extends React.Component {
                 item_id: selected_item_id,
                 name: selected_item_name,
                 quality: selected_item_quality,
-                icon: selected_item_icon
+                icon: selected_item_icon,
+                category_id: selected_item_category,
+                random_enchantment: selected_item_random_enchantment
             })
             .then(() => {
-                this.setState({ active: false })
+                this.setState({ 
+                    active: false,
+                    search: '',
+                    items: [],
+                    selected_item_id: '',
+                    selected_item_name: '',
+                    selected_item_quality: '',
+                    selected_item_icon: '',
+                    selected_item_category: 1,
+                    selected_item_random_enchantment: '',
+                })
                 this.props.loadDataFunction()
             })
             .catch(err => {
@@ -150,6 +184,13 @@ class AddInventory extends React.Component {
                             icon: item.icon
                         })}>{item.name}</option> )}
                     </Select>
+                    <Select value={this.state.selected_item_category} onChange={this.selectCategory}>
+                        <option value={1}>Misc.</option>
+                        <option value={2}>Recipes</option>
+                        <option value={3}>Trade Goods</option>
+                        <option value={4}>Equipment</option>
+                    </Select>
+                    <Field value={this.state.selected_item_random_enchantment} onChange={this.updateRandomEnchantment} placeholder='Random Enchantment' />
                     <div>
                         <input type='text' value={this.state.selected_item_name} disabled />
                         <br />

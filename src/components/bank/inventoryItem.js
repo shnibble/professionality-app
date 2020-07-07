@@ -219,7 +219,7 @@ class Item extends React.Component {
                     <Container>
                         <ItemTd onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} >
                             <Icon src={`https://wow.zamimg.com/images/wow/icons/large/${this.props.data.icon}.jpg`} className={`quality-${this.props.data.quality}`} />
-                            <Title className={`quality-${this.props.data.quality}`}>{this.props.data.name}</Title>
+                            <Title className={`quality-${this.props.data.quality}`}>{this.props.data.name}{(this.props.data.random_enchantment)?` (${this.props.data.random_enchantment})`:null}</Title>
                             {(this.state.hover)
                             ?
                             <Tooltip>
