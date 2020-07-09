@@ -240,10 +240,14 @@ class Goals extends React.Component {
                     :
                     <>
                         <Article>
-                            <p><b>Executive</b> is the name of the Guild Banker used for general deposits (recipes, equipment, miscellaneous). Deposits should be sent to him via mail or in person. Executive can often be available in Ironforge or in Stormwind.</p>
+                            <p><b>Executive</b> is the name banker for general deposits. He holds enchanting supplies, recipes, books, and any miscellaneous item.</p>
                             <br />
-                            <p><b>Distributor</b> is the name of the Guild Banker used for material deposits (ore, herbs, enchanting supplies, etc). Deposits for these items should be sent to him via mail or in person. Distributor can often be available in Ironforge or in Stormwind.</p>
+                            <p><b>Distributor</b> holds consumables, herbs, and tailoring supplies. </p>
                             <br />
+                            <p><b>Shareholder</b> holds metals, gems, and trade reagents (ex. Elemental Earth, Fiery Core).</p>
+                            <br />
+                            <p><b>Denmo</b> holds all equipment.</p>
+                            <b />
                             <p>It is helpful if you can distribute these items to the right toon for what is hoped to be more efficient storage, however if you don't want to bother separating donations just give everything to Executive and it will be sorted accordingly. If you have any questions please contact Pharmakon.</p>
                         </Article>
                         <Article>
