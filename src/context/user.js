@@ -39,8 +39,21 @@ class UserProvider extends React.Component {
                 Cookies.set('token', data.jwt, { expires: 30, secure: true, sameSite: 'lax' })
             })
             .catch(err => {
-                window.alert('Could not login:', err)
-                this.setState({ failed_login: true })
+                if (err.response) {
+
+                    if (err.response.status === 403) {
+                        window.alert('That discord account was not located on the Professionality discord server. Please be sure you are logging in with the correct account and join the discord server first!')
+                        this.setState({ failed_login: true })    
+                    } else {
+                        window.alert('Could not login:', err.message)
+                        this.setState({ failed_login: true })
+                    }
+
+                } else {
+                    window.alert('No response from server. Please try again later as it appears to be offline.')
+                    this.setState({ failed_login: true })
+                }
+                
             })
         }
     }
