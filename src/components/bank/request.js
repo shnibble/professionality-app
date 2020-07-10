@@ -278,7 +278,7 @@ class Request extends React.Component {
                             ?
                             <ResponseContainer>
                                 <ResponseTimestamp>{Moment(this.props.data.rejected).format('MM/DD/YYYY')}</ResponseTimestamp>
-                                <ResponseMessage>Rejected</ResponseMessage>                   
+                                <ResponseMessage>Rejected - {this.props.data.rejected_reason}</ResponseMessage>                   
                             </ResponseContainer>
                             :
                             (this.props.data.cancelled)
