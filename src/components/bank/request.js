@@ -150,6 +150,7 @@ class Request extends React.Component {
                 message: this.state.comment_message
             })
             .then(() => {
+                this.setState({ comment_active: false, comment_message: '' })
                 this.props.loadDataFunction()
             })
             .catch(err => {
