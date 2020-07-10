@@ -5,7 +5,6 @@ import Moment from 'moment'
 const Container = styled.div`
     display: flex;
     flex-direction: row;
-    background: #999;
     margin: 1px;
     border-radius: 4px;
 `

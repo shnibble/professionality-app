@@ -121,7 +121,6 @@ const CancelButton = styled.button`
 const ResponseContainer = styled.div`
     display: flex;
     flex-direction: row;
-    background: #999;
     margin: 1px;
     border-radius: 4px;
 `
