@@ -118,6 +118,20 @@ const CancelButton = styled.button`
         color: red;
     }
 `
+const ResponseContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    background: #999;
+    margin: 1px;
+    border-radius: 4px;
+`
+const ResponseTimestamp = styled.span`
+    padding: 5px;
+    color: #ccc;
+`
+const ResponseMessage = styled.p`
+    padding: 5px;
+`
 
 class Request extends React.Component {
     state = {
@@ -256,11 +270,24 @@ class Request extends React.Component {
                             {(this.props.data.comments.map(comment => <RequestComment key={`request_comment_id_${comment.id}`} data={comment} /> ))}
                             {(this.props.data.completed)
                             ?
-                            <span>{Moment(this.props.data.completed).format('MM/DD/YYYY')} completed</span>
+                            <ResponseContainer>
+                                <ResponseTimestamp>{Moment(this.props.data.completed).format('MM/DD/YYYY')}</ResponseTimestamp>
+                                <ResponseMessage>Completed</ResponseMessage>                   
+                            </ResponseContainer>
                             :
                             (this.props.data.rejected)
                             ?
-                            <span>{Moment(this.props.data.rejected).format('MM/DD/YYYY')} Rejected - {this.props.data.rejected_reason}</span>
+                            <ResponseContainer>
+                                <ResponseTimestamp>{Moment(this.props.data.rejected).format('MM/DD/YYYY')}</ResponseTimestamp>
+                                <ResponseMessage>Rejected</ResponseMessage>                   
+                            </ResponseContainer>
+                            :
+                            (this.props.data.cancelled)
+                            ?
+                            <ResponseContainer>
+                                <ResponseTimestamp>{Moment(this.props.data.cancelled).format('MM/DD/YYYY')}</ResponseTimestamp>
+                                <ResponseMessage>Cancelled</ResponseMessage>                   
+                            </ResponseContainer>
                             :
                             null
                             }
