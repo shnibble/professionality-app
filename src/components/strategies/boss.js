@@ -3,11 +3,19 @@ import styled from 'styled-components'
 
 const Container = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+
+    @media screen and (min-width: 720px) {
+        flex-direction: row-reverse;
+        align-items: center;
+    }
+`
+const ImageContainer = styled.div`
+    text-align: center;
+    margin: 5px;
 `
 const Image = styled.img`
-    width: 100px;
-    margin: 5px;
+    height: 250px;
 `
 const Header = styled.div`
 `
@@ -20,7 +28,9 @@ const Description = styled.p`
 
 const Boss = ({ img=null, title='', description='' }) => (
     <Container>
-        <Image src={img}/>
+        <ImageContainer>
+            <Image src={img}/>
+        </ImageContainer>
         <Header>
             <Title>{title}</Title>
             <Description>{description}</Description>

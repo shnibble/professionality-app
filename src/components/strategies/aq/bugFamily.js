@@ -10,14 +10,17 @@ import TacticsContainer from '../tacticsContainer'
 import Tactic from '../tactic'
 import NotesContainer from '../notesContainer'
 import Note from '../note'
-import LordKriImg from '../../../images/Lord_Kri.jpg'
+import LordKriImg from '../../../images/lord_kri.png'
 import ToxicVolleyImg from '../../../images/spell_nature_corrosivebreath.jpg'
+import ThashImg from '../../../images/ability_ghoulfrenzy (1).jpg'
 import CleaveImg from '../../../images/ability_warrior_cleave.jpg'
 import ToxicVaporsImg from '../../../images/ability_creature_disease_02.jpg'
-import PrincessYaujImg from '../../../images/Princess_Yauj.jpg'
+import PrincessYaujImg from '../../../images/princess_yauj.png'
 import PanicImg from '../../../images/spell_shadow_deathscream.jpg'
 import RavageImg from '../../../images/ability_ghoulfrenzy.jpg'
-import VemImg from '../../../images/Vem.jpg'
+import GreatHealImg from '../../../images/spell_holy_heal.jpg'
+import DispelImg from '../../../images/spell_holy_dispelmagic.jpg'
+import VemImg from '../../../images/vem.png'
 import KnockAwayImg from '../../../images/inv_gauntlets_05.jpg'
 import KnockDownImg from '../../../images/ability_golemthunderclap.jpg'
 import BerserkerChargeImg from '../../../images/ability_warrior_charge.jpg'
@@ -38,6 +41,7 @@ const BugFamily = () => (
             <Boss img={LordKriImg} title='Lord Kri' description="Lord Kri is one of three bosses in the Three Bugs encounter in the Temple of Ahn'Qiraj raid instance." />
             <AbilityContainer>
                 <Ability img={CleaveImg} title='Cleave' description='A frontal cleave attack which hits tanks for around 1,000 damage.' />
+                <Ability img={ThashImg} title='Thrash' description='Adds two additional attacks.' />
                 <Ability img={ToxicVolleyImg} title='Toxic Volley (AoE)' description='A massive ranged AoE attack which does around 500 nature damage and adds a stacking debuff called Toxic Volley.' />
                 <Ability img={ToxicVolleyImg} title='Toxic Volley (Debuff)' description='A stacking debuff which does 150 nature damage every 2 seconds per stack.' />
                 <Ability img={ToxicVaporsImg} title='Toxic Vapors' description='A toxic cloud that inflicts 1,800 nature damage per second.' />
@@ -59,7 +63,9 @@ const BugFamily = () => (
             <Boss img={PrincessYaujImg} title='Princess Yauj' description="Princess Yauj is one of three bosses in the Three Bugs encounter in the Temple of Ahn'Qiraj raid instance." />
             <AbilityContainer>
                 <Ability img={PanicImg} title='Panic' description='AoE fear which wipes threat and causes nearby targets to flee for 8 seconds.' />
-                <Ability img={RavageImg} title='Ravage' description='Single target attack which hits tanks for around 1,000 damage.' />
+                <Ability img={RavageImg} title='Ravage' description='Single target attack which hits tanks for around 1,000 damage and knocks them down for 2 seconds.' />
+                <Ability img={GreatHealImg} title='Great Heal' description='Calls upon Holy magic to heal an ally for 69,375 health.' />
+                <Ability img={DispelImg} title='Dispel' description='Dispels magic on an ally, removing 5 harmful spells.' />
             </AbilityContainer>
 
             <MechanicsContainer>
@@ -71,6 +77,7 @@ const BugFamily = () => (
                 <Tactic title='Double Tank' description='Two players should tank her, rotating fear mitigation abilities and positioning themselves in such a way that they can taunt Princess Yauj as she runs towards the raid after casting Panic.' />
                 <Tactic title='Fear Warders and Healers' description='Fear Warders and healers assigned to her tanks need to be at max range from Princess Yauj so they are not hit by Panic as well.' />
                 <Tactic title='Backup Tank' description='Keeping an extra tank near the raid group to pick her up in case something goes wrong with her two tanks is a solid backup plan.' />
+                <Tactic title='Kick Heals' description='Great Heal should be kicked if she begins to cast it on herself or the other two bugs.' />
             </TacticsContainer>
 
             <NotesContainer>

@@ -20,6 +20,7 @@ const Header = styled.div`
     border: 2px solid #ccc;
     border-radius: 5px;
     padding: 2px;
+    width: 100%;
 `
 const Title = styled.h3`
     color: #ffd100;
