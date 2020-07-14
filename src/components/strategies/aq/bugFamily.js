@@ -57,6 +57,10 @@ const BugFamily = () => (
                 <Tactic title='Tank Out of Line-of-site' description='Lord Kri should be positioned somewhere out of line-of-site from the raid to minimize the effects of Toxic Volley.' />
                 <Tactic title='Stay Away from Corpse!' description='Stay away from his corpse as the Toxic Vapors will kill anyone standing in it within a few seconds.' />
             </TacticsContainer>
+
+            <NotesContainer>
+                <Note title='Elixir of Poison Resistance' description='These consumables can be spammed to remove multiple stacks of Toxic Volley and are relatively cheap to make.' />
+            </NotesContainer>
         </Article>
 
         <Article>
