@@ -25,7 +25,7 @@ const BattleguardSartura = () => (
                 <Ability img={SunderImg} title='Sundering Cleave' description='Inflicts about 2,500 damage to nearby enemies and reduces their armor by 1,512. Does not stack.' />
                 <Ability img={WhirlwindImg} title='Whirlwind' description='Battleguard Sartura ignores threat and targets random players while spinning around in a vicious whirlwind. Players caught in the attack take roughly 3,500 damage per second un-mitigated.' />
                 <Ability img={EnrageImg} title='Enrage' description='Sartura enrages at 20% health, increasing attack speed and damage.' />
-                <Ability img={EnrageImg} title='Berserk' description='After ten minutes of combat Sartura enters activates Berserk, dealing massive damage and wiping the raid.' />
+                <Ability img={EnrageImg} title='Berserk' description='After ten minutes of combat Sartura activates Berserk, dealing massive damage and wiping the raid.' />
             </AbilityContainer>
 
             <MechanicsContainer>
