@@ -1,6 +1,10 @@
 import React from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
+import Moment from 'moment'
+import UserContext from '../../context/user'
+import TableButtonWrapper from '../tableButtonWrapper'
+import TableButton from '../tableButton'
 
 const Container = styled.tr`
 
@@ -169,6 +173,78 @@ const Tooltip = styled.div`
         background: #ff751a;
     }
 `
+const HistoryButton = styled.button`
+    background: orange;
+    color: #fff;
+    border: none;
+    padding: 2px;
+    margin: 2px;
+    border: 1px solid orange;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .25s ease;
+
+    &:hover, &:focus {
+        background: #fff;
+        color: orange;
+    }
+`
+const HistoryContainer = styled.div`
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.75);
+    z-index: 3;
+`
+const History = styled.div`
+    background: #fff;
+    font-size: 12px;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 4px;
+`
+const HistoryTable = styled.table`
+    width: 100%;
+    border-collapse: collapse;
+
+    & tbody tr:nth-child(odd) {
+        background: #f2f2f2;
+    }
+
+    & td {
+        padding: 2px;
+    }
+
+    & td:nth-child(1) {
+        width: 120px;
+    }
+`
+const CloseHistoryButton = styled.button`
+    display: inline-block;
+    background: red;
+    border: 2px solid red;
+    color: #f2f2f2;
+    padding: 2px;
+    margin: 2px auto;
+    border-radius: 4px;
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all .25s ease;
+
+    &:hover {
+        background: transparent;
+        color: red;
+    }
+`
 
 class Item extends React.Component {
     state = {
@@ -176,7 +252,8 @@ class Item extends React.Component {
         loading: false,
         loaded: false,
         error: false,
-        tooltip: ''
+        tooltip: '',
+        history: false,
     }
 
     loadData = () => {
@@ -195,6 +272,14 @@ class Item extends React.Component {
         })
     }
 
+    openHistory = () => {
+        this.setState({ history: true })
+    }
+
+    closeHistory = () => {
+        this.setState({ history: false })
+    }
+
     handleMouseEnter = () => {
         this.setState({ hover: true })
         if (!this.state.loading && !this.state.loaded && !this.state.error) {
@@ -208,36 +293,87 @@ class Item extends React.Component {
 
     render() {
         return (
-            <Container>
-                <ItemTd onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} >
-                    <Icon src={`https://wow.zamimg.com/images/wow/icons/large/${this.props.data.icon}.jpg`} className={`quality-${this.props.data.quality}`} />
-                    <Title className={`quality-${this.props.data.quality}`}>{this.props.data.name}</Title>
-                    {(this.state.hover)
-                    ?
-                    <Tooltip>
-                        {(this.state.error)
+            <UserContext.Consumer>
+                {user => (
+                    <Container>
+                        <ItemTd onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} >
+                            <Icon src={`https://wow.zamimg.com/images/wow/icons/large/${this.props.data.icon}.jpg`} className={`quality-${this.props.data.quality}`} />
+                            <Title className={`quality-${this.props.data.quality}`}>{this.props.data.name}</Title>
+                            {(this.state.hover)
+                            ?
+                            <Tooltip>
+                                {(this.state.error)
+                                ?
+                                <p>Error loading tooltip.</p>
+                                :
+                                (this.state.loading)
+                                ?
+                                <p>Loading tooltip...</p>
+                                :
+                                (this.state.loaded)
+                                ?
+                                <a dangerouslySetInnerHTML={{__html: this.state.tooltip}} href={`https://classic.wowhead.com/item=${this.props.data.item_id}`} target='_BLANK' rel='noopener noreferrer' />
+                                :
+                                null
+                                }
+                            </Tooltip>
+                            :
+                            null
+                            }
+                        </ItemTd>
+                        <td><span>{this.props.data.dropped_by}</span></td>
+                        <td>
+                            <span>{this.props.data.priority}</span>
+                            {(this.props.data.history.length)?<HistoryButton title='History' onClick={this.openHistory}>H</HistoryButton>:null}
+                            {(this.state.history)
+                            ?
+                            <HistoryContainer>
+                                <History>
+                                    <HistoryTable>
+                                        <thead>
+                                            <tr>
+                                                <th>Timestamp</th>
+                                                <th>User</th>
+                                                <th>Previous Priority</th>
+                                                <th>New Priority</th>
+                                                <th>Previous Comments</th>
+                                                <th>New Comments</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {(this.props.data.history.map(h => (
+                                                <tr key={`history_id_${h.id}`}>
+                                                    <td>{Moment(h.timestamp).format('MM/DD/YYYY HH:mm:ss')}</td>
+                                                    <td>{h.nickname}</td>
+                                                    <td>{h.previous_priority}</td>
+                                                    <td>{h.new_priority}</td>
+                                                    <td>{h.previous_comments}</td>
+                                                    <td>{h.new_comments}</td>
+                                                </tr>
+                                            )))}
+                                        </tbody>
+                                    </HistoryTable>
+                                    <CloseHistoryButton onClick={this.closeHistory}>Close</CloseHistoryButton>
+                                </History>
+                            </HistoryContainer>
+                            :
+                            null
+                            }
+                        </td>
+                        <td><p>{this.props.data.comments}</p></td>
+                        {(user.is_officer)
                         ?
-                        <p>Error loading tooltip.</p>
-                        :
-                        (this.state.loading)
-                        ?
-                        <p>Loading tooltip...</p>
-                        :
-                        (this.state.loaded)
-                        ?
-                        <a dangerouslySetInnerHTML={{__html: this.state.tooltip}} href={`https://classic.wowhead.com/item=${this.props.data.item_id}`} target='_BLANK' rel='noopener noreferrer' />
+                        <td>
+                            <TableButtonWrapper>
+                                <TableButton title='Edit' value={JSON.stringify({ id: this.props.data.id, priority: this.props.data.priority, comments: this.props.data.comments || ''})} onClick={this.props.editFunction} />
+                            </TableButtonWrapper>
+                        </td>
                         :
                         null
                         }
-                    </Tooltip>
-                    :
-                    null
-                    }
-                </ItemTd>
-                <td><span>{this.props.data.dropped_by}</span></td>
-                <td><p>{this.props.data.priority}</p></td>
-                <td><p>{this.props.data.comments}</p></td>
-            </Container>
+                    </Container>     
+                )}
+            </UserContext.Consumer>
         )
     }
 }
