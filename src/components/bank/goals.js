@@ -132,11 +132,11 @@ class Goals extends React.Component {
     }
 
     addGoal = () => {
-        if (this.state.addGoalTitle.length === '') {
+        if (this.state.addGoalTitle === '') {
             window.alert('Please enter a valid goal title.')
         } else {
             axios.post('https://professionality-api.com/bank/goals/add', {
-                jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkaXNjb3JkX3VzZXJfaWQiOiIyNjE1MzkzMzk4Nzg2NjIxNDYiLCJpc19tZW1iZXIiOjEsImlzX29mZmljZXIiOjEsIm5pY2tuYW1lIjoiQmFydCIsImp0aSI6ImYyZjAxM2NmLTM2MjMtNDhiYS1hZjNiLTU1YmNmMzQxYWM4OSIsImlhdCI6MTU5MjQxNjU3OSwiZXhwIjoxNTk1MDA4NTc5fQ.J8zQAOvPKmD0IpheIrj86VOLERtmkdP5RS2qQoBo3RE',
+                jwt: Cookies.get('token'),
                 title: this.state.addGoalTitle,
                 description: this.state.addGoalDescription,
                 ep_reward: this.state.addGoalEpReward
