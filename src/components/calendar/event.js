@@ -10,8 +10,8 @@ import CasterIcon from '../../images/spell_fire_firebolt02.jpg'
 import FighterIcon from '../../images/ability_warrior_challange.jpg'
 import HealerIcon from '../../images/spell_holy_flashheal.jpg'
 import TankIcon from '../../images/ability_warrior_defensivestance.jpg'
-import CheckboxTrueImg from '../../images/checkbox-true.png'
-import CheckboxFalseImg from '../../images/checkbox-false.png'
+import TentativeImg from '../../images/tentative.png'
+import LateImg from '../../images/late.png'
 import TableButtonWrapper from '../tableButtonWrapper'
 import Cookies from 'js-cookie'
 import AttendanceBreakdown from './attendanceBreakdown'
@@ -34,10 +34,6 @@ const AttendanceTable = styled.table`
     & tbody td:nth-child(1) { 
         min-width: 100px;
     }
-`
-const TableCheckbox = styled.img`
-    width: 30px;
-    height: 30px;
 `
 const TableCharacter = styled.span`
     display: inline-block;
@@ -113,6 +109,17 @@ const DeleteEventButton = styled.button`
         background: transparent;
         color: red;
     }
+`
+const SignupTypeTd = styled.td`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`
+const TableIcon = styled.img`
+    width: 20px;
+    height: 20px;
+    margin: 2px;
 `
 
 class Event extends React.Component {
@@ -220,8 +227,6 @@ class Event extends React.Component {
                                                 <th>Timestamp</th>
                                                 <th>User</th>
                                                 <th>Type</th>
-                                                <th>Tentative</th>
-                                                <th>Late</th>
                                                 <th>Character</th>
                                                 <th>Role</th>
                                                 <th>Note</th>
@@ -232,9 +237,21 @@ class Event extends React.Component {
                                                 <tr key={`event_attendance_id_${attendance.id}`}>
                                                     <td>{Moment((attendance.signed_up)?attendance.signed_up:attendance.called_out).format('MM/DD/YYYY HH:mm:ss')}</td>
                                                     <td>{attendance.nickname}</td>
-                                                    <td>{(attendance.signed_up)?'Sign Up':'Call Out'}</td>
-                                                    <td><TableCheckbox src={(attendance.tentative)?CheckboxTrueImg:CheckboxFalseImg} /></td>
-                                                    <td><TableCheckbox src={(attendance.late)?CheckboxTrueImg:CheckboxFalseImg} /></td>
+                                                    <SignupTypeTd>
+                                                        {(attendance.signed_up)?'Sign Up':'Call Out'}
+                                                        {(attendance.tentative)
+                                                        ?
+                                                        <TableIcon title='Tentative' src={TentativeImg} />
+                                                        :
+                                                        null
+                                                        }
+                                                        {(attendance.late)
+                                                        ?
+                                                        <TableIcon title='Late' src={LateImg} />
+                                                        :
+                                                        null
+                                                        }
+                                                    </SignupTypeTd>
                                                     <td>{(attendance.character_name)?<TableCharacter className={`class-${attendance.character_class_id}`}>{attendance.character_name}</TableCharacter>:'-'}</td>
                                                     <td>{(attendance.role_id)?<TableRole className={`role-${attendance.role_id}`} />:'-'}</td>
                                                     <td>{attendance.note}</td>

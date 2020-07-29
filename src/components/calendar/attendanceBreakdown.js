@@ -6,6 +6,8 @@ import FighterIcon from '../../images/ability_warrior_challange.jpg'
 import HealerIcon from '../../images/spell_holy_flashheal.jpg'
 import TankIcon from '../../images/ability_warrior_defensivestance.jpg'
 import TabardImg from '../../images/tabard.png'
+import TentativeImg from '../../images/tentative.png'
+import LateImg from '../../images/late.png'
 
 const DetailsTable = styled.table`
     width: 100%;
@@ -60,7 +62,7 @@ const ClassGroupMemberRoleIcon = styled.div`
         background-image: url(${TankIcon});
     }
 `
-const ClassGroupMemberMemberIcon = styled.img`
+const ClassGroupMemberIcon = styled.img`
     width: 20px;
     height: 20px;
 `
@@ -139,7 +141,19 @@ const AttendanceBreakdown = ({ event }) => {
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
                                 {(member.member)
                                 ?
-                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                <ClassGroupMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
+                                {(member.tentative)
+                                ?
+                                <ClassGroupMemberIcon src={TentativeImg} title='Tentative' />
+                                :
+                                null
+                                }
+                                {(member.late)
+                                ?
+                                <ClassGroupMemberIcon src={LateImg} title='Late' />
                                 :
                                 null
                                 }
@@ -154,7 +168,19 @@ const AttendanceBreakdown = ({ event }) => {
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
                                 {(member.member)
                                 ?
-                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                <ClassGroupMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
+                                {(member.tentative)
+                                ?
+                                <ClassGroupMemberIcon src={TentativeImg} title='Tentative' />
+                                :
+                                null
+                                }
+                                {(member.late)
+                                ?
+                                <ClassGroupMemberIcon src={LateImg} title='Late' />
                                 :
                                 null
                                 }
@@ -169,7 +195,19 @@ const AttendanceBreakdown = ({ event }) => {
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
                                 {(member.member)
                                 ?
-                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                <ClassGroupMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
+                                {(member.tentative)
+                                ?
+                                <ClassGroupMemberIcon src={TentativeImg} title='Tentative' />
+                                :
+                                null
+                                }
+                                {(member.late)
+                                ?
+                                <ClassGroupMemberIcon src={LateImg} title='Late' />
                                 :
                                 null
                                 }
@@ -184,7 +222,19 @@ const AttendanceBreakdown = ({ event }) => {
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
                                 {(member.member)
                                 ?
-                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                <ClassGroupMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
+                                {(member.tentative)
+                                ?
+                                <ClassGroupMemberIcon src={TentativeImg} title='Tentative' />
+                                :
+                                null
+                                }
+                                {(member.late)
+                                ?
+                                <ClassGroupMemberIcon src={LateImg} title='Late' />
                                 :
                                 null
                                 }
@@ -199,7 +249,19 @@ const AttendanceBreakdown = ({ event }) => {
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
                                 {(member.member)
                                 ?
-                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                <ClassGroupMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
+                                {(member.tentative)
+                                ?
+                                <ClassGroupMemberIcon src={TentativeImg} title='Tentative' />
+                                :
+                                null
+                                }
+                                {(member.late)
+                                ?
+                                <ClassGroupMemberIcon src={LateImg} title='Late' />
                                 :
                                 null
                                 }
@@ -214,7 +276,19 @@ const AttendanceBreakdown = ({ event }) => {
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
                                 {(member.member)
                                 ?
-                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                <ClassGroupMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
+                                {(member.tentative)
+                                ?
+                                <ClassGroupMemberIcon src={TentativeImg} title='Tentative' />
+                                :
+                                null
+                                }
+                                {(member.late)
+                                ?
+                                <ClassGroupMemberIcon src={LateImg} title='Late' />
                                 :
                                 null
                                 }
@@ -229,7 +303,19 @@ const AttendanceBreakdown = ({ event }) => {
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
                                 {(member.member)
                                 ?
-                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                <ClassGroupMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
+                                {(member.tentative)
+                                ?
+                                <ClassGroupMemberIcon src={TentativeImg} title='Tentative' />
+                                :
+                                null
+                                }
+                                {(member.late)
+                                ?
+                                <ClassGroupMemberIcon src={LateImg} title='Late' />
                                 :
                                 null
                                 }
@@ -244,7 +330,19 @@ const AttendanceBreakdown = ({ event }) => {
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
                                 {(member.member)
                                 ?
-                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                <ClassGroupMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
+                                {(member.tentative)
+                                ?
+                                <ClassGroupMemberIcon src={TentativeImg} title='Tentative' />
+                                :
+                                null
+                                }
+                                {(member.late)
+                                ?
+                                <ClassGroupMemberIcon src={LateImg} title='Late' />
                                 :
                                 null
                                 }
@@ -259,7 +357,19 @@ const AttendanceBreakdown = ({ event }) => {
                                 <ClassGroupMemberRoleIcon className={`role-${member.role_id}`} />
                                 {(member.member)
                                 ?
-                                <ClassGroupMemberMemberIcon src={TabardImg} title='Guild Member' />
+                                <ClassGroupMemberIcon src={TabardImg} title='Guild Member' />
+                                :
+                                null
+                                }
+                                {(member.tentative)
+                                ?
+                                <ClassGroupMemberIcon src={TentativeImg} title='Tentative' />
+                                :
+                                null
+                                }
+                                {(member.late)
+                                ?
+                                <ClassGroupMemberIcon src={LateImg} title='Late' />
                                 :
                                 null
                                 }
