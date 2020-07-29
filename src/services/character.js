@@ -1,12 +1,15 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-export const addCharacter = (character_name) => {
+export const addCharacter = (character_name, character_race_id, character_class_id, character_role_id) => {
     const jwt = Cookies.get('token')
     return new Promise( (resolve, reject) => {
         axios.post('https://professionality-api.com/character/add', {
             jwt,
             character_name,
+            character_race_id,
+            character_class_id,
+            character_role_id
         })
         .then(result => {
             resolve(true)

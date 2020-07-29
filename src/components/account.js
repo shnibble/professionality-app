@@ -4,12 +4,19 @@ import styled from 'styled-components'
 import UserContext from '../context/user'
 import { getUserAccount } from '../services/userAccount'
 import { addCharacter } from '../services/character'
+import CheckBoxTrueImg from '../images/checkbox-true.png'
+import CheckBoxFalseImg from '../images/checkbox-false.png'
 import Character from './character'
 import Article from './article'
 import Popout from './popout'
 
 const Container = styled.section`
 
+`
+const Checkbox = styled.img`
+    width: 30px;
+    height: 30px;
+    margin: 2px;
 `
 const LogoutButton = styled.button`
     display: block;
@@ -50,6 +57,12 @@ const AddCharacterButton = styled.button`
     }
 `
 const AddCharacterName = styled.input`
+    font-size: 20px;
+    padding: 15px;
+    margin: 10px;
+    text-align: center;
+`
+const AddCharacterSelect = styled.select`
     font-size: 20px;
     padding: 15px;
     margin: 10px;
@@ -100,7 +113,10 @@ class Account extends React.Component {
         logout: false,
         data: null,
         addCharacter: false,
-        characterName: ''
+        characterName: '',
+        characterRace: '1',
+        characterClass: '1',
+        characterRole: '1',
     }
 
     addCharacterPopout = () => {
@@ -108,7 +124,13 @@ class Account extends React.Component {
     }
 
     closeAddCharacterPopout = () => {
-        this.setState({ addCharacter: false })
+        this.setState({ 
+            addCharacter: false,
+            characterName: '',
+            characterRace: '1',
+            characterClass: '1',
+            characterRole: '1',
+         })
     }
 
     updateCharacterName = (ev) => {
@@ -116,14 +138,32 @@ class Account extends React.Component {
         this.setState({ characterName })
     }
 
+    updateCharacterRace = (ev) => {
+        const characterRace = ev.target.value
+        this.setState({ characterRace })
+    }
+
+    updateCharacterClass = (ev) => {
+        const characterClass = ev.target.value
+        this.setState({ characterClass })
+    }
+
+    updateCharacterRole = (ev) => {
+        const characterRole = ev.target.value
+        this.setState({ characterRole })
+    }
+
     addNewCharacter = () => {
-        const character_name = this.state.characterName
-        if (character_name.length > 1) {
-            addCharacter(character_name)
+        const { characterName, characterRace, characterClass, characterRole } = this.state
+        if (characterName.length > 1) {
+            addCharacter(characterName, characterRace, characterClass, characterRole)
             .then(() => {
                 this.setState({
                     addCharacter: false,
-                    characterName: ''
+                    characterName: '',
+                    characterRace: '1',
+                    characterClass: '1',
+                    characterRole: '1',
                 })
                 this.loadData()
             })
@@ -205,11 +245,11 @@ class Account extends React.Component {
                                 </tr>
                                 <tr>
                                     <td>Member:</td>
-                                    <td>{(this.state.data.member)?'Yes':'No'}</td>
+                                    <td><Checkbox src={(this.state.data.member)?CheckBoxTrueImg:CheckBoxFalseImg} /></td>
                                 </tr>
                                 <tr>
                                     <td>Officer:</td>
-                                    <td>{(this.state.data.officer)?'Yes':'No'}</td>
+                                    <td><Checkbox src={(this.state.data.officer)?CheckBoxTrueImg:CheckBoxFalseImg} /></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -232,6 +272,28 @@ class Account extends React.Component {
                         <h4>Add Character</h4>
                         <AddCharacterName value={this.state.characterName} onChange={this.updateCharacterName} placeholder='Character Name' />
                         <p><i>Please enter your character name exactly as it appears in-game.</i></p>
+                        <AddCharacterSelect value={this.state.characterRace} onChange={this.updateCharacterRace}>
+                            <option value={1}>Human</option>
+                            <option value={3}>Dwarf</option>
+                            <option value={4}>Night Elf</option>
+                            <option value={7}>Gnome</option>
+                        </AddCharacterSelect>
+                        <AddCharacterSelect value={this.state.characterClass} onChange={this.updateCharacterClass}>
+                            <option value={1}>Warrior</option>
+                            <option value={2}>Paladin</option>
+                            <option value={3}>Hunter</option>
+                            <option value={4}>Rogue</option>
+                            <option value={5}>Priest</option>
+                            <option value={8}>Mage</option>
+                            <option value={9}>Warlock</option>
+                            <option value={11}>Druid</option>
+                        </AddCharacterSelect>
+                        <AddCharacterSelect value={this.state.characterRole} onChange={this.updateCharacterRole}>
+                            <option value={1}>Caster</option>
+                            <option value={2}>Fighter</option>
+                            <option value={3}>Healer</option>
+                            <option value={4}>Tank</option>
+                        </AddCharacterSelect>
                         <AddCharacterButtonsContainer>
                             <AddCharacterAddButton onClick={this.addNewCharacter}>Add</AddCharacterAddButton>
                             <AddCharacterCancelButton onClick={this.closeAddCharacterPopout}>Cancel</AddCharacterCancelButton>
