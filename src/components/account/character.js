@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import CheckboxTrueImg from '../images/checkbox-true.png'
-import CheckboxFalseImg from '../images/checkbox-false.png'
+import CheckboxTrueImg from '../../images/checkbox-true.png'
+import CheckboxFalseImg from '../../images/checkbox-false.png'
 import {
     deleteCharacter,
     updateCharacterRaceId,
@@ -9,7 +9,7 @@ import {
     updateCharacterRoleId,
     updateCharacterAttunements,
     updateCharacterProfessions
-} from '../services/character'
+} from '../../services/character'
 
 const Container = styled.div`
     display: flex;
