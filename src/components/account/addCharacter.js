@@ -39,6 +39,7 @@ class AddCharacter extends React.Component {
     close = () => {
         this.setState({ 
             active: false,
+            processing: false,
             characterName: '',
             characterRace: '1',
             characterClass: '1',
@@ -67,12 +68,14 @@ class AddCharacter extends React.Component {
     }
 
     add = () => {
+        this.setState({ processing: true })
         const { characterName, characterRace, characterClass, characterRole } = this.state
         if (characterName.length > 1) {
             addCharacter(characterName, characterRace, characterClass, characterRole)
             .then(() => {
                 this.setState({
-                    addCharacter: false,
+                    active: false,
+                    processing: false,
                     characterName: '',
                     characterRace: '1',
                     characterClass: '1',
@@ -82,9 +85,11 @@ class AddCharacter extends React.Component {
             })
             .catch(err => {
                 window.alert('Error adding character, please try re-logging.')
+                this.setState({ processing: false })
             })
         } else {
             window.alert('Please enter a valid character name.')
+            this.setState({ processing: false })
         }
     }
 
@@ -121,7 +126,7 @@ class AddCharacter extends React.Component {
                         <option value={4}>Tank</option>
                     </Select>
                     <div>
-                        <SubmitButton title='Add' onClick={this.add} />
+                        <SubmitButton title='Add' onClick={this.add} disabled={this.state.processing} />
                         <CancelButton title='Cancel' onClick={this.close} />
                     </div>
                 </Popout>
