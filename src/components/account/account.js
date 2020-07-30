@@ -128,7 +128,7 @@ class Account extends React.Component {
                     </Article>
                     <Article>
                         <h3>Characters</h3>
-                        <AddCharacter />
+                        <AddCharacter loadDataFunction={this.loadData} />
                         {(this.state.data.characters)
                         ?
                         <>

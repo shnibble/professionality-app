@@ -3,18 +3,15 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import axios from 'axios'
 import Moment from 'moment'
-import DatePicker from 'react-datepicker'
-import Cookies from 'js-cookie'
 import UserContext from '../../context/user'
 import Article from '../article'
 import TableWrapper from '../tableWrapper'
-import AddButton from '../addButton'
-import Popout from '../popout'
 import CasterIcon from '../../images/spell_fire_firebolt02.jpg'
 import FighterIcon from '../../images/ability_warrior_challange.jpg'
 import HealerIcon from '../../images/spell_holy_flashheal.jpg'
 import TankIcon from '../../images/ability_warrior_defensivestance.jpg'
 import AttendanceModule from './attendanceModule'
+import AddEvent from './addEvent'
 
 const Container = styled.section`
 
@@ -40,100 +37,13 @@ const TableIcon = styled.img`
     width: 20px;
     height: 20px;
 `
-const AddEventTime = styled(DatePicker)`
-    font-size: 20px;
-    padding: 15px;
-    margin: 10px;
-    text-align: center;
-`
-const AddEventName = styled.input`
-    font-size: 20px;
-    padding: 15px;
-    margin: 10px;
-    text-align: center;
-`
-const SubmitButton = styled.button`
-    background: #009933;
-    border: 2px solid #009933;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: #009933;
-    }
-`
-const CancelButton = styled.button`
-    background: red;
-    border: 2px solid red;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: red;
-    }
-`
 
 class Events extends React.Component {
     state = {
         error: false,
         loading: true,
         loadedWithUser: false,
-        events: [],
-        addEvent: false,
-        eventName: '',
-        eventStart: '',
-    }
-
-    addEventPopout = () => {
-        this.setState({ addEvent: true, addSignup: false })
-    }
-
-    closeAddEventPopout = () => {
-        this.setState({ addEvent: false, addSignup: false })
-    }
-
-    updateEventName = (ev) => {
-        const eventName = ev.target.value
-        this.setState({ eventName })
-    }
-
-    updateEventDate = (date) => {
-        this.setState({ eventStart: date })
-    }
-
-    addEvent = () => {
-        const title = this.state.eventName
-        const start = Moment(this.state.eventStart).utc().format('YYYY-MM-DD HH:mm:00')
-
-        axios.post('https://professionality-api.com/calendar/add', {
-            jwt: Cookies.get('token'),
-            title,
-            start
-        })
-        .then(() => {
-            this.setState({
-                addEvent: false,
-                addSignup: false,
-                eventName: '',
-                eventStart: ''
-            })
-            this.loadData()
-        })
-        .catch(err => {
-            window.alert('Error adding event, please try re-logging.')
-        })
+        events: []
     }
 
     loadData = () => {
@@ -180,7 +90,7 @@ class Events extends React.Component {
                             <>
                                 {(user.is_officer)
                                 ?
-                                <AddButton title='Add Event' onClick={this.addEventPopout} />
+                                <AddEvent loadDataFunction={this.loadData} />
                                 :
                                 null
                                 }
@@ -231,28 +141,6 @@ class Events extends React.Component {
                             </>
                             }
                         </Article>
-                        {(this.state.addEvent)
-                        ?
-                        <Popout>
-                            <h4>Add Event</h4>
-                            <AddEventTime
-                                selected={this.state.eventStart}
-                                onChange={this.updateEventDate}
-                                showTimeSelect
-                                timeFormat='HH:mm'
-                                timeIntervals={30}
-                                timeCaption='Time'
-                                dateFormat='MMMM d, yyyy h:mm aa'
-                            />
-                            <AddEventName type='text' placeholder='Event Name' value={this.state.eventName} onChange={this.updateEventName} />
-                            <div>
-                                <SubmitButton onClick={this.addEvent}>Add</SubmitButton>
-                                <CancelButton onClick={this.closeAddEventPopout}>Cancel</CancelButton>
-                            </div>
-                        </Popout>
-                        :
-                        null
-                        }
                     </Container>
                 )}
             </UserContext.Consumer>

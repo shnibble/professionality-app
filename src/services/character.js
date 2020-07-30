@@ -127,6 +127,7 @@ export const updateCharacterProfessions = (character_id, profession_id_one, prof
     })
     
 }
+
 export default {
     addCharacter,
     deleteCharacter,

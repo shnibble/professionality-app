@@ -81,7 +81,7 @@ class AddCharacter extends React.Component {
                     characterClass: '1',
                     characterRole: '1',
                 })
-                this.loadData()
+                this.props.loadDataFunction()
             })
             .catch(err => {
                 window.alert('Error adding character, please try re-logging.')
