@@ -3,9 +3,12 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import styled from 'styled-components'
 import UserContext from '../../context/user'
+import { signup, callout, cancel } from '../../services/attendance'
 import TableButtonWrapper from '../tableButtonWrapper'
 import TableButton from '../tableButton'
 import Popout from '../popout'
+import SubmitButton from '../submitButton'
+import CancelButton from '../cancelButton'
 import CheckboxTrueImg from '../../images/checkbox-true.png'
 import CheckboxFalseImg from '../../images/checkbox-false.png'
 
@@ -62,44 +65,13 @@ const NoteField = styled.input`
     width: 90%;
     box-sizing: border-box;
 `
-const SubmitButton = styled.button`
-    background: #009933;
-    border: 2px solid #009933;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: #009933;
-    }
-`
-const CancelButton = styled.button`
-    background: red;
-    border: 2px solid red;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: red;
-    }
-`
 
 class AttendanceModule extends React.Component {
     state = {
         characters: [],
         characters_loaded: false,
         signup_active: false,
+        updating: false,
         character_id: '',
         role_id: 1,
         tentative: false,
@@ -155,22 +127,16 @@ class AttendanceModule extends React.Component {
         this.setState({ note })
     }
 
-    signup = () => {
+    handleSignup = () => {
+        this.setState({ updating: true })
         const { character_id, role_id, tentative, late, note } = this.state
         if (character_id === '') {
             window.alert('Please select a character to sign up with.')
         } else {
-            axios.post('https://professionality-api.com/attendance/signup', {
-                jwt: Cookies.get('token'),
-                event_id: this.props.event.id,
-                character_id,
-                role_id,
-                tentative,
-                late,
-                note
-            })
+            signup(this.props.event.id, character_id, role_id, tentative, late, note)
             .then(() => {
                 this.setState({ 
+                    updating: false,
                     signup_active: false, 
                     character_id: '',
                     role_id: 1,
@@ -182,33 +148,34 @@ class AttendanceModule extends React.Component {
             })
             .catch(err => {
                 window.alert('Issue signing up, please try re-logging.')
+                this.setState({ updating: false })
             })
         }
     }
 
-    callout = () => {
-        axios.post('https://professionality-api.com/attendance/callout', {
-            jwt: Cookies.get('token'),
-            event_id: this.props.event.id,
-        })
+    handleCallout = () => {
+        this.setState({ updating: true })
+        callout(this.props.event.id)
         .then(() => {
             this.props.loadDataFunction()
+            this.setState({ updating: false })
         })
         .catch(err => {
             window.alert('Issue calling out, please try re-logging.')
+            this.setState({ updating: false })
         })
     }
 
-    cancel = () => {
-        axios.post('https://professionality-api.com/attendance/cancel', {
-            jwt: Cookies.get('token'),
-            event_id: this.props.event.id,
-        })
+    handleCancel = () => {
+        this.setState({ updating: true })
+        cancel(this.props.event.id)
         .then(() => {
             this.props.loadDataFunction()
+            this.setState({ updating: false })
         })
         .catch(err => {
-            window.alert('Issue canceling, please try re-logging.')
+            window.alert('Issue cancelling, please try re-logging.')
+            this.setState({ updating: false })
         })
     }
 
@@ -245,17 +212,19 @@ class AttendanceModule extends React.Component {
                     title='Sign Up' 
                     onClick={this.addSignupPopout} 
                     active={(this.props.event.signed_up)?true:false}
+                    disabled={this.state.updating}
                 />
                 <TableButton 
                     title='Call Out' 
-                    onClick={this.callout} 
+                    onClick={this.handleCallout} 
                     disabled={(this.props.event.called_out)?true:false} 
                     active={(this.props.event.called_out)?true:false} 
+                    disabled={this.state.updating}
                 />
                 <TableButton 
                     title='Cancel' 
-                    onClick={this.cancel} 
-                    disabled={(this.props.event.signed_up || this.props.event.called_out)?false:true} 
+                    onClick={this.handleCancel} 
+                    disabled={((this.props.event.signed_up || this.props.event.called_out) && !this.state.updating)?false:true} 
                 />
                 {(this.state.signup_active)
                 ?
@@ -283,8 +252,8 @@ class AttendanceModule extends React.Component {
                     </CheckboxContainer>
                     <NoteField type='text' value={this.state.note} onChange={this.updateSignupNote} placeholder='Note' />
                     <div>
-                        <SubmitButton onClick={this.signup}>Sign Up</SubmitButton>
-                        <CancelButton onClick={this.closeAddSignupPopout}>Cancel</CancelButton>
+                        <SubmitButton title='Sign Up' onClick={this.handleSignup} disabled={this.state.updating} />
+                        <CancelButton title='Cancel' onClick={this.closeAddSignupPopout} />
                     </div>
 
                 </Popout>
