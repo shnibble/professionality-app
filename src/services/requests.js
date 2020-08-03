@@ -21,7 +21,7 @@ export const addRequest = (message, timeframe) => {
 export const deleteRequest = (request_id) => {
     const jwt = Cookies.get('token')
     return new Promise( (resolve, reject) => {
-        axios.post('https://professionality-api.com/bank/requests/add', {
+        axios.post('https://professionality-api.com/bank/requests/delete', {
                 jwt,
                 request_id
             })
