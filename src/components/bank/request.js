@@ -186,7 +186,7 @@ class Request extends React.Component {
 
     handleRejectRequest = () => {
         this.setState({ updating: true })
-        rejectRequest(this.state.reject_reason)
+        rejectRequest(this.props.data.id, this.state.reject_reason)
         .then(() => {
             this.setState({ updating: false, reject_active: false })
             this.props.loadDataFunction()
