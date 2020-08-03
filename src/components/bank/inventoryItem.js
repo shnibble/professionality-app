@@ -247,8 +247,8 @@ class Item extends React.Component {
                         ?
                         <td>
                             <TableButtonWrapper>
-                            <TableButton title='Edit' value={JSON.stringify(this.props.data)} onClick={this.props.editItemFunction} />
-                            <TableButton title='Delete' value={this.props.data.id} onClick={this.props.deleteItemFunction} />
+                            <TableButton title='Edit' value={JSON.stringify(this.props.data)} onClick={this.props.editItemFunction} disabled={this.props.disabled} />
+                            <TableButton title='Delete' value={this.props.data.id} onClick={this.props.deleteItemFunction} disabled={this.props.disabled} />
                             </TableButtonWrapper>
                         </td>
                         :

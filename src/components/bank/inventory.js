@@ -1,14 +1,16 @@
 import React from 'react'
-import Cookies from 'js-cookie'
 import axios from 'axios'
 import styled from 'styled-components'
 import UserContext from '../../context/user'
 import Article from '../article'
 import AddInventory from './addInventory'
+import { updateInventory, deleteInventory } from '../../services/inventory'
 import TableWrapper from '../tableWrapper'
 import Table from './table'
 import InventoryItem from './inventoryItem'
 import Popout from '../popout'
+import SubmitButton from '../submitButton'
+import CancelButton from '../cancelButton'
 
 const SearchField = styled.input`
     padding: 10px;
@@ -46,42 +48,11 @@ const Select = styled.select`
     margin: 5px;
     font-size: 16px;
 `
-const SubmitButton = styled.button`
-    background: #009933;
-    border: 2px solid #009933;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: #009933;
-    }
-`
-const CancelButton = styled.button`
-    background: red;
-    border: 2px solid red;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: red;
-    }
-`
 
 class Inventory extends React.Component {
     state = {
         loading: true,
+        updating: false,
         error: false,
         search_category_id: '',
         search: '',
@@ -158,13 +129,11 @@ class Inventory extends React.Component {
     }
 
     updateInventoryItem = () => {
-        axios.post('https://professionality-api.com/bank/inventory/update', {
-            jwt: Cookies.get('token'),
-            inventory_id: this.state.edit_id,
-            category_id: this.state.edit_category_id
-        })
+        this.setState({ updating: true })
+        updateInventory(this.state.edit_id, this.state.edit_category_id)
         .then(() => {
             this.setState({
+                updating: false,
                 edit_active: false,
                 edit_id: '',
                 edit_category_id: '',
@@ -174,21 +143,24 @@ class Inventory extends React.Component {
         })
         .catch(err => {
             window.alert('Issue updating inventory item, please try re-logging.')
+            this.setState({ updating: false })
         })
     }
 
     deleteInventoryItem = (ev) => {
+        this.setState({ updating: true })
         if (window.confirm('Are you sure you want to delete this item?')) {
-            axios.post('https://professionality-api.com/bank/inventory/delete', {
-                jwt: Cookies.get('token'),
-                inventory_id: ev.target.value
-            })
+            deleteInventory(ev.target.value)
             .then(() => {
                 this.loadData()
+                this.setState({ updating: false })
             })
             .catch(err => {
                 window.alert('Issue deleting inventory item, please try re-logging.')
+                this.setState({ updating: false })
             })
+        } else {
+            this.setState({ updating: false })
         }
     }
 
@@ -229,12 +201,12 @@ class Inventory extends React.Component {
                         </SearchSelect>
                         <TableWrapper>
                             <Table>
-                            {this.state.searched_inventory.map(item => <InventoryItem key={`inventory_item_id_${item.id}`} data={item} editItemFunction={this.editInventoryItem} deleteItemFunction={this.deleteInventoryItem} /> )}
+                            {this.state.searched_inventory.map(item => <InventoryItem key={`inventory_item_id_${item.id}`} data={item} editItemFunction={this.editInventoryItem} deleteItemFunction={this.deleteInventoryItem} disabled={this.state.updating} /> )}
                             </Table>
                         </TableWrapper>
                         {(this.state.edit_active)
                         ?
-                        <Popout>
+                        <Popout submitFunction={this.updateInventoryItem} cancelFunction={this.cancelEditInventoryItem}>
                             <h4>Edit Inventory</h4>
                             <EditTable>
                                 <tbody>
@@ -263,10 +235,6 @@ class Inventory extends React.Component {
                                     </tr>
                                 </tbody>
                             </EditTable>
-                            <div>
-                                <SubmitButton onClick={this.updateInventoryItem}>Update</SubmitButton>
-                                <CancelButton onClick={this.cancelEditInventoryItem}>Cancel</CancelButton>
-                            </div>
                         </Popout>
                         :
                         null

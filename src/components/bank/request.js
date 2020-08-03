@@ -1,9 +1,8 @@
 import React from 'react'
-import axios from 'axios'
 import Moment from 'moment'
-import Cookies from 'js-cookie'
 import styled from 'styled-components'
 import UserContext from '../../context/user'
+import { cancelRequest, deleteRequest, rejectRequest, completeRequest, addRequestComment } from '../../services/requests'
 import TableButtonWrapper from '../tableButtonWrapper'
 import TableButton from '../tableButton'
 import Popout from '../popout'
@@ -86,38 +85,6 @@ const CommentMessageField = styled.textarea`
     margin: 5px;
     font-size: 16px;
 `
-const SubmitButton = styled.button`
-    background: #009933;
-    border: 2px solid #009933;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: #009933;
-    }
-`
-const CancelButton = styled.button`
-    background: red;
-    border: 2px solid red;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: red;
-    }
-`
 const ResponseContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -134,6 +101,7 @@ const ResponseMessage = styled.p`
 
 class Request extends React.Component {
     state = {
+        updating: false,
         reject_active: false,
         reject_reason: '',
         comment_active: false,
@@ -154,20 +122,19 @@ class Request extends React.Component {
     }
 
     addComment = () => {
+        this.setState({ updating: true })
         if (this.state.comment_message.length === 0) {
             window.alert('Please enter a valid comment.')
+            this.setState({ updating: false })
         } else {
-            axios.post('https://professionality-api.com/bank/requests/comment/add', {
-                jwt: Cookies.get('token'),
-                request_id: this.props.data.id,
-                message: this.state.comment_message
-            })
+            addRequestComment(this.props.data.id, this.state.comment_message)
             .then(() => {
-                this.setState({ comment_active: false, comment_message: '' })
+                this.setState({ updating: false, comment_active: false, comment_message: '' })
                 this.props.loadDataFunction()
             })
             .catch(err => {
                 window.alert('Issue adding comment, please try re-logging.')
+                this.setState({ updating: false })
             })
         }
     }
@@ -185,62 +152,62 @@ class Request extends React.Component {
         this.setState({ reject_reason })
     }
 
-    cancelRequest = () => {
+    handleCancelRequest = () => {
+        this.setState({ updating: true })
         if (window.confirm('Are you sure you want to cancel this bank request?')) {
-            axios.post('https://professionality-api.com/bank/requests/cancel', {
-                jwt: Cookies.get('token'),
-                request_id: this.props.data.id
-            })
+            cancelRequest(this.props.data.id)
             .then(() => {
                 this.props.loadDataFunction()
+                this.setState({ updating: false })
             })
             .catch(err => {
                 window.alert('Issue cancelling bank request, please try re-logging.')
+                this.setState({ updating: false })
             })
         }
     }
 
-    deleteRequest = () => {
+    handleDeleteRequest = () => {
+        this.setState({ updating: true })
         if (window.confirm('Are you sure you want to delete this bank request?')) {
-            axios.post('https://professionality-api.com/bank/requests/delete', {
-                jwt: Cookies.get('token'),
-                request_id: this.props.data.id
-            })
+            deleteRequest(this.props.data.id)
             .then(() => {
                 this.props.loadDataFunction()
+                this.setState({ updating: false })
             })
             .catch(err => {
                 window.alert('Issue deleting bank request, please try re-logging.')
+                this.setState({ updating: false })
             })
+        } else {
+            this.setState({ updating: false })
         }
     }
 
-    rejectRequest = () => {
-        axios.post('https://professionality-api.com/bank/requests/reject', {
-            jwt: Cookies.get('token'),
-            request_id: this.props.data.id,
-            rejected_reason: this.state.reject_reason
-        })
+    handleRejectRequest = () => {
+        this.setState({ updating: true })
+        rejectRequest(this.state.reject_reason)
         .then(() => {
-            this.setState({ reject_active: false })
+            this.setState({ updating: false, reject_active: false })
             this.props.loadDataFunction()
         })
         .catch(err => {
             window.alert('Issue rejecting bank request, please try re-logging.')
+            this.setState({ updating: false })
         })
     }
 
-    completeRequest = () => {
-            axios.post('https://professionality-api.com/bank/requests/complete', {
-                jwt: Cookies.get('token'),
-                request_id: this.props.data.id
-            })
-            .then(() => {
-                this.props.loadDataFunction()
-            })
-            .catch(err => {
-                window.alert('Issue completing bank request, please try re-logging.')
-            })
+    handleCompleteRequest = () => {
+        this.setState({ updating: true })
+        completeRequest(this.props.data.id)
+        .then(() => {
+            this.props.loadDataFunction()
+            this.setState({ updating: false })
+        })
+        .catch(err => {
+            window.alert('Issue completing bank request, please try re-logging.')
+            this.setState({ updating: false })
+        })
     }
 
     render() {
@@ -294,51 +261,43 @@ class Request extends React.Component {
                         <TableButtonWrapper>
                         {(user.is_officer && !this.props.data.completed && !this.props.data.rejected && !this.props.data.cancelled)
                         ?
-                        <TableButton title='Complete' onClick={this.completeRequest} />
+                        <TableButton title='Complete' onClick={this.handleCompleteRequest} disabled={this.state.updating} />
                         :
                         null
                         }
                         {(user.is_officer && !this.props.data.completed && !this.props.data.rejected && !this.props.data.cancelled)
                         ?
-                        <TableButton title='Reject' onClick={this.openRejectPopout} />
+                        <TableButton title='Reject' onClick={this.openRejectPopout} disabled={this.state.updating} />
                         :
                         null
                         }
                         {(user.discord_user_id === this.props.data.discord_user_id && !this.props.data.completed && !this.props.data.rejected && !this.props.data.cancelled)
                         ?
-                        <TableButton title='Cancel' onClick={this.cancelRequest} />
+                        <TableButton title='Cancel' onClick={this.handleCancelRequest} disabled={this.state.updating} />
                         :
                         null
                         }
                         {(user.is_officer)
                         ?
-                        <TableButton title='Delete' onClick={this.deleteRequest} />
+                        <TableButton title='Delete' onClick={this.handleDeleteRequest} disabled={this.state.updating} />
                         :
                         null
                         }
                         </TableButtonWrapper>
                         {(this.state.reject_active)
                         ?
-                        <Popout>
+                        <Popout submitFunction={this.handleRejectRequest} cancelFunction={this.closeRejectPopout} disabled={this.state.updating}>
                             <h4>Reject Request</h4>
                             <Field type='text' placeholder='Rejection Reason' value={this.state.reject_reason} onChange={this.updateRejectReason} />
-                            <div>
-                                <SubmitButton onClick={this.rejectRequest}>Reject</SubmitButton>
-                                <CancelButton onClick={this.closeRejectPopout}>Cancel</CancelButton>
-                            </div>
                         </Popout>
                         :
                         null
                         }
                         {(this.state.comment_active)
                         ?
-                        <Popout>
+                        <Popout submitFunction={this.addComment} cancelFunction={this.closeCommentPopout} disabled={this.state.updating}>
                             <h4>Add Comment</h4>
                             <CommentMessageField value={this.state.comment_message} onChange={this.updateCommentMessage} />
-                            <div>
-                                <SubmitButton onClick={this.addComment}>Add</SubmitButton>
-                                <CancelButton onClick={this.closeCommentPopout}>Cancel</CancelButton>
-                            </div>
                         </Popout>
                         :
                         null

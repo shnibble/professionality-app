@@ -1,9 +1,11 @@
 import React from 'react'
-import axios from 'axios'
-import Cookies from 'js-cookie'
 import styled from 'styled-components'
+import { getItems } from '../../services/items'
+import { addInventory } from '../../services/inventory'
 import Popout from '../popout'
 import AddButton from '../addButton'
+import SubmitButton from '../submitButton'
+import CancelButton from '../cancelButton'
 
 const Field = styled.input`
     display: block;
@@ -21,42 +23,11 @@ const Select = styled.select`
     margin: 5px;
     font-size: 16px;
 `
-const SubmitButton = styled.button`
-    background: #009933;
-    border: 2px solid #009933;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: #009933;
-    }
-`
-const CancelButton = styled.button`
-    background: red;
-    border: 2px solid red;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: red;
-    }
-`
 
 class AddInventory extends React.Component {
     state = {
         active: false,
+        updating: false,
         search: '',
         items: [],
         selected_item_id: '',
@@ -92,33 +63,48 @@ class AddInventory extends React.Component {
         this.setState({ search })
 
         clearTimeout(this.searchTimeout)
-        this.searchTimeout = setTimeout(this.getItems, 1000)
+        this.searchTimeout = setTimeout(this.handleGetItems, 1000)
     }
 
-    getItems = () => {
-        axios.get('https://professionality-api.com/items/get', {
-            params: {
-                search: this.state.search
+    handleGetItems = () => {
+        this.setState({ updating: true })
+        getItems(this.state.search)
+        .then(results => {
+            this.setState({ 
+                updating: false, 
+                items: results.data 
+            })
+            if (results.data.length > 0) {
+                document.getElementById('select_item_id').focus()
             }
         })
-        .then(results => {
-            this.setState({ items: results.data })
-        })
         .catch(err => {
-            this.setState({ items: [] })
+            this.setState({ 
+                items: [], 
+                updating: false
+            })
             window.alert('Issue loading items, please try re-logging.')
         })
     }
 
     selectItem = (ev) => {
         const item_id = ev.target.value
-        const data = JSON.parse(ev.target.options[ev.target.options.selectedIndex].getAttribute('data'))
-        this.setState({ 
-            selected_item_id: item_id,
-            selected_item_name: data.name,
-            selected_item_quality: data.quality,
-            selected_item_icon: data.icon
-        })
+        if (item_id) {
+            const data = JSON.parse(ev.target.options[ev.target.options.selectedIndex].getAttribute('data'))
+            this.setState({ 
+                selected_item_id: item_id,
+                selected_item_name: data.name,
+                selected_item_quality: data.quality,
+                selected_item_icon: data.icon
+            })
+        } else {
+            this.setState({
+                selected_item_id: '',
+                selected_item_name: '',
+                selected_item_quality: '',
+                selected_item_icon: ''
+            })
+        }
     }
 
     selectCategory = (ev) => {
@@ -131,24 +117,18 @@ class AddInventory extends React.Component {
         this.setState({ selected_item_random_enchantment: random_enchantment })
     }
 
-    addNewInventory = () => {
+    handleAddInventory = () => {
+        this.setState({ updating: true })
         const { selected_item_id, selected_item_name, selected_item_quality, selected_item_icon, selected_item_category, selected_item_random_enchantment } = this.state
-
         if (selected_item_id === '' || selected_item_name === '' || selected_item_quality === '' || selected_item_icon === '') {
             window.alert('Please select a valid inventory item first.')
+            this.setState({ updating: false })
         } else {
-            axios.post('https://professionality-api.com/bank/inventory/add', {
-                jwt: Cookies.get('token'),
-                item_id: selected_item_id,
-                name: selected_item_name,
-                quality: selected_item_quality,
-                icon: selected_item_icon,
-                category_id: selected_item_category,
-                random_enchantment: selected_item_random_enchantment
-            })
+            addInventory(selected_item_id, selected_item_name, selected_item_quality, selected_item_icon, selected_item_category, selected_item_random_enchantment)
             .then(() => {
                 this.setState({ 
                     active: false,
+                    updating: false,
                     search: '',
                     items: [],
                     selected_item_id: '',
@@ -162,6 +142,7 @@ class AddInventory extends React.Component {
             })
             .catch(err => {
                 window.alert('Error adding bank inventory item, please try re-logging.')
+                this.setState({ updating: false })
             })
         }
     }
@@ -169,13 +150,13 @@ class AddInventory extends React.Component {
     render() {
         return (
             <>
-                <AddButton title='Add Inventory' onClick={this.openAddInventory} />
+                <AddButton title='Add Inventory' onClick={this.openAddInventory} disabled={this.state.updating} />
                 {(this.state.active)
                 ?
-                <Popout>
+                <Popout submitFunction={this.handleAddInventory} cancelFunction={this.closeAddInventory} disabled={this.state.updating}>
                     <h4>Add Inventory</h4>
-                    <Field value={this.state.search} onChange={this.updateSearchField} placeholder='Search' />
-                    <Select value={this.state.selected_item_id} onChange={this.selectItem}>
+                    <Field value={this.state.search} onChange={this.updateSearchField} placeholder='Search' autoFocus />
+                    <Select value={this.state.selected_item_id} onChange={this.selectItem} id='select_item_id'>
                         <option></option>
                         {this.state.items.map(item => <option key={`item_select_id_${item.id}`} value={item.item_id} data={JSON.stringify({
                             item_id: item.item_id,
@@ -197,10 +178,6 @@ class AddInventory extends React.Component {
                         <input type='text' value={this.state.selected_item_quality} disabled />
                         <br />
                         <input type='text' value={this.state.selected_item_icon} disabled />
-                    </div>
-                    <div>
-                        <SubmitButton onClick={this.addNewInventory}>Add</SubmitButton>
-                        <CancelButton onClick={this.closeAddInventory}>Cancel</CancelButton>
                     </div>
                 </Popout>
                 :

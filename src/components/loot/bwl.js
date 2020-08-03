@@ -1,12 +1,12 @@
 import React from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
+import { updateLoot } from '../../services/loot'
 import Article from '../article'
 import TableWrapper from '../tableWrapper'
 import Table from './table'
 import Item from './item'
 import Popout from '../popout'
-import Cookies from 'js-cookie'
 
 const SearchField = styled.input`
     padding: 10px;
@@ -23,42 +23,11 @@ const EditField = styled.textarea`
     height: 50px;
     box-sizing: border-box;
 `
-const SubmitButton = styled.button`
-    background: #009933;
-    border: 2px solid #009933;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: #009933;
-    }
-`
-const CancelButton = styled.button`
-    background: red;
-    border: 2px solid red;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: red;
-    }
-`
 
 class Bwl extends React.Component {
     state = { 
         loading: true,
+        updating: false,
         error: false,
         search: '',
         loot: [],
@@ -69,19 +38,17 @@ class Bwl extends React.Component {
         edit_comments: ''
     }
 
-    updateLoot = () => {
-        axios.post('https://professionality-api.com/loot/update', {
-            jwt: Cookies.get('token'),
-            loot_id: this.state.edit_id,
-            priority: this.state.edit_priority,
-            comments: this.state.edit_comments
-        })
+    handleUpdateLoot = () => {
+        this.setState({ updating: true })
+        updateLoot(this.state.edit_id, this.state.edit_priority, this.state.edit_comments)
         .then(() => {
             this.closeEditor()
             this.loadData()
+            this.setState({ updating: false })
         })
         .catch(err => {
             window.alert('Issue updating loot, please try re-logging.')
+            this.setState({ updating: false })
         })
     }
 
@@ -167,7 +134,7 @@ class Bwl extends React.Component {
                 }
                 {(this.state.edit)
                 ?
-                <Popout>
+                <Popout submitFunction={this.handleUpdateLoot} cancelFunction={this.closeEditor} disabled={this.state.updating}>
                     <h4>Edit Loot</h4>
                     <EditTable>
                         <tbody>
@@ -181,10 +148,6 @@ class Bwl extends React.Component {
                             </tr>
                         </tbody>
                     </EditTable>
-                    <div>
-                        <SubmitButton onClick={this.updateLoot}>Update</SubmitButton>
-                        <CancelButton onClick={this.closeEditor}>Cancel</CancelButton>
-                    </div>
                 </Popout>
                 :
                 null

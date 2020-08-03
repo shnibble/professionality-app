@@ -1,14 +1,11 @@
 import React from 'react'
 import axios from 'axios'
-import Cookies from 'js-cookie'
 import styled from 'styled-components'
 import UserContext from '../../context/user'
 import { signup, callout, cancel } from '../../services/attendance'
 import TableButtonWrapper from '../tableButtonWrapper'
 import TableButton from '../tableButton'
 import Popout from '../popout'
-import SubmitButton from '../submitButton'
-import CancelButton from '../cancelButton'
 import CheckboxTrueImg from '../../images/checkbox-true.png'
 import CheckboxFalseImg from '../../images/checkbox-false.png'
 
@@ -228,7 +225,7 @@ class AttendanceModule extends React.Component {
                 />
                 {(this.state.signup_active)
                 ?
-                <Popout>
+                <Popout submitFunction={this.handleSignup} cancelFunction={this.closeAddSignupPopout} disabled={this.state.updating}>
                     <h4>Sign Up</h4>
                     <CharacterSelect value={this.state.character_id} onChange={this.updateSignupCharacter}>
                         <option></option>
@@ -251,11 +248,6 @@ class AttendanceModule extends React.Component {
                         <Checkmark />
                     </CheckboxContainer>
                     <NoteField type='text' value={this.state.note} onChange={this.updateSignupNote} placeholder='Note' />
-                    <div>
-                        <SubmitButton title='Sign Up' onClick={this.handleSignup} disabled={this.state.updating} />
-                        <CancelButton title='Cancel' onClick={this.closeAddSignupPopout} />
-                    </div>
-
                 </Popout>
                 :
                 null

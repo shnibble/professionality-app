@@ -1,90 +1,41 @@
 import React from 'react'
 import axios from 'axios'
-import Cookies from 'js-cookie'
 import styled from 'styled-components'
 import UserContext from '../../context/user'
+import { updateGoal, deleteGoal } from '../../services/goals'
 import Article from '../article'
-import AddButton from '../addButton'
+import AddGoal from './addGoal'
 import Goal from './goal'
 import Popout from '../popout'
 
-const EditTable = styled.table`
+const Table = styled.table`
     width: 100%;
-
-    & tbody > tr > td:nth-child(1) {
-        width: 75px;
-        text-align: right;
-    }
-
-    & tbody > tr > td:nth-child(2) {
-        text-align: left;
-    }
 `
-const TitleField = styled.input`
+const Field = styled.input`
+    display: block;
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
     margin: 5px;
     font-size: 16px;
 `
-const RewardField = styled.input`
+const Textarea = styled.textarea`
+    display: block;
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
     margin: 5px;
-    font-size: 12px;
-`
-const DescriptionField = styled.textarea`
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px;
-    margin: 5px;
-    font-size: 12px;
+    font-size: 16px;
+    height: 100px;
     resize: none;
-    height: 80px;
-`
-const SubmitButton = styled.button`
-    background: #009933;
-    border: 2px solid #009933;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: #009933;
-    }
-`
-const CancelButton = styled.button`
-    background: red;
-    border: 2px solid red;
-    color: #f2f2f2;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all .25s ease;
-
-    &:hover {
-        background: transparent;
-        color: red;
-    }
 `
 
 class Goals extends React.Component {
     state = {
         loading: true,
+        updating: false,
         error: false,
         goals: [],
-        addGoalPopout: false,
-        addGoalTitle: '',
-        addGoalDescription: '',
-        addGoalEpReward: '',
         updateGoalPopout: false,
         updateGoalId: '',
         updateGoalTitle: '',
@@ -106,49 +57,6 @@ class Goals extends React.Component {
                 error: true
             })
         })
-    }
-
-    openAddGoalPopout = () => {
-        this.setState({ addGoalPopout: true, updateGoalPopout: false })
-    }
-
-    closeAddGoalPopout = () => {
-        this.setState({ addGoalPopout: false, updateGoalPopout: false})
-    }
-
-    updateAddGoalTitle = (ev) => {
-        const title = ev.target.value
-        this.setState({ addGoalTitle: title })
-    }
-
-    updateAddGoalDescription = (ev) => {
-        const description = ev.target.value
-        this.setState({ addGoalDescription: description })
-    }
-
-    updateAddGoalEpReward = (ev) => {
-        const ep_reward = ev.target.value
-        this.setState({ addGoalEpReward: ep_reward })
-    }
-
-    addGoal = () => {
-        if (this.state.addGoalTitle === '') {
-            window.alert('Please enter a valid goal title.')
-        } else {
-            axios.post('https://professionality-api.com/bank/goals/add', {
-                jwt: Cookies.get('token'),
-                title: this.state.addGoalTitle,
-                description: this.state.addGoalDescription,
-                ep_reward: this.state.addGoalEpReward
-            })
-            .then(() => {
-                this.setState({ addGoalPopout: false })
-                this.loadData()
-            })
-            .catch(err => {
-                window.alert('Issue adding goal, please try re-logging.')
-            })
-        }
     }
 
     openUpdateGoalPopout = (ev) => {
@@ -182,39 +90,38 @@ class Goals extends React.Component {
         this.setState({ updateGoalEpReward: ep_reward })
     }
 
-    updateGoal = () => {
+    handleUpdateGoal = () => {
+        this.setState({ updating: true })
         if (this.state.updateGoalTitle.length === 0) {
             window.alert('Please enter a valid goal title.')
+            this.setState({ updating: false })
         } else {
-            axios.post('https://professionality-api.com/bank/goals/update', {
-                jwt: Cookies.get('token'),
-                goal_id: this.state.updateGoalId,
-                title: this.state.updateGoalTitle,
-                description: this.state.updateGoalDescription,
-                ep_reward: this.state.updateGoalEpReward
-            })
+            updateGoal(this.state.updateGoalId, this.state.updateGoalTitle, this.state.updateGoalDescription, this.state.updateGoalEpReward)
             .then(() => {
-                this.setState({ updateGoalPopout: false })
+                this.setState({ updateGoalPopout: false, updating: false })
                 this.loadData()
             })
             .catch(err => {
                 window.alert('Issue updating goal, please try re-logging.')
+                this.setState({ updating: false })
             })
         }
     }
 
-    deleteGoal = (ev) => {
+    handleDeleteGoal = (ev) => {
+        this.setState({ updating: true })
         if (window.confirm('Are you sure you want to delete this bank goal?')) {
-            axios.post('https://professionality-api.com/bank/goals/delete', {
-                jwt: Cookies.get('token'),
-                goal_id: ev.target.value
-            })
+            deleteGoal(ev.target.value)
             .then(() => {
                 this.loadData()
+                this.setState({ updating: false })
             })
             .catch(err => {
                 window.alert('Issue deleting goal, please try re-logging.')
+                this.setState({ updating: false })
             })
+        } else {
+            this.setState({ updating: false })
         }
     }
 
@@ -247,82 +154,44 @@ class Goals extends React.Component {
                             <p><b>Shareholder</b> holds metals, gems, and trade reagents (ex. Elemental Earth, Fiery Core).</p>
                             <br />
                             <p><b>Denmo</b> holds all equipment.</p>
-                            <b />
+                            <br />
                             <p>It is helpful if you can distribute these items to the right toon for what is hoped to be more efficient storage, however if you don't want to bother separating donations just give everything to Executive and it will be sorted accordingly. If you have any questions please contact Pharmakon.</p>
                         </Article>
                         <Article>
                             {(user.is_officer)
                             ?
-                            <AddButton title='Add Goal' onClick={this.openAddGoalPopout} />
+                            <AddGoal loadDataFunction={this.loadData} />
                             :
                             null
                             }
-                            {(this.state.goals.map(goal => <Goal key={`goal_id_${goal.id}`} data={goal} openPopoutFunction={this.openUpdateGoalPopout} deleteGoalFunction={this.deleteGoal} /> ))}
+                            {(this.state.goals.map(goal => <Goal key={`goal_id_${goal.id}`} data={goal} openPopoutFunction={this.openUpdateGoalPopout} deleteGoalFunction={this.handleDeleteGoal} disabled={this.state.updating} /> ))}
                         </Article>
                         {(this.state.updateGoalPopout)
                         ?
-                        <Popout>
+                        <Popout submitFunction={this.handleUpdateGoal} cancelFunction={this.closeUpdateGoalPopout} disabled={this.state.updating}>
                             <h4>Edit Goal</h4>
-                            <EditTable>
+                            <Table>
                                 <tbody>
                                     <tr>
                                         <td>Title:</td>
                                         <td>
-                                            <TitleField type='text' value={this.state.updateGoalTitle} onChange={this.updateGoalTitle} />
+                                            <Field type='text' value={this.state.updateGoalTitle} onChange={this.updateGoalTitle} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>EP Reward:</td>
                                         <td>
-                                            <RewardField type='text' value={this.state.updateGoalEpReward} onChange={this.updateGoalEpReward} />
+                                            <Field type='text' value={this.state.updateGoalEpReward} onChange={this.updateGoalEpReward} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Description:</td>
                                         <td>
-                                            <DescriptionField type='text' value={this.state.updateGoalDescription} onChange={this.updateGoalDescription} />
+                                            <Textarea type='text' value={this.state.updateGoalDescription} onChange={this.updateGoalDescription} />
                                         </td>
                                     </tr>
                                 </tbody>
-                            </EditTable>
-                            <div>
-                                <SubmitButton onClick={this.updateGoal}>Update</SubmitButton>
-                                <CancelButton onClick={this.closeUpdateGoalPopout}>Cancel</CancelButton>
-                            </div>
-                        </Popout>
-                        :
-                        null
-                        }
-                        {(this.state.addGoalPopout)
-                        ?
-                        <Popout>
-                            <h4>Add Goal</h4>
-                            <EditTable>
-                                <tbody>
-                                    <tr>
-                                        <td>Title:</td>
-                                        <td>
-                                            <TitleField type='text' value={this.state.addGoalTitle} onChange={this.updateAddGoalTitle} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>EP Reward:</td>
-                                        <td>
-                                            <RewardField type='text' value={this.state.addGoalEpReward} onChange={this.updateAddGoalEpReward} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description:</td>
-                                        <td>
-                                            <DescriptionField type='text' value={this.state.addGoalDescription} onChange={this.updateAddGoalDescription} />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </EditTable>
-                            <div>
-                                <SubmitButton onClick={this.addGoal}>Add</SubmitButton>
-                                <CancelButton onClick={this.closeAddGoalPopout}>Cancel</CancelButton>
-                            </div>
+                            </Table>
                         </Popout>
                         :
                         null

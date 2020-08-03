@@ -5,8 +5,6 @@ import DatePicker from 'react-datepicker'
 import { addEvent } from '../../services/event'
 import Popout from '../popout'
 import AddButton from '../addButton'
-import SubmitButton from '../submitButton'
-import CancelButton from '../cancelButton'
 
 const Field = styled.input`
     display: inline-block;
@@ -27,7 +25,7 @@ const AddEventTime = styled(DatePicker)`
 class AddEvent extends React.Component {
     state = {
         active: false,
-        processing: false,
+        updating: false,
         eventName: '',
         eventStart: '',
     }
@@ -39,7 +37,7 @@ class AddEvent extends React.Component {
     close = () => {
         this.setState({ 
             active: false,
-            processing: false,
+            updating: false,
             eventName: '',
             eventStart: '',
         })
@@ -55,7 +53,7 @@ class AddEvent extends React.Component {
     }
 
     add = () => {
-        this.setState({ processing: true })
+        this.setState({ updating: true })
         const title = this.state.eventName
         const start = Moment(this.state.eventStart).utc().format('YYYY-MM-DD HH:mm:00')
 
@@ -64,7 +62,7 @@ class AddEvent extends React.Component {
             .then(() => {
                 this.setState({
                     active: false,
-                    processing: false,
+                    updating: false,
                     eventName: '',
                     eventStart: ''
                 })
@@ -72,22 +70,22 @@ class AddEvent extends React.Component {
             })
             .catch(err => {
                 window.alert('Error adding event, please try re-logging.')
-                this.setState({ processing: false })
+                this.setState({ updating: false })
             })
         } else {
             window.alert('Please enter a valid date and event title.')
-            this.setState({ processing: false })
+            this.setState({ updating: false })
         }
     }
 
     render() {
         return (
             <>
-                <AddButton title='Add Event' onClick={this.open} />
+                <AddButton title='Add Event' onClick={this.open} disabled={this.state.updating} />
                 {(this.state.active)
                 ?
-                <Popout>
-                <h4>Add Event</h4>
+                <Popout submitFunction={this.add} cancelFunction={this.close} disabled={this.state.updating}>
+                    <h4>Add Event</h4>
                     <AddEventTime
                         selected={this.state.eventStart}
                         onChange={this.updateEventDate}
@@ -98,10 +96,6 @@ class AddEvent extends React.Component {
                         dateFormat='MMMM d, yyyy h:mm aa'
                     />
                     <Field type='text' placeholder='Event Name' value={this.state.eventName} onChange={this.updateEventName} />
-                    <div>
-                        <SubmitButton title='Add' onClick={this.add} disabled={this.state.processing} />
-                        <CancelButton title='Cancel' onClick={this.close} />
-                    </div>
                 </Popout>
                 :
                 null

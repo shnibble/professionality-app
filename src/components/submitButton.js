@@ -19,7 +19,6 @@ const Container = styled.button`
 
     &:disabled {
         background: #ccc;
-        border-color: #ccc;
         color: #f2f2f2;
         cursor: not-allowed; 
     }

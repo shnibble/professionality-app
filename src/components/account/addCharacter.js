@@ -2,8 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import Popout from '../popout'
 import AddButton from '../addButton'
-import SubmitButton from '../submitButton'
-import CancelButton from '../cancelButton'
 import { addCharacter } from '../../services/character'
 
 const Field = styled.input`
@@ -26,6 +24,7 @@ const Select = styled.select`
 class AddCharacter extends React.Component {
     state = {
         active: false,
+        updating: false,
         characterName: '',
         characterRace: '1',
         characterClass: '1',
@@ -39,7 +38,7 @@ class AddCharacter extends React.Component {
     close = () => {
         this.setState({ 
             active: false,
-            processing: false,
+            updating: false,
             characterName: '',
             characterRace: '1',
             characterClass: '1',
@@ -68,14 +67,14 @@ class AddCharacter extends React.Component {
     }
 
     add = () => {
-        this.setState({ processing: true })
+        this.setState({ updating: true })
         const { characterName, characterRace, characterClass, characterRole } = this.state
         if (characterName.length > 1) {
             addCharacter(characterName, characterRace, characterClass, characterRole)
             .then(() => {
                 this.setState({
                     active: false,
-                    processing: false,
+                    updating: false,
                     characterName: '',
                     characterRace: '1',
                     characterClass: '1',
@@ -85,11 +84,11 @@ class AddCharacter extends React.Component {
             })
             .catch(err => {
                 window.alert('Error adding character, please try re-logging.')
-                this.setState({ processing: false })
+                this.setState({ updating: false })
             })
         } else {
             window.alert('Please enter a valid character name.')
-            this.setState({ processing: false })
+            this.setState({ updating: false })
         }
     }
 
@@ -99,7 +98,7 @@ class AddCharacter extends React.Component {
                 <AddButton title='Add Character' onClick={this.open} />
                 {(this.state.active)
                 ?
-                <Popout>
+                <Popout submitFunction={this.add} cancelFunction={this.close} disabled={this.state.updating}>
                     <h4>Add Character</h4>
                     <Field value={this.state.characterName} onChange={this.updateCharacterName} placeholder='Character Name' />
                     <p><i>Please enter your character name exactly as it appears in-game.</i></p>
@@ -125,10 +124,6 @@ class AddCharacter extends React.Component {
                         <option value={3}>Healer</option>
                         <option value={4}>Tank</option>
                     </Select>
-                    <div>
-                        <SubmitButton title='Add' onClick={this.add} disabled={this.state.processing} />
-                        <CancelButton title='Cancel' onClick={this.close} />
-                    </div>
                 </Popout>
                 :
                 null
