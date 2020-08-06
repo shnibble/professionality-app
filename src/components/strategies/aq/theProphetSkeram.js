@@ -49,7 +49,6 @@ const TheProphetSkeram = () => (
             <NotesContainer>
                 <Note title='Nature Resistance Potions' description='All ranged and healers may want to consume nature potions to absorb the damage from Earth Shock.' />
                 <Note title='Arcane Resistance Potions' description='All melee and tanks may want to consume arcane potions to absorb the damage from Arcane Explosions that are not kicked in time.' />
-                <Note title='Snowballs' description='Snowballs are an excellent tool to knock down Mind Controlled players and give the mages a few extra seconds to sheep. Snowballs do not do damage so there is no risk of them breaking sheep. They can also be spammed quite fast!' />
             </NotesContainer>
         </Article>
 )
