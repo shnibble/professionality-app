@@ -44,7 +44,7 @@ class AddGoal extends React.Component {
             window.alert('Please enter a valid title and description.')
             this.setState({ updating: false })
         } else {
-            addGoal(this.state.title, this.state.ep_reward, this.state.description)
+            addGoal(this.state.title, this.state.description, this.state.ep_reward)
             .then(() => {
                 this.setState({ active: false, updating: false, title: '', ep_reward: '', description: '' })
                 this.props.loadDataFunction()
