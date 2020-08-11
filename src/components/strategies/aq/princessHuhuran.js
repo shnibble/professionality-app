@@ -19,7 +19,8 @@ const PrincessHuhuran = () => (
         <Boss img={HuhuranImg} title='Princess Huhuran' description="Princess Huhuran is a large silithid wasp, and the fourth boss of the Temple of Ahn'Qiraj." />
 
         <AbilityContainer>
-            <Ability img={BerserkImg} title='Frenzy' description='Huhuran goes into a Frenzy, casting Poison Bolts at the raid.' />
+            <Ability img={AcidSpitImg} title='Poison Bolt' description='Deals Nature damage to the closest 15 players.' />
+            <Ability img={BerserkImg} title='Frenzy' description='Huhuran goes into a Frenzy, casting Poison Bolts every 2 sec. to the closest 15 players.' />
             <Ability img={AcidSpitImg} title='Acid Spit' description='A stacking debuff which inflicts Nature damage to an enemy every 2 sec.' />
             <Ability img={WyvernStingImg} title='Wyvern Sting' description='A stinging shot that puts the target to sleep for 12 sec. Does massive damage if dispelled.' />
             <Ability img={AcidSpitImg} title='Noxious Poison' description='Deals Nature damage every 2 sec. and silences anyone within 15 yards.' />
@@ -30,7 +31,7 @@ const PrincessHuhuran = () => (
             <Mechanic description='Huhuran will go into a Frenzy throughout the fight until she reaches Berserk phase.' />
             <Mechanic description='Huhuran will apply stacks of Acid Spit on her primary target.' />
             <Mechanic description='Huhuran will cast Wyvern Sting and Noxious Poison on random players in the raid.' />
-            <Mechanic description='At 30% health, Huhuran will go into Berserk phase.' />
+            <Mechanic description='At 30% health Huhuran will go into Berserk phase, a permanent version of Frenzy.' />
         </MechanicsContainer>
 
         <TacticsContainer>
@@ -44,6 +45,7 @@ const PrincessHuhuran = () => (
         <NotesContainer>
             <Note title='Nature Resistance' description='The 15 soakers need to have around 200 Nature Resistance to properly mitigate the Enrage phase. Tanks and other members of the raid do not need to equip Nature Resistance for this encounter.' />
             <Note title='Threat Management' description='Managing threat is incredibly important as Huhuran cannot be taunted but two tanks need to bounce back and forth a few times throughout the encounter. DPS need to be very careful not to overtake either of the tanks on threat.' />
+            <Note title='Pets Cannot Soak' description='Pets and summoned creatures are not counted as part of the 15 players Huhuran shoots poison bolts at, only actual players.' />
         </NotesContainer>
     </Article>
 )

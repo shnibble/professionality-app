@@ -59,7 +59,7 @@ const EPGP = () => (
             <p>The last in line of priority which indicates that the player would like to have the item for the memes rather than have it go to disenchant. This option should only be used for odd items and trinkets that typically have no value in raids or PvP but might be used for fun, farming, collections, etc.</p>
             <br />
             <h4>Decay Rate</h4>
-            <p>The guild currently decays both EP and GP by 10% every week.</p>
+            <p>The guild currently decays both EP and GP by 20% every week.</p>
             <br />
             <h4>Onyxia</h4>
             <p>Attending an Onyxia raid in which the majority of attendees are from the guild awards a flat 20 EP, however, loot is rolled out the traditional way rather than by PR and no GP is accumulated from items obtained.</p>
