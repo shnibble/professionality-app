@@ -39,7 +39,14 @@ const TwinEmperors = () => (
                 <Mechanic description='The twins share a health pool so any damage done to either twin will be split equally between the two of them.' />
                 <Mechanic description='If the twins are within 60 yards they will spam Heal Brother on each other.' />
                 <Mechanic description='About every 35 seconds the twins will cast Twin Teleport, switching places and dropping aggro completely.' />
+                <Mechanic description='When the twins teleport, they apply a bonus "proximity" threat to their nearest enemy in range.' />
             </MechanicsContainer>
+
+            <TacticsContainer>
+                <Tactic title='Casters and Melee Rotate' description='Due to the different resists and the twins teleporting back and forth, both melee and casters will need to rotate to different sides of the room after each teleport.' />
+                <Tactic title="Vek'lor Proximity Threat" description="When Vek'lor is teleporting to a position the melee tank should run out of range as quickly as possible thereby allowing the Warlock tank to move closer and receive the proximity threat." />
+                <Tactic title="Vek'nilash Proximity Threat" description="When Vek'nilash is teleporting to a position the melee tank should run into melee range in front of the current Warlock tank in order to get the proximity threat." />
+            </TacticsContainer>
         </Article>
 
         <Article>
@@ -47,7 +54,7 @@ const TwinEmperors = () => (
 
             <AbilityContainer>
                 <Ability img={ShadowBoltImg} title='Shadow Bolt' description='Hurls a bolt of dark magic at an enemy, inflicting Shadow damage.' />
-                <Ability img={ArcaneBurstImg} title='Arcane Burst' description='An AoE knockback effect.' />
+                <Ability img={ArcaneBurstImg} title='Arcane Burst' description='An AoE knockback effect which does damage and applies a slow debuff.' />
                 <Ability img={BlizzardImg} title='Blizzard' description='Ice shards pelt the target area doing Frost damage over time.' />
                 <Ability img={ExplodeBugImg} title='Explode Bug' description='Targets a random Scarab or Scorpion in the room causing it to grow in size until it explodes dealing massive AoE Fire damage.' />
             </AbilityContainer>
