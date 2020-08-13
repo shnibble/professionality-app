@@ -145,9 +145,6 @@ class Requests extends React.Component {
     }
 
     render() {
-        console.log('count:', this.state.count)
-        console.log('offset:', this.state.offset)
-
         let min = this.state.offset + 1
         let max = this.state.offset + this.state.limit
         if (max > this.state.count) {
