@@ -39,13 +39,43 @@ const Checkmark = styled.div`
     background-image: url(${CheckboxFalseImg});
     background-size: 100%;
 `
+const Pager = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+`
+const PagerButton = styled.button`
+    background: none;
+    padding: 5px 15px;
+    color: #999;
+    border: none;
+    cursor: pointer;
+    transition: all .25s ease;
+
+    &:hover, &:focus {
+        outline: none;
+        color: #f88000;
+    }
+
+    &:disabled {
+        cursor: default;
+        color: #f2f2f2;
+    }
+`
+const PagerText = styled.span`
+    color: #999;
+`
 
 class Requests extends React.Component {
     state = {
         loading: true,
         error: false,
         requests: [],
-        include_inactive: false
+        include_inactive: false,
+        limit: 10,
+        offset: 0,
+        count: 0
     }
 
     loadData = () => {
@@ -56,13 +86,30 @@ class Requests extends React.Component {
             API_URL = 'https://professionality-api.com/bank/requests/getActive'
         }
 
-        axios.get(API_URL)
+        axios.get(API_URL, {
+            params: {
+                limit: this.state.limit,
+                offset: this.state.offset
+            }
+        })
         .then(results => {
-            this.props.loadActiveRequestsFunction()
-            this.setState({
-                loading: false,
-                requests: results.data
+
+            // get total count
+            axios.get(API_URL)
+            .then(total_results => {
+                const count = total_results.data.length
+                this.props.loadActiveRequestsFunction()
+                this.setState({
+                    loading: false,
+                    requests: results.data,
+                    count
+                })
             })
+            .catch(err => {
+                window.alert('Issue loading bank requests, please try refreshing the page.')
+                this.setState({ loading: false, error: true })
+            })
+            
         })
         .catch(err => {
             window.alert('Issue loading bank requests, please try refreshing the page.')
@@ -72,8 +119,25 @@ class Requests extends React.Component {
 
     toggleActive = async (ev) => {
         const include_inactive = ev.target.checked
-        await this.setState({ include_inactive })
+        await this.setState({ include_inactive, offset: 0 })
         this.loadData()
+    }
+
+    previousPage = async () => {
+        let offset = this.state.offset - this.state.limit
+        if (offset < 0) {
+            offset = 0
+        }
+        await this.setState({ offset })
+        this.loadData()
+    }
+
+    nextPage = async () => {
+        let offset = this.state.offset + this.state.limit
+        if (offset < this.state.count) {
+            await this.setState({ offset: this.state.offset + this.state.limit })
+            this.loadData()
+        }
     }
 
     componentDidMount() {
@@ -81,6 +145,15 @@ class Requests extends React.Component {
     }
 
     render() {
+        console.log('count:', this.state.count)
+        console.log('offset:', this.state.offset)
+
+        let min = this.state.offset + 1
+        let max = this.state.offset + this.state.limit
+        if (max > this.state.count) {
+            max = this.state.count
+        }
+
         return (
             <UserContext.Consumer>
                 {user => (
@@ -110,7 +183,17 @@ class Requests extends React.Component {
                                 <Checkmark />
                             </CheckboxContainer>
                         </RequestsHeader>
+                        <Pager>
+                            <PagerButton onClick={this.previousPage} disabled={(this.state.offset === 0)?true:false}>Previous</PagerButton>
+                            <PagerText>{min} - {max} of {this.state.count}</PagerText>
+                            <PagerButton onClick={this.nextPage} disabled={(this.state.offset >= this.state.count - this.state.limit)?true:false}>Next</PagerButton>
+                        </Pager>
                         {(this.state.requests.map(request => <Request key={`request_id_${request.id}`} data={request} loadDataFunction={this.loadData} /> ))}
+                        <Pager>
+                            <PagerButton onClick={this.previousPage} disabled={(this.state.offset === 0)?true:false}>Previous</PagerButton>
+                            <PagerText>{min} - {max} of {this.state.count}</PagerText>
+                            <PagerButton onClick={this.nextPage} disabled={(this.state.offset >= this.state.count - this.state.limit)?true:false}>Next</PagerButton>
+                        </Pager>
                     </Article>
                 )}
             </UserContext.Consumer>
