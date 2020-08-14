@@ -5,10 +5,10 @@ import axios from 'axios'
 import Moment from 'moment'
 import Article from '../article'
 import TableWrapper from '../tableWrapper'
-import CasterIcon from '../../images/spell_fire_firebolt02.jpg'
-import FighterIcon from '../../images/ability_warrior_challange.jpg'
-import HealerIcon from '../../images/spell_holy_flashheal.jpg'
-import TankIcon from '../../images/ability_warrior_defensivestance.jpg'
+import CasterIcon from '../../images/caster.png'
+import FighterIcon from '../../images/fighter.png'
+import HealerIcon from '../../images/healer.png'
+import TankIcon from '../../images/tank.png'
 
 const Container = styled.section`
 
@@ -31,8 +31,8 @@ const Table = styled.table`
     }
 `
 const TableIcon = styled.img`
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
 `
 const Pager = styled.div`
     display: flex;
