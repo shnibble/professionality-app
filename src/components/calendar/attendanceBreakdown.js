@@ -42,8 +42,8 @@ const ClassGroupMember = styled.div`
     margin: 2px;
 `
 const ClassGroupMemberRoleIcon = styled.div`
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background-size: 100%;
     
     &.role-1 {
@@ -63,11 +63,11 @@ const ClassGroupMemberRoleIcon = styled.div`
     }
 `
 const ClassGroupMemberIcon = styled.img`
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
 `
 const ClassGroupMemberName = styled.span`
-    padding: 2px;
+    padding: 5px;
 
     &.class-1 {
         color: #C79C6E;

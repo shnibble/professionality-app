@@ -71,9 +71,9 @@ const TableCharacter = styled.span`
 `
 const TableRole = styled.div`
     display: inline-block;
-    margin: 2px;
-    width: 20px;
-    height: 20px;
+    margin: 1px;
+    width: 30px;
+    height: 30px;
     background-size: 100%;
     
     &.role-1 {

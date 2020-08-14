@@ -34,8 +34,8 @@ const Table = styled.table`
     }
 `
 const TableIcon = styled.img`
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
 `
 const Pager = styled.div`
     display: flex;
