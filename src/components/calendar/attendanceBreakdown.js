@@ -16,8 +16,8 @@ const DetailsTable = styled.table`
     margin-top: 10px;
 `
 const TableIcon = styled.img`
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
 `
 const ClassesBreakdown = styled.div`
     display: grid;

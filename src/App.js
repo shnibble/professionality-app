@@ -12,6 +12,7 @@ import Roster from './components/roster/roster'
 import Bank from './components/bank/bank'
 import Buffs from './components/buffs'
 import Loot from './components/loot/loot'
+import Rules from './components/rules'
 import Strategies from './components/strategies/strategies'
 import Home from './components/home'
 import Event from './components/calendar/event'
@@ -36,6 +37,7 @@ function App() {
                     <Route path={'/bank'} component={Bank} />
                     <Route path={'/buffs'} component={Buffs} />
                     <Route path={'/loot'} component={Loot} />
+                    <Route path={'/rules'} component={Rules} />
                     <Route path={'/strategies'} component={Strategies} />
                     <Route path={'/login'} component={Login} />
                     <Route path={'/event/:id'} component={Event} />

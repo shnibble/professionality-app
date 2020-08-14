@@ -93,6 +93,7 @@ class MobileMenu extends React.Component {
                         <Li><StyledLink activeClassName='active' onClick={this.toggleMenu} to='/bank'>Bank</StyledLink></Li>
                         <Li><StyledLink activeClassName='active' onClick={this.toggleMenu} to='/buffs'>Buffs</StyledLink></Li>
                         <Li><StyledLink activeClassName='active' onClick={this.toggleMenu} to='/loot'>Loot</StyledLink></Li>
+                        <Li><StyledLink activeClassName='active' onClick={this.toggleMenu} to='/rules'>Rules</StyledLink></Li>
                         <Li><StyledLink activeClassName='active' onClick={this.toggleMenu} to='/strategies'>Strategies</StyledLink></Li>
                     </Ul>
                 </Nav>

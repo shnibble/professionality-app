@@ -42,21 +42,21 @@ const EPGP = () => (
             <h4>Loot Options</h4>
             <p>When an item is being distributed all players are asked to pick one of these four categories or pass:</p>
             <br />
-            <h5>Main Spec</h5>
+            <h5>MS (High Prio)</h5>
             <p><i>Costs 100% of GP value</i></p>
             <p>The highest priority which indicates that the item will be used for the player's main spec in raids and is a substantial upgrade over their current item in the same slot.</p>
             <br />
-            <h5>Minor Upgrade</h5>
+            <h5>MS (Low Prio)</h5>
+            <p><i>Costs 90% of GP Value</i></p>
+            <p>Second highest priority which still indicates that the item will be used for the player's main spec in raids but can be used as a courtesy to "pass for now" so others who need it more (High Prio) can get the item first. Offers a minor discount in return.</p>
+            <br />
+            <h5>Off Spec + PvP</h5>
             <p><i>Costs 50% of GP Value</i></p>
-            <p>Second highest priority which indicates that the item will be used for the player's main spec in raids but is only a slight improvement over their current item in the same slot. Using this option will give the player a substantial discount on the item but defers to those who select Main Spec first.</p>
+            <p>Third in line of priority which indicates that the item will be used for the player's off spec or for PvP. An example would be DPS Warriors obtaining tank gear.</p>
             <br />
-            <h5>Off Spec</h5>
+            <h5>Meme + RP</h5>
             <p><i>Costs 25% of GP Value</i></p>
-            <p>Third in line of priority behind both Main Spec and Minor Upgrade which indicates that the item will not be used for the player's main spec or within raids. This option is usually reserved for PvP items or raiding gear for an off spec that might be used later should the player respec.</p>
-            <br />
-            <h5>Meme</h5>
-            <p><i>Costs 5% of GP Value</i></p>
-            <p>The last in line of priority which indicates that the player would like to have the item for the memes rather than have it go to disenchant. This option should only be used for odd items and trinkets that typically have no value in raids or PvP but might be used for fun, farming, collections, etc.</p>
+            <p>The last in line of priority which indicates that the player would like to have the item for the memes rather than have it go to disenchant. This option should only be used for odd items and trinkets that typically have no value in raids or PvP but might be used for fun, RP, farming, collections, etc.</p>
             <br />
             <h4>Decay Rate</h4>
             <p>The guild currently decays both EP and GP by 20% every week.</p>
