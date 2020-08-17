@@ -10,10 +10,10 @@ import Calendar from './components/calendar/calendar'
 import EPGP from './components/epgp'
 import Roster from './components/roster/roster'
 import Bank from './components/bank/bank'
-import Buffs from './components/buffs'
 import Loot from './components/loot/loot'
 import Rules from './components/rules'
 import Strategies from './components/strategies/strategies'
+import Assignments from './components/assignments/assignments'
 import Home from './components/home'
 import Event from './components/calendar/event'
 import Footer from './components/footer'
@@ -35,10 +35,10 @@ function App() {
                     <Route path={'/epgp'} component={EPGP} />
                     <Route path={'/roster'} component={Roster} />
                     <Route path={'/bank'} component={Bank} />
-                    <Route path={'/buffs'} component={Buffs} />
                     <Route path={'/loot'} component={Loot} />
                     <Route path={'/rules'} component={Rules} />
                     <Route path={'/strategies'} component={Strategies} />
+                    <Route path={'/assignments'} component={Assignments} />
                     <Route path={'/login'} component={Login} />
                     <Route path={'/event/:id'} component={Event} />
                     <Route path={'/'} component={Home} />

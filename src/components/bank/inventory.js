@@ -9,8 +9,6 @@ import TableWrapper from '../tableWrapper'
 import Table from './table'
 import InventoryItem from './inventoryItem'
 import Popout from '../popout'
-import SubmitButton from '../submitButton'
-import CancelButton from '../cancelButton'
 
 const SearchField = styled.input`
     padding: 10px;

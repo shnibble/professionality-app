@@ -1,6 +1,4 @@
 import React from 'react'
-import axios from 'axios'
-import Cookies from 'js-cookie'
 import styled from 'styled-components'
 import { addRequest } from '../../services/requests'
 import AddButton from '../addButton'

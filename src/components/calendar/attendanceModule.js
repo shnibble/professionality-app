@@ -214,9 +214,8 @@ class AttendanceModule extends React.Component {
                 <TableButton 
                     title='Call Out' 
                     onClick={this.handleCallout} 
-                    disabled={(this.props.event.called_out)?true:false} 
+                    disabled={(this.props.event.called_out || this.state.updating)?true:false} 
                     active={(this.props.event.called_out)?true:false} 
-                    disabled={this.state.updating}
                 />
                 <TableButton 
                     title='Cancel' 

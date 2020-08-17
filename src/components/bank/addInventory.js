@@ -4,8 +4,6 @@ import { getItems } from '../../services/items'
 import { addInventory } from '../../services/inventory'
 import Popout from '../popout'
 import AddButton from '../addButton'
-import SubmitButton from '../submitButton'
-import CancelButton from '../cancelButton'
 
 const Field = styled.input`
     display: block;

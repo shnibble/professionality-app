@@ -1,6 +1,18 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
+export const getActiveCharacters = () => {
+    return new Promise( (resolve, reject) => {
+        axios.get('https://professionality-api.com/character/getActive')
+        .then(result => {
+            resolve(result)
+        })
+        .catch(err => {
+            reject(err)
+        })
+    })
+}
+
 export const addCharacter = (character_name, character_race_id, character_class_id, character_role_id) => {
     const jwt = Cookies.get('token')
     return new Promise( (resolve, reject) => {
@@ -129,6 +141,7 @@ export const updateCharacterProfessions = (character_id, profession_id_one, prof
 }
 
 export default {
+    getActiveCharacters,
     addCharacter,
     deleteCharacter,
     updateCharacterRaceId,
