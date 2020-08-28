@@ -8,6 +8,7 @@ import CheckBoxFalseImg from '../../images/checkbox-false.png'
 import Character from './character'
 import AddCharacter from './addCharacter'
 import Article from '../article'
+import Availability from './availability'
 
 const Container = styled.section`
 
@@ -77,6 +78,10 @@ class Account extends React.Component {
         }
     }
 
+    handleUpdateAvailability = (ev) => {
+
+    }
+
     componentDidUpdate = () => {
         if (this.state.loading && this.state.data === null) {
             this.loadData()
@@ -125,6 +130,10 @@ class Account extends React.Component {
                             </tbody>
                         </table>
                         <LogoutButton onClick={this.logout}>Logout</LogoutButton>
+                    </Article>
+                    <Article>
+                        <h3>Availability</h3>
+                        <Availability data={this.state.data} loadDataFunction={this.loadData} />
                     </Article>
                     <Article>
                         <h3>Characters</h3>
