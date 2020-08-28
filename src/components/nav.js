@@ -22,22 +22,31 @@ const Li = styled.li`
 `
 const StyledLink = styled(NavLink)`
     padding: 10px;
-    color: #000;
+    color: ${props => props.theme.colors.color};
     font-weight: bold;
     text-decoration: none;
     font-family: 'Josefin Sans', sans-serif;
     transition: all .25s ease;
 
     &.active {
-        color: #ccc;
+        color: ${props => props.theme.colors.lowlight};
     }
 
     &:hover {
-        color: #f88000;
+        color: ${props => props.theme.colors.highlight};
     }
 `
+const DarkModeButton = styled.button`
+    background: #f88000;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    margin: 10px 0;
+    border-radius: 2px;
+    cursor: pointer;
+`
 
-const Nav = () => (
+const Nav = ({ toggleTheme=null }) => (
     <Container>
         <Ul>
             <Li><StyledLink exact activeClassName='active' to='/'>Home</StyledLink></Li>
@@ -49,6 +58,7 @@ const Nav = () => (
             <Li><StyledLink activeClassName='active' to='/rules'>Rules</StyledLink></Li>
             <Li><StyledLink activeClassName='active' to='/strategies'>Strategies</StyledLink></Li>
             <Li><StyledLink activeClassName='active' to='/assignments'>Assignments</StyledLink></Li>
+            <Li><DarkModeButton onClick={toggleTheme}>Dark Mode</DarkModeButton></Li>
         </Ul>
     </Container>
 )

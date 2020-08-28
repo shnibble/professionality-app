@@ -8,7 +8,7 @@ const Container = styled.div`
     left: -200px;
     bottom: 0;
     width: 200px;
-    background: #f2f2f2;
+    background: ${props => props.theme.colors.menuBackground};
     transition: all .25s ease;
 
     &.active {
@@ -40,14 +40,15 @@ const StyledLink = styled(NavLink)`
     font-weight: bold;
     text-decoration: none;
     font-family: 'Josefin Sans', sans-serif;
+    color: ${props => props.theme.colors.color};
     transition: all .25s ease;
 
     &.active {
-        color: #ccc;
+        color: ${props => props.theme.colors.lowlight};
     }
 
     &:hover {
-        color: #f88000;
+        color: ${props => props.theme.colors.highlight};
     }
 `
 const Button = styled.button`
@@ -62,6 +63,7 @@ const Button = styled.button`
     border: none;
     font-family: 'Metal Mania', cursive;
     cursor: pointer;
+    color: ${props => props.theme.colors.color};
 
     &.active {
         right: 0;
@@ -70,6 +72,15 @@ const Button = styled.button`
     &:focus {
         outline: none;
     }
+`
+const DarkModeButton = styled.button`
+    background: #f88000;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    margin: 10px 0;
+    border-radius: 2px;
+    cursor: pointer;
 `
 
 class MobileMenu extends React.Component {
@@ -95,6 +106,7 @@ class MobileMenu extends React.Component {
                         <Li><StyledLink activeClassName='active' onClick={this.toggleMenu} to='/rules'>Rules</StyledLink></Li>
                         <Li><StyledLink activeClassName='active' onClick={this.toggleMenu} to='/strategies'>Strategies</StyledLink></Li>
                         <Li><StyledLink activeClassName='active' onClick={this.toggleMenu} to='/assignments'>Assignments</StyledLink></Li>
+                        <Li><DarkModeButton onClick={this.props.toggleTheme}>Dark Mode</DarkModeButton></Li>
                     </Ul>
                 </Nav>
                 <Button className={(this.state.active)?'active':''} onClick={this.toggleMenu}>{(this.state.active)?'X':'|||'}</Button>

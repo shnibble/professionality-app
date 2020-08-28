@@ -16,18 +16,18 @@ const Li = styled.li`
 `
 const StyledLink = styled(NavLink)`
     padding: 10px;
-    color: #000;
+    color: ${props => props.theme.colors.color};
     text-decoration: none;
     font-family: 'Josefin Sans', sans-serif;
     font-weight: bold;
     transition: all .25s ease;
 
     &.active {
-        color: #ccc;
+        color: ${props => props.theme.colors.lowlight};
     }
 
     &:hover {
-        color: #f88000;
+        color: ${props => props.theme.colors.highlight};
     }
 `
 

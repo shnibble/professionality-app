@@ -14,7 +14,7 @@ const Container = styled.table`
     }
 
     & > tbody > tr:nth-child(odd) {
-        background: #f2f2f2;
+        background: ${props => props.theme.colors.tableOddRowBackground};
     }
 `
 

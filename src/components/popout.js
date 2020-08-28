@@ -13,7 +13,7 @@ const Container = styled.div`
 const Box = styled.div`
     display: flex;
     flex-direction: column;
-    background: #fff;
+    background: ${props => props.theme.colors.background};
     max-width: 400px;
     height: 60vh;
     margin: 20vh auto;

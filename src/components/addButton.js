@@ -5,7 +5,7 @@ const Container = styled.button`
     display: block;
     background: none;
     border: none;
-    color: #999;
+    color: ${props => props.theme.colors.buttonColor};
     padding: 10px;
     margin: 5px;
     font-size: 16px;
@@ -14,11 +14,11 @@ const Container = styled.button`
 
     &:hover, &:focus {
         outline: none;
-        color: #f88000;
+        color: ${props => props.theme.colors.highlight};
     }
 
     &:disabled {
-        color: #ccc;
+        color: ${props => props.theme.colors.disabledColor};
     }
 `
 

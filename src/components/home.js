@@ -6,6 +6,12 @@ import Article from './article'
 const Li = styled.li`
     margin-left: 50px;
 `
+const Anchor = styled.a`
+    color: ${props => props.theme.colors.anchor};
+`
+const StyledNavLink = styled(NavLink)`
+    color: ${props => props.theme.colors.anchor};
+`
 
 const Home = () => (
     <section>
@@ -16,7 +22,7 @@ const Home = () => (
         </Article>
         <Article>
             <h3>Discord</h3>
-            <p>Feel free to join our Discord server, we don't bite: <a href='https://discord.gg/vth2bMj' target='_BLANK' rel='noopener noreferrer'>https://discord.gg/vth2bMj</a></p>
+            <p>Feel free to join our Discord server, we don't bite: <Anchor href='https://discord.gg/vth2bMj' target='_BLANK' rel='noopener noreferrer'>https://discord.gg/vth2bMj</Anchor></p>
             <br />
             <p>Note that if you want to sign in to this website to utilize any of it's features, you must first join Discord so our Bot can identify you.</p>
         </Article>
@@ -36,11 +42,11 @@ const Home = () => (
             </ul>
             <br />
             <h4>Loot System</h4>
-            <p>The guild utilizes the <NavLink to='/epgp'>EPGP</NavLink> loot system.</p>
+            <p>The guild utilizes the <StyledNavLink to='/epgp'>EPGP</StyledNavLink> loot system.</p>
         </Article>
         <Article>
             <h3>Contact</h3>
-            <p>Feel free to contact any of our <NavLink to='/roster/officers'>officers</NavLink> in-game or through Discord.</p>
+            <p>Feel free to contact any of our <StyledNavLink to='/roster/officers'>officers</StyledNavLink> in-game or through Discord.</p>
         </Article>
     </section>
 )

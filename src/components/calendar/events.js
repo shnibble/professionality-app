@@ -26,7 +26,7 @@ const Table = styled.table`
     }
 
     & tbody > tr:nth-child(odd) {
-        background: #f2f2f2;
+        background: ${props => props.theme.colors.tableOddRowBackground};
     }
 
     & tbody td:nth-child(1) { 
@@ -46,23 +46,26 @@ const Pager = styled.div`
 const PagerButton = styled.button`
     background: none;
     padding: 5px 15px;
-    color: #999;
+    color: ${props => props.theme.colors.buttonColor};
     border: none;
     cursor: pointer;
     transition: all .25s ease;
 
     &:hover, &:focus {
         outline: none;
-        color: #f88000;
+        color: ${props => props.theme.colors.highlight};
     }
 
     &:disabled {
         cursor: default;
-        color: #f2f2f2;
+        color: ${props => props.theme.colors.disabledColor};
     }
 `
 const PagerText = styled.span`
-    color: #999;
+    color: ${props => props.theme.colors.lowlight};
+`
+const StyledNavLink = styled(NavLink)`
+    color: ${props => props.theme.colors.anchor};
 `
 
 class Events extends React.Component {
@@ -187,8 +190,8 @@ class Events extends React.Component {
                                             <tbody>
                                                 {(this.state.events.map(event => (
                                                 <tr key={`event_id_${event.id}`}>
-                                                    <td><NavLink to={`/event/${event.id}`}>{Moment(event.start).format('ddd M/D @ h:mm a')}</NavLink></td>
-                                                    <td><NavLink to={`/event/${event.id}`}>{event.title}</NavLink></td>
+                                                    <td><StyledNavLink to={`/event/${event.id}`}>{Moment(event.start).format('ddd M/D @ h:mm a')}</StyledNavLink></td>
+                                                    <td><StyledNavLink to={`/event/${event.id}`}>{event.title}</StyledNavLink></td>
                                                     <td>{event.total_casters}</td>
                                                     <td>{event.total_fighters}</td>
                                                     <td>{event.total_healers}</td>

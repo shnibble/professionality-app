@@ -3,13 +3,16 @@ import styled from 'styled-components'
 import Article from './article'
 
 const Code = styled.span`
-    background: #ccc;
+    background: ${props => props.theme.colors.codeBackground};
     font-family: Courier;
     padding: 2px;
     border-radius: 4px;
 `
 const Li = styled.li`
     margin-left: 50px;
+`
+const Anchor = styled.a`
+    color: ${props => props.theme.colors.anchor};
 `
 
 const EPGP = () => (
@@ -80,7 +83,7 @@ const EPGP = () => (
             <p>If a player is benched by the raid leader for any reason while the player was otherwise ready, they may choose to take 50% of the EP earned during the raid instead of going on the Standby List.</p>
             <br />
             <h4>Add-On</h4>
-            <p>There is an add-on which everyone, including PUGs, should download and use for Professionality raids which helps facilitate the EPGP system. It is called CEPGP and can be downloaded from Curse Forge here: <a href='https://www.curseforge.com/wow/addons/cepgp' target='_BLANK' rel='noopener noreferrer'>https://www.curseforge.com/wow/addons/cepgp</a>.</p>
+            <p>There is an add-on which everyone, including PUGs, should download and use for Professionality raids which helps facilitate the EPGP system. It is called CEPGP and can be downloaded from Curse Forge here: <Anchor href='https://www.curseforge.com/wow/addons/cepgp' target='_BLANK' rel='noopener noreferrer'>https://www.curseforge.com/wow/addons/cepgp</Anchor>.</p>
         </Article>
     </section>
 )

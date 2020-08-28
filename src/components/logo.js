@@ -9,6 +9,7 @@ const Container = styled.div`
 const Svg = styled.svg`
     display: none;
     width: 30px; 
+    fill: ${props => props.theme.colors.color};
 
     @media screen and (min-width: 720px) {
         display: block;

@@ -13,14 +13,14 @@ const Container = styled.div`
     align-items: center;
 `
 const AccountLink = styled(NavLink)`
-    color: #000;
+    color: ${props => props.theme.colors.color};
     font-weight: bold;
     margin: 5px 0;
     padding: 5px 0;
     transition: all .25s ease;
 
     &:hover {
-        color: #f88000;
+        color: ${props => props.theme.colors.highlight};
     }
 `
 const Button = styled.button`
