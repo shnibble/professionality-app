@@ -11,7 +11,7 @@ import Login from './components/login'
 import Nav from './components/nav'
 import Account from './components/account/account'
 import Calendar from './components/calendar/calendar'
-import EPGP from './components/epgp'
+import EPGP from './components/epgp/epgp'
 import Roster from './components/roster/roster'
 import Bank from './components/bank/bank'
 import Loot from './components/loot/loot'
@@ -44,8 +44,8 @@ const App = () => {
             <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme }>
                 <Router>
                     <Wrapper>
-                        <Header toggleTheme={toggleTheme} />
-                        <Nav toggleTheme={toggleTheme} />
+                        <Header toggleTheme={toggleTheme} darkTheme={isDarkMode} />
+                        <Nav />
                         <Main>
                             <Switch>
                                 <Route path={'/account'} component={Account} />

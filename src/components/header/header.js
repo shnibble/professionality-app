@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import Logo from '../logo'
 import Account from './account'
 import MobileMenu from './mobileMenu'
+import CheckboxTrueImg from '../../images/checkbox-true.png'
+import CheckboxFalseImg from '../../images/checkbox-false.png'
 
 const Container = styled.header`
     display: flex;
@@ -43,14 +45,60 @@ const Title = styled.h1`
         font-size: 32px;
     }
 `
+const DarkModeContainer = styled.div`
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
 
-const Header = ({ toggleTheme=null }) => (
+    @media screen and (min-width: 720px) {
+        display: flex;
+    }
+`
+const CheckboxContainer = styled.label`
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+
+    &:hover {
+        background: #606060;
+    }
+`
+const Checkbox = styled.input`
+    display: none;
+
+    &:checked + div {
+        background-image: url(${CheckboxTrueImg});
+    }
+`
+const Checkmark = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-image: url(${CheckboxFalseImg});
+    background-size: 100%;
+`
+
+const Header = ({ toggleTheme=null, darkTheme=false }) => (
     <Container>
         <Logo />
-        <MobileMenu toggleTheme={toggleTheme} />
+        <MobileMenu toggleTheme={toggleTheme} darkTheme={darkTheme} />
         <TitleContainer>
             <Title>Professionality</Title>
         </TitleContainer>
+        <DarkModeContainer>
+            <span>Dark Mode:</span>
+            <CheckboxContainer>
+                <Checkbox type='checkbox' checked={darkTheme} onChange={toggleTheme} />
+                <Checkmark />
+            </CheckboxContainer>
+        </DarkModeContainer>
         <Account />
     </Container>
 )

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Article from './article'
+import Article from '../article'
 
 const Code = styled.span`
     background: ${props => props.theme.colors.codeBackground};
@@ -15,9 +15,8 @@ const Anchor = styled.a`
     color: ${props => props.theme.colors.anchor};
 `
 
-const EPGP = () => (
+const Info = () => (
     <section>
-        <h2>EPGP</h2>
         <Article>
             <h3>The Basics</h3>
             <p>EPGP stands for Effort Points Gear Points. Effort Points (EP) are accumulated mostly through attendance at raids but sometimes for other activities that benefit the guild. Gear Points (GP) are accumulated when receiving loot from raids. The quotient of these two numbers is called your Priority (PR) and helps determine when you receive loot.</p>
@@ -88,4 +87,4 @@ const EPGP = () => (
     </section>
 )
 
-export default EPGP
+export default Info
