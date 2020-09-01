@@ -70,7 +70,6 @@ class UpdateEpGp extends React.Component {
                 this.props.loadDataFunction()
             })
             .catch(err => {
-                console.log("err:", err)
                 window.alert('Error updating EPGP, please try re-logging.')
                 this.setState({ updating: false })
             })

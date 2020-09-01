@@ -142,7 +142,7 @@ class Pug extends React.Component {
                             ?
                             <td>
                                 <ButtonWrapper>
-                                    <UpdateEpGp id={id} />
+                                    <UpdateEpGp id={id} loadDataFunction={this.props.loadDataFunction} />
                                     <TableButton title='H' onClick={this.openHistory} />
                                     {(this.props.active)
                                     ?
