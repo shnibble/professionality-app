@@ -45,13 +45,15 @@ class Pug extends React.Component {
 
     handleDeleteCharacter = () => {
         const { id } = this.props.data
-        activateCharacter(id)
-        .then(() => {
-            this.props.loadDataFunction()
-        })
-        .catch(err => {
-            window.alert('Error deleting character, please try re-logging.')
-        })
+        if (window.confirm('Are you sure you want to delete this character?')) {
+            deleteCharacter(id)
+            .then(() => {
+                this.props.loadDataFunction()
+            })
+            .catch(err => {
+                window.alert('Error deleting character, please try re-logging.')
+            })
+        }
     }
 
     render() {
