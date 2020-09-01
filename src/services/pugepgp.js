@@ -7,8 +7,8 @@ export const updateEpgp = (id, ep_amount, gp_amount, note) => {
         axios.post('https://professionality-api.com/pugepgp/update', {
             jwt,
             id,
-            ep_amount,
-            gp_amount,
+            ep_amount: Number.parseInt(ep_amount),
+            gp_amount: Number.parseInt(gp_amount),
             note
         })
         .then(result => {
@@ -25,7 +25,7 @@ export const updateActiveEp = (ep_amount, note) => {
     return new Promise( (resolve, reject) => {
         axios.post('https://professionality-api.com/pugepgp/updateActiveEp', {
             jwt,
-            ep_amount,
+            ep_amount: Number.parseInt(ep_amount),
             note
         })
         .then(result => {
