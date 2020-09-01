@@ -34,7 +34,7 @@ class Pug extends React.Component {
 
     handleDeactivateCharacter = () => {
         const { id } = this.props.data
-        activateCharacter(id)
+        deactivateCharacter(id)
         .then(() => {
             this.props.loadDataFunction()
         })
