@@ -58,7 +58,7 @@ class UpdateEpGp extends React.Component {
         const { id } = this.props
 
         if (ep > 0 || gp > 0) {
-            updateEpgp()
+            updateEpgp(id, ep, gp, note)
             .then(() => {
                 this.setState({
                     active: false,

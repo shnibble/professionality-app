@@ -202,7 +202,7 @@ const HistoryContainer = styled.div`
     z-index: 3;
 `
 const History = styled.div`
-    background: #fff;
+    background: ${props => props.theme.colors.background};
     font-size: 12px;
     padding: 5px;
     margin: 5px;
@@ -213,7 +213,7 @@ const HistoryTable = styled.table`
     border-collapse: collapse;
 
     & tbody tr:nth-child(odd) {
-        background: #f2f2f2;
+        background: ${props => props.theme.colors.tableOddRowBackground};
     }
 
     & td {
