@@ -37,8 +37,9 @@ const Home = () => (
             <br />
             <h4>Schedule</h4>
             <ul>
-                <Li><p>Progression raids occur Wednesdays at 8:30pm server time. This raid will change as the guild progresses to different content.</p></Li>
-                <Li><p>Farming raids occur on Thursdays at 8:30pm server time. This raid will change as the guild progresses to different content.</p></Li>
+                <Li><p>Ahn'Qiraj raids occur Wednesdays at 8:00pm server time.</p></Li>
+                <Li><p>Molten Core raids (guild hosted PUG) occur on Saturdays at 8:00pm server time.</p></Li>
+                <Li><p>Blackwing Lair raids occur on Mondays at 8:00pm server time.</p></Li>
             </ul>
             <br />
             <h4>Loot System</h4>

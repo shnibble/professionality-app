@@ -67,7 +67,10 @@ const Info = () => (
             <p>Attending an Onyxia raid in which the majority of attendees are from the guild awards a flat 20 EP, however, loot is rolled out the traditional way rather than by PR and no GP is accumulated from items obtained.</p>
             <br />
             <h4>Zul'Gurub and Ruins of Ahn'Qiraj</h4>
-            <p>Attending either a ZG or AQ20 raid in which the majority of attendees are from the guild awards a flat 10 EP, however, loot is rolled out the traditional way rather than by PR and no GP is accumulated from items obtained.</p>
+            <p>Attending either a ZG or AQ20 raid in which the majority of attendees are from the guild awards a flat 15 EP, however, loot is rolled out the traditional way rather than by PR and no GP is accumulated from items obtained.</p>
+            <br />
+            <h4>Molten Core</h4>
+            <p>Attending a Molten Core raid in which the majority of attendees are from the guild awards a flat 30 EP, however, loot is handled by Wishlist MS > OS +1 rather than by PR and no GP is accumulated from items obtained. Legendaries, materials and recipes are reserved for the guild.</p>
             <br />
             <h4>Standby List</h4>
             <p>If there is no room in the raid a player may be added to the Standby List and receive the same amount of EP as the raid group as they progress through the instance.</p>
