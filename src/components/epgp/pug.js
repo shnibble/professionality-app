@@ -138,24 +138,27 @@ class Pug extends React.Component {
                             <td>{ep.toFixed()}</td>
                             <td>{gp.toFixed()}</td>
                             <td>{(ep.toFixed() / gp.toFixed()).toFixed(2)}</td>
-                            {(user.is_officer)
-                            ?
                             <td>
                                 <ButtonWrapper>
-                                    <UpdateEpGp id={id} loadDataFunction={this.props.loadDataFunction} />
                                     <TableButton title='H' onClick={this.openHistory} />
-                                    {(this.props.active)
+                                    {(user.is_officer)
                                     ?
-                                    <TableButton title='↓' onClick={this.handleDeactivateCharacter} />
+                                    <>
+                                        <UpdateEpGp id={id} loadDataFunction={this.props.loadDataFunction} />
+                                    
+                                        {(this.props.active)
+                                        ?
+                                        <TableButton title='↓' onClick={this.handleDeactivateCharacter} />
+                                        :
+                                        <TableButton title='↑' onClick={this.handleActivateCharacter} />
+                                        }
+                                        <TableButton title='✗' onClick={this.handleDeleteCharacter} />
+                                    </>
                                     :
-                                    <TableButton title='↑' onClick={this.handleActivateCharacter} />
+                                    null
                                     }
-                                    <TableButton title='✗' onClick={this.handleDeleteCharacter} />
                                 </ButtonWrapper>
                             </td>
-                            :
-                            null
-                            }
                         </Container>
                         {(this.state.history)
                         ?

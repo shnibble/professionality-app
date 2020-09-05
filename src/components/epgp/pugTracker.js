@@ -93,12 +93,7 @@ class PugTracker extends React.Component {
                                             <th>EP</th>
                                             <th>GP</th>
                                             <th>PR</th>
-                                            {(user.is_officer)
-                                            ?
                                             <th>Actions</th>
-                                            :
-                                            null
-                                            }
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -116,12 +111,7 @@ class PugTracker extends React.Component {
                                             <th>EP</th>
                                             <th>GP</th>
                                             <th>PR</th>
-                                            {(user.is_officer)
-                                            ?
                                             <th>Actions</th>
-                                            :
-                                            null
-                                            }
                                         </tr>
                                     </thead>
                                     <tbody>
