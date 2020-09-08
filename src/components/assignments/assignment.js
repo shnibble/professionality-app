@@ -46,7 +46,6 @@ const SupportContainer = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    background: #f2f2f2;
     border-radius: 4px;
     margin: 0 50px 0 10px;
 `
