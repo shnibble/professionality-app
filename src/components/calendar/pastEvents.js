@@ -61,6 +61,9 @@ const PagerButton = styled.button`
 const PagerText = styled.span`
     color: ${props => props.theme.colors.lowlight};
 `
+const StyledNavLink = styled(NavLink)`
+    color: ${props => props.theme.colors.anchor};
+`
 
 class PastEvents extends React.Component {
     state = {
@@ -156,8 +159,8 @@ class PastEvents extends React.Component {
                                 <tbody>
                                     {(this.state.events.map(event => (
                                     <tr key={`event_id_${event.id}`}>
-                                        <td><NavLink to={`/event/${event.id}`}>{Moment(event.start).format('ddd M/D @ h:mm a')}</NavLink></td>
-                                        <td><NavLink to={`/event/${event.id}`}>{event.title}</NavLink></td>
+                                        <td><StyledNavLink to={`/event/${event.id}`}>{Moment(event.start).format('ddd M/D @ h:mm a')}</StyledNavLink></td>
+                                        <td><StyledNavLink to={`/event/${event.id}`}>{event.title}</StyledNavLink></td>
                                         <td>{event.total_casters}</td>
                                         <td>{event.total_fighters}</td>
                                         <td>{event.total_healers}</td>

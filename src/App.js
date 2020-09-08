@@ -5,10 +5,9 @@ import { ThemeProvider } from 'styled-components'
 import lightTheme from './themes/light'
 import darkTheme from './themes/dark'
 import Wrapper from './components/wrapper'
-import Header from './components/header/header'
+import Menu from './components/menu/menu'
 import Main from './components/main'
 import Login from './components/login'
-import Nav from './components/nav'
 import Account from './components/account/account'
 import Calendar from './components/calendar/calendar'
 import EPGP from './components/epgp/epgp'
@@ -44,8 +43,7 @@ const App = () => {
             <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme }>
                 <Router>
                     <Wrapper>
-                        <Header toggleTheme={toggleTheme} darkTheme={isDarkMode} />
-                        <Nav />
+                        <Menu toggleTheme={toggleTheme} darkTheme={isDarkMode} />
                         <Main>
                             <Switch>
                                 <Route path={'/account'} component={Account} />

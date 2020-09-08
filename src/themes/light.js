@@ -1,6 +1,9 @@
 export default {
     colors: {
         background: '#fff',
+        sidebar: '#f2f2f2',
+        sidebarFooter: '#e6e6e6',
+        sidebarScrollThumb: '#ccc',
         color: '#000',
         lowlight: '#ccc',
         highlight: '#f88000',
