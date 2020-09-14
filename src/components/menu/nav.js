@@ -8,8 +8,6 @@ const Container = styled.ul`
     list-style-type: none;
     display: flex;
     flex-direction: row;
-    grid-gap: 5px;
-    padding: 5px;
     margin-right: 5px;
     overflow-x: auto;
     overflow-y: hidden;

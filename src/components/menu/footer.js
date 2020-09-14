@@ -182,6 +182,56 @@ const StyledButton = styled.button`
     &:hover {
         color: ${props => props.theme.colors.highlight};
     }
+
+    @media screen and (min-width: 720px) {
+        display: flex;
+`
+const LogoutButton = styled.button`
+    display: none;
+    flex-direction: row;
+    height: 30px;
+    min-width: 30px;
+    height: 40px;
+    padding: 5px;
+    background: none;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    color: ${props => props.theme.colors.color};
+    font-weight: bold;
+    text-decoration: none;
+    font-family: 'Josefin Sans', sans-serif;
+    cursor: pointer;
+    transition: all .25s ease;
+
+    & > svg {
+        flex-grow: 0;
+        flex-shrink: 0;
+        height: 30px;
+        width: 30px;
+        fill: ${props => props.theme.colors.color};
+        transition: all .25s ease;
+
+        & .cls-1 {
+            fill: none;
+        }
+    }
+
+    &:hover, &:focus {
+        outline: none;
+
+        & > svg {
+            fill: ${props => props.theme.colors.highlight};
+        }
+    }
+
+    &.active {
+        color: ${props => props.theme.colors.lowlight};
+        
+        & > svg {
+            fill: ${props => props.theme.colors.lowlight};
+        }
+    }
 `
 
 const Footer = ({ active, toggleTheme, darkTheme }) => {
@@ -209,7 +259,7 @@ const Footer = ({ active, toggleTheme, darkTheme }) => {
                                 </svg>
                                 <Title className={(active)?'active':''}>Toggle Dark Mode</Title>
                             </StyledButton>
-                            <StyledButton title='Logout' onClick={logout}>   
+                            <LogoutButton title='Logout' onClick={logout}>   
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 241.21 241">
                                     <polygon points="56.71 144.5 56.71 176.5 0.71 120.5 56.71 64.5 56.71 96.5 104.71 96.5 104.71 144.5 56.71 144.5"/>
                                     <path d="M248,8V248H128V8Zm-8,124a12,12,0,1,0-12,12A12,12,0,0,0,240,132Z" transform="translate(-7.29 -7.5)"/>
@@ -218,7 +268,7 @@ const Footer = ({ active, toggleTheme, darkTheme }) => {
                                     <circle className="cls-1" cx="220.71" cy="124.5" r="12"/>
                                 </svg>
                                 <Title className={(active)?'active':''}>Logout</Title>
-                            </StyledButton>
+                            </LogoutButton>
                             <StyledLink title='Account' to='/account'>   
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 196.55 241">
                                     <circle cx="98.28" cy="56.5" r="56"/>

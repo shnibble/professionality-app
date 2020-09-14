@@ -7,7 +7,7 @@ const StyledLink = styled(NavLink)`
     flex-direction: row;
     height: 30px;
     min-width: 30px;
-    padding: 5px;
+    padding: 10px 5px;
     text-align: center;
     color: ${props => props.theme.colors.color};
     font-weight: bold;
@@ -30,10 +30,7 @@ const StyledLink = styled(NavLink)`
 
     &:hover, &:focus {
         outline: none;
-
-        & > svg {
-            fill: ${props => props.theme.colors.highlight};
-        }
+        background: #424e57;
     }
 
     &.active {
@@ -44,8 +41,8 @@ const StyledLink = styled(NavLink)`
         }
     }
 
-    &:hover {
-        color: ${props => props.theme.colors.highlight};
+    @media screen and (min-width: 720px) {
+        padding: 5px 10px;
     }
 `
 const Title = styled.span`
