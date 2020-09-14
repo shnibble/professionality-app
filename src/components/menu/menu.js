@@ -70,7 +70,9 @@ const MenuButton = styled.button`
     &:focus {
         outline: none;
     }
-    &:hover > div {
+
+    &:hover > div, &:focus > div {
+        outline: none;
         background: ${props => props.theme.colors.highlight};
     }
 
@@ -106,14 +108,17 @@ const MenuButton = styled.button`
 
 const Menu = ({ toggleTheme, darkTheme }) => {
     const [active, setActive] = useState(false)
+    let buttonRef = React.createRef()
+
     const toggleActive = () => {
+        buttonRef.current.blur()
         setActive(!active)
     }
     return (
         <Container className={(active)?'active':''}>
             <Header>
                 <HeaderTitle className={(active)?'active':''}>Menu</HeaderTitle>
-                <MenuButton onClick={toggleActive} className={(active)?'active':''}>
+                <MenuButton onClick={toggleActive} className={(active)?'active':''} ref={buttonRef}>
                     <div />
                     <div />
                 </MenuButton>

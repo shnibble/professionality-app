@@ -30,7 +30,7 @@ const App = () => {
     const stored = localStorage.getItem('isDarkMode');
 
     const [isDarkMode, setIsDarkMode] = useState(
-        stored === "true" ? true : false
+        stored === "false" ? false : true
     )
 
     const toggleTheme = () => {

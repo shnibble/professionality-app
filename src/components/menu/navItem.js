@@ -30,7 +30,7 @@ const StyledLink = styled(NavLink)`
 
     &:hover, &:focus {
         outline: none;
-        background: #424e57;
+        background: ${props => props.theme.colors.sidebarHighlight};
     }
 
     &.active {
