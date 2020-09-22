@@ -53,11 +53,19 @@ const Title = styled.span`
     }
 `
 
-const NavItem = ({ active, title, children, ...rest }) => (
-    <StyledLink title={title} {...rest}>
-        {children}
-        <Title className={(active)?'active':''}>{title}</Title>
-    </StyledLink>
-)
+const NavItem = ({ active, title, children, ...rest }) => {
+    let buttonRef = React.createRef()
+
+    const handleClick = () => {
+        buttonRef.current.blur()
+    }
+
+    return (
+        <StyledLink onClick={handleClick} title={title} {...rest} ref={buttonRef}>
+            {children}
+            <Title className={(active)?'active':''}>{title}</Title>
+        </StyledLink>
+    )
+}
 
 export default NavItem

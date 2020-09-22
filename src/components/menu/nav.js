@@ -79,13 +79,13 @@ const Nav = ({ active }) => (
             </svg>
         </NavItem>
         <NavItem title='Roster' active={active}  activeClassName='active' to='/roster'>    
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 185 209">
-                <circle cx="32.5" cy="32.5" r="32"/>
-                <ellipse cx="32.5" cy="140.5" rx="32" ry="68"/>
-                <circle cx="104.5" cy="32.09" r="23.83"/>
-                <ellipse cx="104.5" cy="112.5" rx="23.83" ry="50.63"/>
-                <circle cx="164.5" cy="36.5" r="20"/>
-                <ellipse cx="164.5" cy="104" rx="20" ry="42.5"/>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                <circle cx="48" cy="88" r="32"/>
+                <circle cx="143.83" cy="103.83" r="23.83"/>
+                <circle cx="220" cy="116" r="20"/>
+                <path d="M8,200V158.22A30.22,30.22,0,0,1,38.22,128H57.78A30.22,30.22,0,0,1,88,158.22V192"/>
+                <path d="M112,192V160.56A24.55,24.55,0,0,1,136.56,136h14.88A24.55,24.55,0,0,1,176,160.56V184"/>
+                <path d="M192,184V169.22A25.22,25.22,0,0,1,217.22,144h5.56A25.22,25.22,0,0,1,248,169.22V176"/>
             </svg>
         </NavItem>
         <NavItem title='Bank' active={active}  activeClassName='active' to='/bank'>    
@@ -152,16 +152,16 @@ const Nav = ({ active }) => (
             </svg>
         </NavItem>
         <NavItem title='Assignments' active={active}  activeClassName='active' to='/assignments'>    
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 203.7 233.63">
-                <circle cx="29.56" cy="93.13" r="20"/>
-                <ellipse cx="29.56" cy="169.13" rx="20" ry="48"/>
-                <polygon points="58.42 21.74 44.19 35.82 47.72 55.53 29.93 46.35 12.28 55.8 15.52 36.04 1.08 22.18 20.87 19.15 29.68 1.13 38.58 19.01 58.42 21.74"/>
-                <circle cx="101.56" cy="101.13" r="20"/>
-                <ellipse cx="101.56" cy="177.13" rx="20" ry="48"/>
-                <circle cx="173.56" cy="109.13" r="20"/>
-                <ellipse cx="173.56" cy="185.13" rx="20" ry="48"/>
-                <rect x="81.44" y="25.13" width="40" height="40"/>
-                <polygon points="188.71 23.17 159.86 23.17 145.44 48.15 159.86 73.13 188.71 73.13 203.13 48.15 188.71 23.17"/>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                <polygon points="53.03 91.2 44.34 99.8 46.49 111.84 35.63 106.23 24.85 112 26.82 99.93 18 91.46 30.09 89.61 35.47 78.6 40.91 89.53 53.03 91.2"/>
+                <rect x="96" y="56" width="32" height="32"/>
+                <polygon points="220 31.21 196 31.21 184 52 196 72.78 220 72.78 232 52 220 31.21"/>
+                <circle cx="208" cy="120" r="32"/>
+                <circle cx="111.83" cy="135.83" r="23.83"/>
+                <circle cx="36" cy="148" r="20"/>
+                <path d="M168,224V190.22A30.22,30.22,0,0,1,198.22,160h19.56A30.22,30.22,0,0,1,248,190.22V232"/>
+                <path d="M80,216V192.56A24.55,24.55,0,0,1,104.56,168h14.88A24.55,24.55,0,0,1,144,192.56V224"/>
+                <path d="M8,208v-6.78A25.22,25.22,0,0,1,33.22,176h5.56A25.22,25.22,0,0,1,64,201.22V216"/>
             </svg>
         </NavItem>
     </Container>
