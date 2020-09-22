@@ -6,10 +6,6 @@ const Container = styled.main`
     max-width: 1000px;
     padding: 10px;
     min-height: 100vh;
-
-    @media screen and (min-width: 720px) {
-        margin: auto;
-    }
 `
 
 const Main = ({ children }) => (

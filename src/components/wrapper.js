@@ -5,17 +5,16 @@ const Container = styled.div`
     min-height: 100vh;
     background: ${props => props.theme.colors.background};
     color: ${props => props.theme.colors.color};
-    margin-top: 50px;
-    margin-left: 0;
+    margin-left: 50px;
+    transition: all .25s ease;
     
-    @media screen and (min-width: 720px) {
-        margin-top: 0;
-        margin-left: 50px;
+    &.open {
+        margin-left: 200px;
     }
 `
 
-const Wrapper = ({ children }) => (
-    <Container>
+const Wrapper = ({ menuOpen, children }) => (
+    <Container className={(menuOpen)?'open':''}>
         {children}
     </Container>
 )

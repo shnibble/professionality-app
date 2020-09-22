@@ -28,22 +28,27 @@ import 'react-datepicker/dist/react-datepicker.css'
 const App = () => {
 
     const stored = localStorage.getItem('isDarkMode');
-
     const [isDarkMode, setIsDarkMode] = useState(
         stored === "false" ? false : true
     )
-
     const toggleTheme = () => {
         setIsDarkMode(!isDarkMode)
         localStorage.setItem('isDarkMode', !isDarkMode)
+    }
+
+    const [menuOpen, setMenuOpen] = useState(
+        window.innerWidth >= 720 ? true : false
+    )
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen)
     }
 
     return (
         <UserProvider>
             <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme }>
                 <Router>
-                    <Wrapper>
-                        <Menu toggleTheme={toggleTheme} darkTheme={isDarkMode} />
+                    <Wrapper menuOpen={menuOpen}>
+                        <Menu menuOpen={menuOpen} toggleMenu={toggleMenu} toggleTheme={toggleTheme} darkTheme={isDarkMode} />
                         <Main>
                             <Switch>
                                 <Route path={'/account'} component={Account} />

@@ -29,6 +29,18 @@ const Table = styled.table`
     & tbody td:nth-child(1) { 
         min-width: 100px;
     }
+
+    & th:nth-child(3), & th:nth-child(4), & th:nth-child(4), & th:nth-child(5), & th:nth-child(6), & th:nth-child(7), & th:nth-child(8),
+    & td:nth-child(3), & td:nth-child(4), & td:nth-child(4), & td:nth-child(5), & td:nth-child(6), & td:nth-child(7), & td:nth-child(8) {
+        display: none;
+    }
+
+    @media screen and (min-width: 720px) {
+        & th:nth-child(3), & th:nth-child(4), & th:nth-child(4), & th:nth-child(5), & th:nth-child(6), & th:nth-child(7), & th:nth-child(8),
+        & td:nth-child(3), & td:nth-child(4), & td:nth-child(4), & td:nth-child(5), & td:nth-child(6), & td:nth-child(7), & td:nth-child(8) {
+            display: table-cell;
+        }
+    }
 `
 const TableIcon = styled.img`
     width: 30px;

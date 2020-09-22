@@ -7,10 +7,9 @@ const Container = styled.ul`
     flex-shrink: 1;
     list-style-type: none;
     display: flex;
-    flex-direction: row;
-    margin-right: 5px;
-    overflow-x: auto;
-    overflow-y: hidden;
+    flex-direction: column;
+    overflow-x: hidden;
+    margin-right: 0;
 
     ::-webkit-scrollbar {
         width: 2px;
@@ -24,10 +23,7 @@ const Container = styled.ul`
     }
 
     @media screen and (min-width: 720px) {
-        flex-direction: column;
-        overflow-x: hidden;
-        overflow-y: auto;
-        margin-right: 0;
+        
     }
 `
 

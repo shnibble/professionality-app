@@ -7,31 +7,24 @@ const Container = styled.div`
     flex-grow: 0;
     flex-shrink: 0;
     background: ${props => props.theme.colors.sidebarFooter};
-
-    @media screen and (min-width: 720px) {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 `
 const List = styled.ul`
     flex-grow: 1;
     flex-shrink: 1;
     list-style-type: none;
     display: flex;
-    flex-direction: row;
-
-    @media screen and (min-width: 720px) {
-        flex-direction: column;
-        justify-content: center;
-    }
+    flex-direction: column;
+    justify-content: center;
 `
 const StyledLink = styled(NavLink)`
     display: flex;
     flex-direction: row;
     height: 30px;
     min-width: 30px;
-    padding: 10px 5px;
+    padding: 5px 10px;
     text-align: center;
     color: ${props => props.theme.colors.color};
     font-weight: bold;
@@ -63,10 +56,6 @@ const StyledLink = styled(NavLink)`
         & > svg {
             fill: ${props => props.theme.colors.lowlight};
         }
-    }
-
-    @media screen and (min-width: 720px) {
-        padding: 5px 10px;
     }
 `
 const Title = styled.span`
@@ -86,7 +75,7 @@ const StyledDiscordLink = styled.a`
     flex-direction: row;
     height: 30px;
     min-width: 30px;
-    padding: 10px 5px;
+    padding: 5px 10px;
     text-align: center;
     text-decoration: none;
     color: ${props => props.theme.colors.color};
@@ -120,17 +109,13 @@ const StyledDiscordLink = styled.a`
             fill: ${props => props.theme.colors.lowlight};
         }
     }
-    
-    @media screen and (min-width: 720px) {
-        padding: 5px 10px;
-    }
 `
 const ThemeButton = styled.button`
     display: flex;
     flex-direction: row;
     min-width: 30px;
-    height: 50px;
-    padding: 10px 5px;
+    height: 40px;
+    padding: 5px 10px;
     background: none;
     border: none;
     text-align: center;
@@ -209,7 +194,7 @@ const SvgContainer = styled.div`
     }
 `
 const LogoutButton = styled.button`
-    display: none;
+    display: flex;
     flex-direction: row;
     height: 30px;
     min-width: 30px;

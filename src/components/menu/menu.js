@@ -6,37 +6,25 @@ import Footer from './footer'
 const Container = styled.div`
     position: fixed;
     top: 0;
+    bottom: 0;
     left: 0;
-    right: 0;
-    height: 52px;
+    width: 50px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     background: ${props => props.theme.colors.sidebar};
     z-index: 3;
     transition: all .25s ease;
-    
-    @media screen and (min-width: 720px) {
-        bottom: 0;
-        height: auto;
-        width: 50px;
-        flex-direction: column;
 
-        &.active {
-            width: 200px;
-        }
+    &.active {
+        width: 200px;
     }
 `
 const Header = styled.div`
     flex-grow: 0;
     flex-shrink: 0;
-    display: none;
     position: relative;
     width: 100%;
-
-    @media screen and (min-width: 720px) {
-        display: block;
-        height: 50px;
-    }
+    height: 50px;
 `
 const HeaderTitle = styled.h2`
     display: inline-block;
@@ -106,25 +94,24 @@ const MenuButton = styled.button`
     }
 `
 
-const Menu = ({ toggleTheme, darkTheme }) => {
-    const [active, setActive] = useState(false)
+const Menu = ({ menuOpen, toggleMenu, toggleTheme, darkTheme }) => {
     let buttonRef = React.createRef()
 
-    const toggleActive = () => {
+    const handleToggleMenu = () => {
         buttonRef.current.blur()
-        setActive(!active)
+        toggleMenu()
     }
     return (
-        <Container className={(active)?'active':''}>
+        <Container className={(menuOpen)?'active':''}>
             <Header>
-                <HeaderTitle className={(active)?'active':''}>Menu</HeaderTitle>
-                <MenuButton onClick={toggleActive} className={(active)?'active':''} ref={buttonRef}>
+                <HeaderTitle className={(menuOpen)?'active':''}>Menu</HeaderTitle>
+                <MenuButton onClick={handleToggleMenu} className={(menuOpen)?'active':''} ref={buttonRef}>
                     <div />
                     <div />
                 </MenuButton>
             </Header>
-            <Nav active={active} />
-            <Footer active={active} toggleTheme={toggleTheme} darkTheme={darkTheme} />
+            <Nav active={menuOpen} />
+            <Footer active={menuOpen} toggleTheme={toggleTheme} darkTheme={darkTheme} />
         </Container>
     )
 }
