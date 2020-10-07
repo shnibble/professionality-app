@@ -17,6 +17,7 @@ import Loot from './components/loot/loot'
 import Rules from './components/rules'
 import Strategies from './components/strategies/strategies'
 import Assignments from './components/assignments/assignments'
+import Admin from './components/admin/admin'
 import Home from './components/home'
 import Event from './components/calendar/event'
 import Footer from './components/footer'
@@ -62,6 +63,7 @@ const App = () => {
                                 <Route path={'/assignments'} component={Assignments} />
                                 <Route path={'/login'} component={Login} />
                                 <Route path={'/event/:id'} component={Event} />
+                                <Route path={'/admin'} component={Admin} />
                                 <Route path={'/'} component={Home} />
                             </Switch>
                         </Main>

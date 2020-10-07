@@ -27,6 +27,12 @@ const Checkbox = styled.img`
     height: 15px;
     margin: 1px;
 `
+const RolesContainer = styled.div`
+
+`
+const Role = styled.div`
+
+`
 
 class Officers extends React.Component {
     state = {
@@ -52,6 +58,7 @@ class Officers extends React.Component {
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Roles</th>
                                 <th>Discord</th>
                                 <th>Characters</th>
                                 <th>Availability</th>
@@ -61,6 +68,11 @@ class Officers extends React.Component {
                             {(this.state.users.map(user => (
                                 <tr key={user.discord_user_id}>
                                     <td>{user.nickname}</td>
+                                    <td>
+                                        <RolesContainer>
+                                            {user.officer_roles.map(role => <Role key={`user_${user.discord_user_id}_role${role.id}`}>{role.name}</Role> )}
+                                        </RolesContainer>
+                                    </td>
                                     <td><DiscordLink data={user} /></td>
                                     <td>
                                         {user.characters.map(character => <Character key={`character_id_${character.id}`} data={character} /> )}
