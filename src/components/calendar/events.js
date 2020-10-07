@@ -29,18 +29,18 @@ const Table = styled.table`
         background: ${props => props.theme.colors.tableOddRowBackground};
     }
 
-    & tbody td:nth-child(1) { 
+    & tbody td:nth-child(2) { 
         min-width: 100px;
     }
 
-    & th:nth-child(3), & th:nth-child(4), & th:nth-child(4), & th:nth-child(5), & th:nth-child(6), & th:nth-child(7), & th:nth-child(8),
-    & td:nth-child(3), & td:nth-child(4), & td:nth-child(4), & td:nth-child(5), & td:nth-child(6), & td:nth-child(7), & td:nth-child(8) {
+    & th:nth-child(4), & th:nth-child(5), & th:nth-child(6), & th:nth-child(7), & th:nth-child(8), & th:nth-child(9),
+    & td:nth-child(4), & td:nth-child(5), & td:nth-child(6), & td:nth-child(7), & td:nth-child(8), & td:nth-child(9) {
         display: none;
     }
 
     @media screen and (min-width: 720px) {
-        & th:nth-child(3), & th:nth-child(4), & th:nth-child(4), & th:nth-child(5), & th:nth-child(6), & th:nth-child(7), & th:nth-child(8),
-        & td:nth-child(3), & td:nth-child(4), & td:nth-child(4), & td:nth-child(5), & td:nth-child(6), & td:nth-child(7), & td:nth-child(8) {
+        & th:nth-child(4), & th:nth-child(5), & th:nth-child(6), & th:nth-child(7), & th:nth-child(8), & th:nth-child(9),
+        & td:nth-child(4), & td:nth-child(5), & td:nth-child(6), & td:nth-child(7), & td:nth-child(8), & td:nth-child(9) {
             display: table-cell;
         }
     }
@@ -183,6 +183,7 @@ class Events extends React.Component {
                                         <Table>
                                             <thead>
                                                 <tr>
+                                                    <th></th>
                                                     <th>Date</th>
                                                     <th>Event</th>
                                                     <th title='Casters'><TableIcon src={CasterIcon} /></th>
@@ -202,6 +203,7 @@ class Events extends React.Component {
                                             <tbody>
                                                 {(this.state.events.map(event => (
                                                 <tr key={`event_id_${event.id}`}>
+                                                    <td>{(event.primary_raid)?'Primary':''}</td>
                                                     <td><StyledNavLink to={`/event/${event.id}`}>{Moment(event.start).format('ddd M/D @ h:mm a')}</StyledNavLink></td>
                                                     <td><StyledNavLink to={`/event/${event.id}`}>{event.title}</StyledNavLink></td>
                                                     <td>{event.total_casters}</td>

@@ -21,6 +21,22 @@ const AddEventTime = styled(DatePicker)`
     margin: 10px;
     text-align: center;
 `
+const CheckboxContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`
+const Span = styled.span`
+    display: block;
+    margin: 5px;
+`
+const Checkbox = styled.input`
+    margin: 5px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+`
 
 class AddEvent extends React.Component {
     state = {
@@ -28,6 +44,7 @@ class AddEvent extends React.Component {
         updating: false,
         eventName: '',
         eventStart: '',
+        eventIsPrimary: false,
     }
     
     open = () => {
@@ -40,6 +57,7 @@ class AddEvent extends React.Component {
             updating: false,
             eventName: '',
             eventStart: '',
+            eventIsPrimary: false,
         })
     }
 
@@ -52,19 +70,26 @@ class AddEvent extends React.Component {
         this.setState({ eventStart: date })
     }
 
+    updateEventPrimary = (ev) => {
+        const checked = ev.target.checked
+        this.setState({ eventIsPrimary: checked })
+    }
+
     add = () => {
         this.setState({ updating: true })
         const title = this.state.eventName
         const start = Moment(this.state.eventStart).utc().format('YYYY-MM-DD HH:mm:00')
+        const primary = this.state.eventIsPrimary
 
         if (title.length > 1 && this.state.eventStart !== '') {
-            addEvent(title, start)
+            addEvent(title, start, primary)
             .then(() => {
                 this.setState({
                     active: false,
                     updating: false,
                     eventName: '',
-                    eventStart: ''
+                    eventStart: '',
+                    eventIsPrimary: false,
                 })
                 this.props.loadDataFunction()
             })
@@ -96,6 +121,10 @@ class AddEvent extends React.Component {
                         dateFormat='MMMM d, yyyy h:mm aa'
                     />
                     <Field type='text' placeholder='Event Name' value={this.state.eventName} onChange={this.updateEventName} />
+                    <CheckboxContainer>
+                        <Span>Primary Raid?</Span>
+                        <Checkbox type='checkbox' checked={this.state.eventIsPrimary} onChange={this.updateEventPrimary} />
+                    </CheckboxContainer>
                 </Popout>
                 :
                 null
