@@ -61,6 +61,7 @@ class Officers extends React.Component {
                                 <th>Roles</th>
                                 <th>Discord</th>
                                 <th>Characters</th>
+                                <th>Attendance</th>
                                 <th>Availability</th>
                             </tr>
                         </thead>
@@ -77,6 +78,7 @@ class Officers extends React.Component {
                                     <td>
                                         {user.characters.map(character => <Character key={`character_id_${character.id}`} data={character} /> )}
                                     </td>
+                                    <td>{(Number(user.attendance)/5)*100}%</td>
                                     <td>
                                         <AvailabilityTable>
                                             <thead>

@@ -54,6 +54,7 @@ class Pugs extends React.Component {
                                 <th>Name</th>
                                 <th>Discord</th>
                                 <th>Characters</th>
+                                <th>Attendance</th>
                                 <th>Availability</th>
                             </tr>
                         </thead>
@@ -65,6 +66,7 @@ class Pugs extends React.Component {
                                     <td>
                                         {user.characters.map(character => <Character key={`character_id_${character.id}`} data={character} /> )}
                                     </td>
+                                    <td>{(Number(user.attendance)/5)*100}%</td>
                                     <td>
                                         <AvailabilityTable>
                                             <thead>
