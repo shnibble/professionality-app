@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import styled from 'styled-components'
 import UserContext from '../../context/user'
@@ -61,6 +62,14 @@ const NoteField = styled.input`
     font-size: 16px;
     width: 90%;
     box-sizing: border-box;
+`
+const Text = styled.p`
+    text-align: left;
+    margin: 5px;
+
+    & a {
+        color: #f88000;
+    }
 `
 
 class AttendanceModule extends React.Component {
@@ -204,54 +213,62 @@ class AttendanceModule extends React.Component {
 
     render() {
         return (
-            <TableButtonWrapper>
-                <TableButton 
-                    title='Sign Up' 
-                    onClick={this.addSignupPopout} 
-                    active={(this.props.event.signed_up)?true:false}
-                    disabled={this.state.updating}
-                />
-                <TableButton 
-                    title='Call Out' 
-                    onClick={this.handleCallout} 
-                    disabled={(this.props.event.called_out || this.state.updating)?true:false} 
-                    active={(this.props.event.called_out)?true:false} 
-                />
-                <TableButton 
-                    title='Cancel' 
-                    onClick={this.handleCancel} 
-                    disabled={((this.props.event.signed_up || this.props.event.called_out) && !this.state.updating)?false:true} 
-                />
-                {(this.state.signup_active)
+            <div>
+                {(this.state.characters_loaded && !this.state.characters.length)
                 ?
-                <Popout submitFunction={this.handleSignup} cancelFunction={this.closeAddSignupPopout} disabled={this.state.updating}>
-                    <h4>Sign Up</h4>
-                    <CharacterSelect value={this.state.character_id} onChange={this.updateSignupCharacter}>
-                        <option></option>
-                        {(this.state.characters.map(character => <option key={`user_character_id_${character.id}`} value={character.id}>{character.name}</option> ))}
-                    </CharacterSelect>
-                    <RoleSelect value={this.state.role_id} onChange={this.updateSignupRole}>
-                        <option value={1}>Caster</option>
-                        <option value={2}>Fighter</option>
-                        <option value={3}>Healer</option>
-                        <option value={4}>Tank</option>
-                    </RoleSelect>
-                    <CheckboxContainer>
-                        <CheckboxTitle>Tentative:</CheckboxTitle>
-                        <Checkbox type='checkbox' checked={(this.state.tentative)?true:false} onChange={this.updateSignupTentative} />
-                        <Checkmark />
-                    </CheckboxContainer>
-                    <CheckboxContainer>
-                        <CheckboxTitle>Late:</CheckboxTitle>
-                        <Checkbox type='checkbox' checked={(this.state.late)?true:false} onChange={this.updateSignupLate} />
-                        <Checkmark />
-                    </CheckboxContainer>
-                    <NoteField type='text' value={this.state.note} onChange={this.updateSignupNote} placeholder='Note' />
-                </Popout>
+                <Text><Link to='/account'>Create a character</Link> to sign up for events.</Text>
                 :
                 null
                 }
-            </TableButtonWrapper>
+                <TableButtonWrapper>
+                    <TableButton 
+                        title='Sign Up' 
+                        onClick={this.addSignupPopout} 
+                        active={(this.props.event.signed_up)?true:false}
+                        disabled={this.state.updating}
+                    />
+                    <TableButton 
+                        title='Call Out' 
+                        onClick={this.handleCallout} 
+                        disabled={(this.props.event.called_out || this.state.updating)?true:false} 
+                        active={(this.props.event.called_out)?true:false} 
+                    />
+                    <TableButton 
+                        title='Cancel' 
+                        onClick={this.handleCancel} 
+                        disabled={((this.props.event.signed_up || this.props.event.called_out) && !this.state.updating)?false:true} 
+                    />
+                    {(this.state.signup_active)
+                    ?
+                    <Popout submitFunction={this.handleSignup} cancelFunction={this.closeAddSignupPopout} disabled={this.state.updating}>
+                        <h4>Sign Up</h4>
+                        <CharacterSelect value={this.state.character_id} onChange={this.updateSignupCharacter}>
+                            <option></option>
+                            {(this.state.characters.map(character => <option key={`user_character_id_${character.id}`} value={character.id}>{character.name}</option> ))}
+                        </CharacterSelect>
+                        <RoleSelect value={this.state.role_id} onChange={this.updateSignupRole}>
+                            <option value={1}>Caster</option>
+                            <option value={2}>Fighter</option>
+                            <option value={3}>Healer</option>
+                            <option value={4}>Tank</option>
+                        </RoleSelect>
+                        <CheckboxContainer>
+                            <CheckboxTitle>Tentative:</CheckboxTitle>
+                            <Checkbox type='checkbox' checked={(this.state.tentative)?true:false} onChange={this.updateSignupTentative} />
+                            <Checkmark />
+                        </CheckboxContainer>
+                        <CheckboxContainer>
+                            <CheckboxTitle>Late:</CheckboxTitle>
+                            <Checkbox type='checkbox' checked={(this.state.late)?true:false} onChange={this.updateSignupLate} />
+                            <Checkmark />
+                        </CheckboxContainer>
+                        <NoteField type='text' value={this.state.note} onChange={this.updateSignupNote} placeholder='Note' />
+                    </Popout>
+                    :
+                    null
+                    }
+                </TableButtonWrapper>
+            </div>
         )
     }
 }
