@@ -83,6 +83,8 @@ const StyledDiscordLink = styled.a`
     text-decoration: none;
     font-family: 'Josefin Sans', sans-serif;
     transition: all .25s ease;
+    animation: pulse 2s infinite;
+    animation-delay: 3s;
 
     & > svg {
         flex-grow: 0;
@@ -91,6 +93,8 @@ const StyledDiscordLink = styled.a`
         width: 30px;
         fill: ${props => props.theme.colors.color};
         transition: all .25s ease;
+        animation: pulse 2s infinite;
+        animation-delay: 3s;
 
         & .cls-1 {
             fill: none;
@@ -107,6 +111,13 @@ const StyledDiscordLink = styled.a`
         
         & > svg {
             fill: ${props => props.theme.colors.lowlight};
+        }
+    }
+
+    @keyframes pulse {
+        50% {
+            color: #f88000;
+            fill: #f88000;
         }
     }
 `
