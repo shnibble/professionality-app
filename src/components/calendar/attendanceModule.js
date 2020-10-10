@@ -78,7 +78,7 @@ class AttendanceModule extends React.Component {
 
     addSignupPopout = () => {
         if (this.state.characters.length === 0) {
-            window.alert('You need to create a character first. Go to your account page (top right corner, click on your name) and add a character!')
+            window.alert('You need to create a character first. Go to your account page and add a character!')
         } else {
             this.setState({ 
                 signup_active: true ,
