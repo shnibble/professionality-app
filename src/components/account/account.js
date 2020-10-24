@@ -80,7 +80,6 @@ class Account extends React.Component {
     }
 
     sortUp = (character_id) => {
-        console.log('sortUp')
         let arr = this.state.data.characters.map(c => c.id)
         const index1 = arr.indexOf(character_id)
         if (index1 > 0) {
@@ -101,7 +100,6 @@ class Account extends React.Component {
     }
 
     sortDown = (character_id) => {
-        console.log('sortDown')
         let arr = this.state.data.characters.map(c => c.id)
         const index1 = arr.indexOf(character_id)
         if (index1 !== -1 && index1 < arr.length - 1) {
