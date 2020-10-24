@@ -140,6 +140,23 @@ export const updateCharacterProfessions = (character_id, profession_id_one, prof
     
 }
 
+export const updateCharacterSort = (character_ids) => {
+    const jwt = Cookies.get('token')
+    return new Promise( (resolve, reject) => {
+        axios.post('https://professionality-api.com/character/edit/sort', {
+            jwt,
+            character_ids
+        })
+        .then(result => {
+            resolve(true)
+        })
+        .catch(err => {
+            reject(err)
+        })
+    })
+    
+}
+
 export default {
     getActiveCharacters,
     addCharacter,
@@ -148,5 +165,6 @@ export default {
     updateCharacterClassId,
     updateCharacterRoleId,
     updateCharacterAttunements,
-    updateCharacterProfessions
+    updateCharacterProfessions,
+    updateCharacterSort
 }

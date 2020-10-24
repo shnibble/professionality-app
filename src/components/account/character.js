@@ -314,6 +314,14 @@ class Character extends React.Component {
         this.updateProfessions(profession_id_one, profession_id_two)
     }
 
+    sortUp = () => {
+        this.props.sortUpFunction(this.props.data.id)
+    }
+
+    sortDown = () => {
+        this.props.sortDownFunction(this.props.data.id)
+    }
+
     render() {
         const { data } = this.props
 
@@ -450,8 +458,8 @@ class Character extends React.Component {
                 </Background>
                 <SideButtonContainer>
                     <DeleteButton onClick={this.delete}>Delete</DeleteButton>
-                    <MoveButton>↑</MoveButton>
-                    <MoveButton>↓</MoveButton>
+                    <MoveButton onClick={this.sortUp}>↑</MoveButton>
+                    <MoveButton onClick={this.sortDown}>↓</MoveButton>
                 </SideButtonContainer>
             </Container>
         )

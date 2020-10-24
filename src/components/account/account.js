@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import UserContext from '../../context/user'
 import { getUserAccount } from '../../services/userAccount'
+import { updateCharacterSort } from '../../services/character'
 import CheckBoxTrueImg from '../../images/checkbox-true.png'
 import CheckBoxFalseImg from '../../images/checkbox-false.png'
 import Character from './character'
@@ -78,8 +79,46 @@ class Account extends React.Component {
         }
     }
 
-    handleUpdateAvailability = (ev) => {
+    sortUp = (character_id) => {
+        console.log('sortUp')
+        let arr = this.state.data.characters.map(c => c.id)
+        const index1 = arr.indexOf(character_id)
+        if (index1 > 0) {
+            const index2 = index1 - 1
+            const char2 = arr[index2]
+            arr[index2] = character_id
+            arr[index1] = char2
 
+            updateCharacterSort(arr)
+            .then(() => {
+                this.loadData()
+            })
+            .catch(err => {
+                window.alert('Failed to re-order characters. Please try logging out and back in.')
+                this.setState({ logout: true })
+            })
+        }
+    }
+
+    sortDown = (character_id) => {
+        console.log('sortDown')
+        let arr = this.state.data.characters.map(c => c.id)
+        const index1 = arr.indexOf(character_id)
+        if (index1 !== -1 && index1 < arr.length - 1) {
+            const index2 = index1 + 1
+            const char2 = arr[index2]
+            arr[index2] = character_id
+            arr[index1] = char2
+
+            updateCharacterSort(arr)
+            .then(() => {
+                this.loadData()
+            })
+            .catch(err => {
+                window.alert('Failed to re-order characters. Please try logging out and back in.')
+                this.setState({ logout: true })
+            })
+        }
     }
 
     componentDidUpdate = () => {
@@ -141,7 +180,7 @@ class Account extends React.Component {
                         {(this.state.data.characters)
                         ?
                         <>
-                            {this.state.data.characters.map(character => ( <Character key={character.id} data={character} loadData={this.loadData} /> ))}
+                            {this.state.data.characters.map(character => ( <Character key={character.id} data={character} loadData={this.loadData} sortUpFunction={this.sortUp} sortDownFunction={this.sortDown} /> ))}
                         </>
                         :
                         <p>No characters (yet... please add them!)</p>}
