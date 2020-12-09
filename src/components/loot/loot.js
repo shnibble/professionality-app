@@ -5,6 +5,7 @@ import Ony from './ony'
 import Mc from './mc'
 import Bwl from './bwl'
 import Aq from './aq'
+import Naxx from './naxx'
 
 const Ul = styled.ul`
     list-style-type: none;
@@ -41,12 +42,14 @@ const Loot = () => (
             <Li><StyledLink to='/loot/mc'>Molten Core</StyledLink></Li>
             <Li><StyledLink to='/loot/bwl'>Blackwing Lair</StyledLink></Li>
             <Li><StyledLink to='/loot/aq'>Ahn'Qiraj</StyledLink></Li>
+            <Li><StyledLink to='/loot/naxx'>Naxxramas</StyledLink></Li>
         </Ul>
         <>
             <Route path={'/loot/ony'} component={Ony} />
             <Route path={'/loot/mc'} component={Mc} />
             <Route path={'/loot/bwl'} component={Bwl} />
             <Route path={'/loot/aq'} component={Aq} />
+            <Route path={'/loot/naxx'} component={Naxx} />
             <Route exact path={'/loot'}>
                 <Redirect to={'/loot/ony'} />
             </Route>
