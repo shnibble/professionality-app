@@ -121,6 +121,11 @@ const TableIcon = styled.img`
     height: 20px;
     margin: 2px;
 `
+const TimestampColumn = styled.td`
+    &.late {
+        color: red;
+    }
+`
 
 class Event extends React.Component {
     state = {
@@ -234,31 +239,39 @@ class Event extends React.Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {(this.state.event.attendance.map(attendance => (
-                                                <tr key={`event_attendance_id_${attendance.id}`}>
-                                                    <td>{Moment(attendance.created).format('MM/DD/YYYY HH:mm:ss')}</td>
-                                                    <td>{Moment((attendance.signed_up)?attendance.signed_up:attendance.called_out).format('MM/DD/YYYY HH:mm:ss')}</td>
-                                                    <td>{attendance.nickname}</td>
-                                                    <SignupTypeTd>
-                                                        {(attendance.signed_up)?'Sign Up':'Call Out'}
-                                                        {(attendance.tentative)
-                                                        ?
-                                                        <TableIcon title='Tentative' src={TentativeImg} />
-                                                        :
-                                                        null
-                                                        }
-                                                        {(attendance.late)
-                                                        ?
-                                                        <TableIcon title='Late' src={LateImg} />
-                                                        :
-                                                        null
-                                                        }
-                                                    </SignupTypeTd>
-                                                    <td>{(attendance.character_name)?<TableCharacter className={`class-${attendance.character_class_id}`}>{attendance.character_name}</TableCharacter>:'-'}</td>
-                                                    <td>{(attendance.role_id)?<TableRole className={`role-${attendance.role_id}`} />:'-'}</td>
-                                                    <td>{attendance.note}</td>
-                                                </tr>
-                                            )))}
+                                            {(this.state.event.attendance.map(attendance => {
+                                                
+                                                const created = Moment(attendance.created)
+                                                const eventDate = Moment(this.state.event.start)
+
+
+
+                                                return (
+                                                    <tr key={`event_attendance_id_${attendance.id}`}>
+                                                        <TimestampColumn className={(eventDate.diff(created, 'days') < 3)?'late':''}>{Moment(attendance.created).format('MM/DD/YYYY HH:mm:ss')}</TimestampColumn>
+                                                        <td>{Moment((attendance.signed_up)?attendance.signed_up:attendance.called_out).format('MM/DD/YYYY HH:mm:ss')}</td>
+                                                        <td>{attendance.nickname}</td>
+                                                        <SignupTypeTd>
+                                                            {(attendance.signed_up)?'Sign Up':'Call Out'}
+                                                            {(attendance.tentative)
+                                                            ?
+                                                            <TableIcon title='Tentative' src={TentativeImg} />
+                                                            :
+                                                            null
+                                                            }
+                                                            {(attendance.late)
+                                                            ?
+                                                            <TableIcon title='Late' src={LateImg} />
+                                                            :
+                                                            null
+                                                            }
+                                                        </SignupTypeTd>
+                                                        <td>{(attendance.character_name)?<TableCharacter className={`class-${attendance.character_class_id}`}>{attendance.character_name}</TableCharacter>:'-'}</td>
+                                                        <td>{(attendance.role_id)?<TableRole className={`role-${attendance.role_id}`} />:'-'}</td>
+                                                        <td>{attendance.note}</td>
+                                                    </tr>
+                                                )
+                                            }))}
                                         </tbody>
                                     </AttendanceTable>
                                 </TableWrapper>
