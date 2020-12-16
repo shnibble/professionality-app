@@ -225,6 +225,7 @@ class Event extends React.Component {
                                         <thead>
                                             <tr>
                                                 <th>Timestamp</th>
+                                                <th>Updated</th>
                                                 <th>User</th>
                                                 <th>Type</th>
                                                 <th>Character</th>
@@ -235,6 +236,7 @@ class Event extends React.Component {
                                         <tbody>
                                             {(this.state.event.attendance.map(attendance => (
                                                 <tr key={`event_attendance_id_${attendance.id}`}>
+                                                    <td>{Moment(attendance.created).format('MM/DD/YYYY HH:mm:ss')}</td>
                                                     <td>{Moment((attendance.signed_up)?attendance.signed_up:attendance.called_out).format('MM/DD/YYYY HH:mm:ss')}</td>
                                                     <td>{attendance.nickname}</td>
                                                     <SignupTypeTd>
