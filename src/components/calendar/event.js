@@ -15,6 +15,7 @@ import LateImg from '../../images/late.png'
 import TableButtonWrapper from '../tableButtonWrapper'
 import Cookies from 'js-cookie'
 import AttendanceBreakdown from './attendanceBreakdown'
+import Bench from './bench'
 import AttendanceModule from './attendanceModule'
 
 const AttendanceTable = styled.table`
@@ -214,7 +215,12 @@ class Event extends React.Component {
                                 :
                                 null
                                 }
-                                <AttendanceBreakdown event={this.state.event} />
+                                <AttendanceBreakdown event={this.state.event} loadDataFunction={this.loadData} user={user} />
+                            </Article>
+
+                            <Article>
+                                <h3>Bench</h3>
+                                <Bench event={this.state.event} loadDataFunction={this.loadData} user={user} />
                             </Article>
 
                             <Article>

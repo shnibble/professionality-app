@@ -99,7 +99,6 @@ class AddEvent extends React.Component {
         this.setState({ updating: true })
         getUsers()
         .then(result => {
-            console.log(result)
             this.setState({
                 users: result
             })

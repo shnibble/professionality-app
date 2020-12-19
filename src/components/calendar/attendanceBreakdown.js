@@ -8,6 +8,7 @@ import TankIcon from '../../images/tank.png'
 import TabardImg from '../../images/tabard.png'
 import TentativeImg from '../../images/tentative.png'
 import LateImg from '../../images/late.png'
+import { bench } from '../../services/attendance'
 
 const RaidLeader = styled.p`
     margin: 15px;
@@ -97,17 +98,38 @@ const ClassGroupMemberName = styled.span`
         color: #FF7D0A;
     }
 `
+const BenchButton = styled.button`
+    height: 30px;
+    cursor: pointer;
+    background: #999;
+    border: none;
+    color: #f2f2f2;
+    padding: 0 2px;
+    border-radius: 4px;
+`
 
-const AttendanceBreakdown = ({ event }) => {
-    let tanks = event.attendance.filter(att => att.role_id === 4 && att.signed_up)
-    let druids = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 11 && att.signed_up)
-    let hunters = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 3 && att.signed_up)
-    let mages = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 8 && att.signed_up)
-    let paladins = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 2 && att.signed_up)
-    let priests = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 5 && att.signed_up)
-    let rogues = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 4 && att.signed_up)
-    let warlocks = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 9 && att.signed_up)
-    let warriors = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 1 && att.signed_up)
+const AttendanceBreakdown = ({ event, loadDataFunction, user }) => {
+    let tanks = event.attendance.filter(att => att.role_id === 4 && att.signed_up && !att.bench)
+    let druids = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 11 && att.signed_up && !att.bench)
+    let hunters = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 3 && att.signed_up && !att.bench)
+    let mages = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 8 && att.signed_up && !att.bench)
+    let paladins = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 2 && att.signed_up && !att.bench)
+    let priests = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 5 && att.signed_up && !att.bench)
+    let rogues = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 4 && att.signed_up && !att.bench)
+    let warlocks = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 9 && att.signed_up && !att.bench)
+    let warriors = event.attendance.filter(att => att.role_id !== 4 && att.character_class_id === 1 && att.signed_up && !att.bench)
+
+    const benchUser = (ev) => {
+        const event_id = event.id
+        const user_id = ev.target.value
+        bench(event_id, user_id)
+        .then(() => {
+            loadDataFunction()
+        })
+        .catch(err => {
+            window.alert('Issue benching, please try re-logging.')
+        })
+    }
 
     return (
         <>
@@ -162,6 +184,12 @@ const AttendanceBreakdown = ({ event }) => {
                                 null
                                 }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
+                                {(user.is_officer || user.discord_user_id === event.raid_leader)
+                                ?
+                                <BenchButton value={member.discord_user_id} onClick={benchUser}>Bench</BenchButton>
+                                :
+                                null
+                                }
                             </ClassGroupMember>
                         )))}
                     </ClassGroup>
@@ -189,6 +217,12 @@ const AttendanceBreakdown = ({ event }) => {
                                 null
                                 }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
+                                {(user.is_officer || user.discord_user_id === event.raid_leader)
+                                ?
+                                <BenchButton value={member.discord_user_id} onClick={benchUser}>Bench</BenchButton>
+                                :
+                                null
+                                }
                             </ClassGroupMember>
                         )))}
                     </ClassGroup>
@@ -216,6 +250,12 @@ const AttendanceBreakdown = ({ event }) => {
                                 null
                                 }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
+                                {(user.is_officer || user.discord_user_id === event.raid_leader)
+                                ?
+                                <BenchButton value={member.discord_user_id} onClick={benchUser}>Bench</BenchButton>
+                                :
+                                null
+                                }
                             </ClassGroupMember>
                         )))}
                     </ClassGroup>
@@ -243,6 +283,12 @@ const AttendanceBreakdown = ({ event }) => {
                                 null
                                 }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
+                                {(user.is_officer || user.discord_user_id === event.raid_leader)
+                                ?
+                                <BenchButton value={member.discord_user_id} onClick={benchUser}>Bench</BenchButton>
+                                :
+                                null
+                                }
                             </ClassGroupMember>
                         )))}
                     </ClassGroup>
@@ -270,6 +316,12 @@ const AttendanceBreakdown = ({ event }) => {
                                 null
                                 }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
+                                {(user.is_officer || user.discord_user_id === event.raid_leader)
+                                ?
+                                <BenchButton value={member.discord_user_id} onClick={benchUser}>Bench</BenchButton>
+                                :
+                                null
+                                }
                             </ClassGroupMember>
                         )))}
                     </ClassGroup>
@@ -297,6 +349,12 @@ const AttendanceBreakdown = ({ event }) => {
                                 null
                                 }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
+                                {(user.is_officer || user.discord_user_id === event.raid_leader)
+                                ?
+                                <BenchButton value={member.discord_user_id} onClick={benchUser}>Bench</BenchButton>
+                                :
+                                null
+                                }
                             </ClassGroupMember>
                         )))}
                     </ClassGroup>
@@ -324,6 +382,12 @@ const AttendanceBreakdown = ({ event }) => {
                                 null
                                 }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
+                                {(user.is_officer || user.discord_user_id === event.raid_leader)
+                                ?
+                                <BenchButton value={member.discord_user_id} onClick={benchUser}>Bench</BenchButton>
+                                :
+                                null
+                                }
                             </ClassGroupMember>
                         )))}
                     </ClassGroup>
@@ -351,6 +415,12 @@ const AttendanceBreakdown = ({ event }) => {
                                 null
                                 }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
+                                {(user.is_officer || user.discord_user_id === event.raid_leader)
+                                ?
+                                <BenchButton value={member.discord_user_id} onClick={benchUser}>Bench</BenchButton>
+                                :
+                                null
+                                }
                             </ClassGroupMember>
                         )))}
                     </ClassGroup>
@@ -378,6 +448,12 @@ const AttendanceBreakdown = ({ event }) => {
                                 null
                                 }
                                 <ClassGroupMemberName className={`class-${member.character_class_id}`}>{member.character_name}</ClassGroupMemberName>
+                                {(user.is_officer || user.discord_user_id === event.raid_leader)
+                                ?
+                                <BenchButton value={member.discord_user_id} onClick={benchUser}>Bench</BenchButton>
+                                :
+                                null
+                                }
                             </ClassGroupMember>
                         )))}
                     </ClassGroup>

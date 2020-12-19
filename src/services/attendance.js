@@ -54,8 +54,43 @@ export const cancel = (event_id) => {
     })
 }
 
+export const bench = (event_id, user_id) => {
+    const jwt = Cookies.get('token')
+    return new Promise( (resolve, reject) => {
+        axios.post('https://professionality-api.com/attendance/bench', {
+            jwt,
+            event_id,
+            user_id
+        })
+        .then(result => {
+            resolve(true)
+        })
+        .catch(err => {
+            reject(err)
+        })
+    })
+}
+
+export const unbench = (event_id, user_id) => {
+    const jwt = Cookies.get('token')
+    return new Promise( (resolve, reject) => {
+        axios.post('https://professionality-api.com/attendance/unbench', {
+            jwt,
+            event_id,
+            user_id
+        })
+        .then(result => {
+            resolve(true)
+        })
+        .catch(err => {
+            reject(err)
+        })
+    })
+}
 export default {
     signup,
     callout,
-    cancel
+    cancel,
+    bench,
+    unbench
 }
