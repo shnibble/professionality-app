@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Moment from 'moment'
 import DatePicker from 'react-datepicker'
+import { getUsers } from '../../services/roster'
 import { addEvent } from '../../services/event'
 import Popout from '../popout'
 import AddButton from '../addButton'
@@ -23,9 +24,21 @@ const AddEventTime = styled(DatePicker)`
 `
 const CheckboxContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+`
+const RaidLeaderContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
+const UserSelect = styled.select`
+    padding: 5px;
+    font-size: 16px;
+    margin: 5px;
+    box-sizing: border-box;
 `
 const Span = styled.span`
     display: block;
@@ -42,9 +55,11 @@ class AddEvent extends React.Component {
     state = {
         active: false,
         updating: false,
+        users: [],
         eventName: '',
         eventStart: '',
         eventIsPrimary: false,
+        eventRaidLeader: ''
     }
     
     open = () => {
@@ -75,14 +90,39 @@ class AddEvent extends React.Component {
         this.setState({ eventIsPrimary: checked })
     }
 
+    updateEventRaidLeader = (ev) => {
+        const eventRaidLeader = ev.target.value
+        this.setState({ eventRaidLeader })
+    }
+
+    loadData = () => {
+        this.setState({ updating: true })
+        getUsers()
+        .then(result => {
+            console.log(result)
+            this.setState({
+                users: result
+            })
+            this.setState({ updating: false })
+        })
+        .catch(err => {
+            window.alert('Error loading event, please try re-logging.')
+            this.setState({ updating: false })
+        })
+    }
+
     add = () => {
         this.setState({ updating: true })
         const title = this.state.eventName
         const start = Moment(this.state.eventStart).utc().format('YYYY-MM-DD HH:mm:00')
         const primary = this.state.eventIsPrimary
+        let raid_leader = this.state.eventRaidLeader
+        if (raid_leader === '') {
+            raid_leader = null
+        }
 
         if (title.length > 1 && this.state.eventStart !== '') {
-            addEvent(title, start, primary)
+            addEvent(title, start, primary, raid_leader)
             .then(() => {
                 this.setState({
                     active: false,
@@ -90,6 +130,7 @@ class AddEvent extends React.Component {
                     eventName: '',
                     eventStart: '',
                     eventIsPrimary: false,
+                    eventRaidLeader: ''
                 })
                 this.props.loadDataFunction()
             })
@@ -101,6 +142,10 @@ class AddEvent extends React.Component {
             window.alert('Please enter a valid date and event title.')
             this.setState({ updating: false })
         }
+    }
+
+    componentDidMount() {
+        this.loadData()
     }
 
     render() {
@@ -121,6 +166,13 @@ class AddEvent extends React.Component {
                         dateFormat='MMMM d, yyyy h:mm aa'
                     />
                     <Field type='text' placeholder='Event Name' value={this.state.eventName} onChange={this.updateEventName} />
+                    <RaidLeaderContainer>
+                        <Span>Raid Leader</Span>
+                        <UserSelect value={this.state.eventRaidLeader} onChange={this.updateEventRaidLeader} placeholder='Raid Leader'>
+                            <option></option>
+                            {this.state.users.map(u => <option key={`user_${u.discord_user_id}`} value={u.discord_user_id}>{u.nickname}</option> )}
+                        </UserSelect>
+                    </RaidLeaderContainer>
                     <CheckboxContainer>
                         <Span>Primary Raid?</Span>
                         <Checkbox type='checkbox' checked={this.state.eventIsPrimary} onChange={this.updateEventPrimary} />

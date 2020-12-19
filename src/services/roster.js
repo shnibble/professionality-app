@@ -36,8 +36,21 @@ export const getOfficers = () => {
     })
 }
 
+export const getUsers = () => {
+    return new Promise( (resolve, reject) => {
+        axios.get('https://professionality-api.com/roster/users')
+        .then(result => {
+            resolve(result.data)
+        })
+        .catch(err => {
+            reject(err)
+        })
+    })
+}
+
 export default {
     getPugs,
     getMembers,
-    getOfficers
+    getOfficers,
+    getUsers
 }

@@ -9,6 +9,9 @@ import TabardImg from '../../images/tabard.png'
 import TentativeImg from '../../images/tentative.png'
 import LateImg from '../../images/late.png'
 
+const RaidLeader = styled.p`
+    margin: 15px;
+`
 const DetailsTable = styled.table`
     width: 100%;
     border-collapse: collapse;
@@ -108,6 +111,7 @@ const AttendanceBreakdown = ({ event }) => {
 
     return (
         <>
+            <RaidLeader>Raid Leader: {event.raid_leader_name}</RaidLeader>
             <TableWrapper>
                 <DetailsTable>
                     <thead>
