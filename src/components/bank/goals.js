@@ -147,13 +147,11 @@ class Goals extends React.Component {
                     :
                     <>
                         <Article>
-                            <p>Bank Characters:</p>
-                            <ul>
-                                <li>Denmo</li>
-                                <li>Blounce</li>
-                                <li>Talekeeper</li>
-                                <li>Lorekeeper</li>
-                            </ul>
+                            <p><b>Bank Characters:</b></p>
+                            <p>Denmo</p>
+                            <p>Blounce</p>
+                            <p>Talekeeper</p>
+                            <p>Lorekeeper</p>
                         </Article>
                         <Article>
                             {(user.is_officer)
