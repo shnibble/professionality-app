@@ -118,7 +118,7 @@ class UpdateEvent extends React.Component {
         }
 
         if (title.length > 1 && this.state.eventStart !== '') {
-            updateEvent(title, start, primary, raid_leader)
+            updateEvent(this.props.data.id, title, start, primary, raid_leader)
             .then(() => {
                 this.setState({
                     active: false,
@@ -137,7 +137,6 @@ class UpdateEvent extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.data)
         this.loadData()
     }
 
