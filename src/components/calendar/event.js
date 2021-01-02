@@ -17,6 +17,7 @@ import Cookies from 'js-cookie'
 import AttendanceBreakdown from './attendanceBreakdown'
 import Bench from './bench'
 import AttendanceModule from './attendanceModule'
+import UpdateEvent from './updateEvent'
 
 const AttendanceTable = styled.table`
     width: 100%;
@@ -211,6 +212,7 @@ class Event extends React.Component {
                                 ?
                                 <TableButtonWrapper>
                                     <DeleteEventButton onClick={this.deleteEvent}>Delete Event</DeleteEventButton>
+                                    <UpdateEvent data={this.state.event} loadDataFunction={this.loadData} />
                                 </TableButtonWrapper>
                                 :
                                 null
