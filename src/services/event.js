@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-export const addEvent = (title, start, primary, raid_leader) => {
+export const addEvent = (title, start, primary, raid_leader, soft_res) => {
     const jwt = Cookies.get('token')
     return new Promise( (resolve, reject) => {
         axios.post('https://professionality-api.com/calendar/add', {
@@ -9,7 +9,8 @@ export const addEvent = (title, start, primary, raid_leader) => {
             title,
             start,
             primary,
-            raid_leader
+            raid_leader,
+            soft_res
         })
         .then(result => {
             resolve(true)
@@ -20,7 +21,7 @@ export const addEvent = (title, start, primary, raid_leader) => {
     })
 }
 
-export const updateEvent = (event_id, title, start, primary, raid_leader) => {
+export const updateEvent = (event_id, title, start, primary, raid_leader, soft_res) => {
     const jwt = Cookies.get('token')
     return new Promise( (resolve, reject) => {
         axios.post('https://professionality-api.com/calendar/update', {
@@ -29,7 +30,8 @@ export const updateEvent = (event_id, title, start, primary, raid_leader) => {
             title,
             start,
             primary,
-            raid_leader
+            raid_leader,
+            soft_res
         })
         .then(result => {
             resolve(true)

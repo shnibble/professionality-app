@@ -59,7 +59,8 @@ class AddEvent extends React.Component {
         eventName: '',
         eventStart: '',
         eventIsPrimary: false,
-        eventRaidLeader: ''
+        eventRaidLeader: '',
+        eventSoftRes: ''
     }
     
     open = () => {
@@ -73,6 +74,7 @@ class AddEvent extends React.Component {
             eventName: '',
             eventStart: '',
             eventIsPrimary: false,
+            eventSoftRes: ''
         })
     }
 
@@ -93,6 +95,11 @@ class AddEvent extends React.Component {
     updateEventRaidLeader = (ev) => {
         const eventRaidLeader = ev.target.value
         this.setState({ eventRaidLeader })
+    }
+
+    updateEventSoftRes = (ev) => {
+        const eventSoftRes = ev.target.value
+        this.setState({ eventSoftRes })
     }
 
     loadData = () => {
@@ -116,12 +123,18 @@ class AddEvent extends React.Component {
         const start = Moment(this.state.eventStart).utc().format('YYYY-MM-DD HH:mm:00')
         const primary = this.state.eventIsPrimary
         let raid_leader = this.state.eventRaidLeader
+        let soft_res = this.state.eventSoftRes
+
         if (raid_leader === '') {
             raid_leader = null
         }
+        
+        if (soft_res === '') {
+            soft_res = null
+        }
 
         if (title.length > 1 && this.state.eventStart !== '') {
-            addEvent(title, start, primary, raid_leader)
+            addEvent(title, start, primary, raid_leader, soft_res)
             .then(() => {
                 this.setState({
                     active: false,
@@ -129,7 +142,8 @@ class AddEvent extends React.Component {
                     eventName: '',
                     eventStart: '',
                     eventIsPrimary: false,
-                    eventRaidLeader: ''
+                    eventRaidLeader: '',
+                    eventSoftRes: ''
                 })
                 this.props.loadDataFunction()
             })
@@ -176,6 +190,7 @@ class AddEvent extends React.Component {
                         <Span>Primary Raid?</Span>
                         <Checkbox type='checkbox' checked={this.state.eventIsPrimary} onChange={this.updateEventPrimary} />
                     </CheckboxContainer>
+                    <Field type='text' placeholder='Soft Reserve List' value={this.state.eventSoftRes} onChange={this.updateEventSoftRes} />
                 </Popout>
                 :
                 null

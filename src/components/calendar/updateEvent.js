@@ -59,7 +59,8 @@ class UpdateEvent extends React.Component {
         eventName: this.props.data.title,
         eventStart: new Date(this.props.data.start),
         eventIsPrimary: this.props.data.primary_raid,
-        eventRaidLeader: this.props.data.raid_leader
+        eventRaidLeader: this.props.data.raid_leader,
+        eventSoftRes: this.props.data.soft_res
     }
     
     open = () => {
@@ -92,6 +93,11 @@ class UpdateEvent extends React.Component {
         this.setState({ eventRaidLeader })
     }
 
+    updateEventSoftRes = (ev) => {
+        const eventSoftRes = ev.target.value
+        this.setState({ eventSoftRes })
+    }
+
     loadData = () => {
         this.setState({ updating: true })
         getUsers()
@@ -113,12 +119,18 @@ class UpdateEvent extends React.Component {
         const start = Moment(this.state.eventStart).utc().format('YYYY-MM-DD HH:mm:00')
         const primary = this.state.eventIsPrimary
         let raid_leader = this.state.eventRaidLeader
+        let soft_res = this.state.eventSoftRes
+
         if (raid_leader === '') {
             raid_leader = null
         }
 
+        if (soft_res === '') {
+            soft_res = null
+        }
+
         if (title.length > 1 && this.state.eventStart !== '') {
-            updateEvent(this.props.data.id, title, start, primary, raid_leader)
+            updateEvent(this.props.data.id, title, start, primary, raid_leader, soft_res)
             .then(() => {
                 this.setState({
                     active: false,
@@ -169,6 +181,7 @@ class UpdateEvent extends React.Component {
                         <Span>Primary Raid?</Span>
                         <Checkbox type='checkbox' checked={this.state.eventIsPrimary} onChange={this.updateEventPrimary} />
                     </CheckboxContainer>
+                    <Field type='text' placeholder='Soft Reserve List' value={this.state.eventSoftRes} onChange={this.updateEventSoftRes} />
                 </Popout>
                 :
                 null

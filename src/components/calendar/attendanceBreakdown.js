@@ -13,6 +13,9 @@ import { bench } from '../../services/attendance'
 const RaidLeader = styled.p`
     margin: 15px;
 `
+const SoftRes = styled.p`
+    margin: 15px;
+`
 const DetailsTable = styled.table`
     width: 100%;
     border-collapse: collapse;
@@ -134,6 +137,12 @@ const AttendanceBreakdown = ({ event, loadDataFunction, user }) => {
     return (
         <>
             <RaidLeader>Raid Leader: {event.raid_leader_name}</RaidLeader>
+            {(event.soft_res)
+            ?
+            <SoftRes>Soft Reserve: <a href={event.soft_res}>{event.soft_res}</a></SoftRes>
+            :
+            null
+            }
             <TableWrapper>
                 <DetailsTable>
                     <thead>
